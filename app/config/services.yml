@@ -1,0 +1,2 @@
+imports:
+    - { resource: @AppBundle/Resources/config/repositories.yml }

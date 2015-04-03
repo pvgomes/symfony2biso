@@ -1,0 +1,81 @@
+{
+    "name": "Symfony2Biso",
+    "license": "MIT",
+    "type": "project",
+    "autoload": {
+        "psr-0": {
+            "": "src/",
+            "SymfonyStandard": "app/"
+        }
+    },
+    "require": {
+        "php": ">=5.3.9",
+        "symfony/symfony": "2.7.*@dev",
+        "symfony/assetic-bundle": "~2.3",
+        "sensio/distribution-bundle": "~3.0,>=3.0.12",
+        "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
+        "doctrine/orm": "2.5.*@dev",
+        "doctrine/dbal": "2.5.*@dev",
+        "doctrine/common": "2.5.*@dev",
+        "doctrine/doctrine-bundle": "1.4.*@dev",
+        "doctrine/migrations": "1.0.*@dev",
+        "doctrine/doctrine-migrations-bundle": "2.1.*@dev",
+        "twig/twig": "~1.18",
+        "incenteev/composer-parameter-handler": "~2.0",
+        "biso": "dev-master"
+    },
+    "repositories": [
+      {
+        "type": "package",
+        "package": {
+          "name": "biso",
+          "version": "dev-master",
+          "source": {
+            "url": "https://github.com/pvgomes/biso",
+            "type": "git",
+            "reference": "origin/master"
+          },
+          "autoload": {
+            "psr-4": { "": "Domain/" }
+          }
+        }
+      }
+    ],
+    "require-dev": {
+        "sensio/generator-bundle": "~2.3"
+    },
+    "scripts": {
+        "post-root-package-install": [
+            "SymfonyStandard\\Composer::hookRootPackageInstall"
+        ],
+        "post-install-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
+        ],
+        "post-update-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
+        ]
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "extra": {
+        "symfony-app-dir": "app",
+        "symfony-web-dir": "web",
+        "symfony-assets-install": "relative",
+        "incenteev-parameters": {
+            "file": "app/config/parameters.yml"
+        }
+    }
+}

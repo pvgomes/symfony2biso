@@ -1,0 +1,3 @@
+services:
+    repository.product:
+        class: AppBundle\Infrastructure\Catalog\Repository\InMemoryProduct
