@@ -12,7 +12,8 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        die("AOOOO");
+        $product = $this->get('repository.product')->getById(1);
+        die(var_dump($product));
     }
 
     /**

@@ -3,21 +3,58 @@
 namespace AppBundle\Infrastructure\Catalog\Repository;
 
 use AppBundle\Infrastructure;
-use Domain\Repository\Product as ProductRepository;
+use \Domain;
 
-class InMemoryProduct implements ProductRepository{
+class InMemoryProduct
+{
 
     private $products;
 
     public function __construct()
     {
-        $this->products[1] = new Infrastructure\Catalog\Entity\Product(1, "Barbie Dican", "MA048AP14WXLTRI-296312", "ABCDE-2014");
-        $this->products[2] = new Infrastructure\Catalog\Entity\Product(2, "He-man Dican", "MA048AP14WXLTRI-296312", "ABCDE-2015");
+        $this->loadMemoryProducts();
     }
 
     public function getById($id)
     {
-        //$this->products[$sku]
+        $domainProduct = null;
+        if (array_key_exists($id, $this->products)) {
+            $product = $this->products[$id];
+            $domainProduct = Domain\Factory\Product::build($product->toArray());
+        }
+
+        return $domainProduct;
     }
+
+    protected function loadMemoryProducts()
+    {
+        $product = new Infrastructure\Catalog\Entity\Product();
+        $product->setId(1);
+        $product->setQuantity(5);
+        $product->setName('PLAYSTATION 4');
+        $product->setDescription('500GB SONY');
+        $product->setCurrency('BRL');
+        $product->setOriginalPrice('2400,00');
+        $product->setSpecialPrice('2100,00');
+        $product->setEan(4245245);
+        $product->setSize('26');
+        $product->setWidth('31');
+        $product->setWeight('4');
+        $this->products[$product->getId()] = $product;
+
+        $product->setId(2);
+        $product->setQuantity(5);
+        $product->setName('XBOX ONE');
+        $product->setDescription('500GB MICROSOFT');
+        $product->setCurrency('BRL');
+        $product->setOriginalPrice('2000,00');
+        $product->setSpecialPrice('1850,00');
+        $product->setEan(424528542);
+        $product->setSize('26');
+        $product->setWidth('31');
+        $product->setWeight('5');
+        $this->products[$product->getId()] = $product;
+    }
+
 
 } 
