@@ -1,3 +1,6 @@
 services:
     repository.product:
         class: AppBundle\Infrastructure\Catalog\Repository\InMemoryProduct
+    repository.orm.product:
+        class: AppBundle\Infrastructure\Catalog\Repository\DoctrineProduct
+        arguments: [ @doctrine.orm.entity_manager ]

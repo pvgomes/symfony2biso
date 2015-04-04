@@ -5,7 +5,7 @@ namespace AppBundle\Infrastructure\Catalog\Repository;
 use AppBundle\Infrastructure;
 use \Domain;
 
-class InMemoryProduct
+class InMemoryProduct implements Domain\Repository\Product
 {
 
     private $products;

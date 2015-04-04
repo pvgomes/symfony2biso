@@ -42,7 +42,10 @@
       }
     ],
     "require-dev": {
-        "sensio/generator-bundle": "~2.3"
+        "sensio/generator-bundle": "~2.3",
+        "doctrine/doctrine-fixtures-bundle": "2.2.*@dev",
+        "doctrine/data-fixtures": "1.0.*@dev",
+        "fzaninotto/faker": "1.5.*@dev"
     },
     "scripts": {
         "post-root-package-install": [
