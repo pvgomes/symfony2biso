@@ -1,0 +1,19 @@
+php:
+  build: ./docker/php
+  volumes:
+    - .:/var/www/symfony2biso
+  links:
+    - mariadb:mariadb
+nginx:
+  build: ./docker/nginx
+  volumes_from:
+    - php
+  links:
+    - php:php
+mariadb:
+  image: mariadb
+  environment:
+    MYSQL_ROOT_PASSWORD: root
+    TERM: linux
+  volumes:
+    - ./docker/volumes/mariadb:/var/lib/mysql
