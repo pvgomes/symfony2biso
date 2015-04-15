@@ -12,13 +12,13 @@ Symfony2 using Business Isolation Layer
 php composer.phar install
 ```
 
-**2) Environment configuration (use docker + docker-compose)
+**2) Environment configuration (use docker + docker-compose)**:
 
 ```
 docker-compose up
 ```
 
-**3) All of the migrations functionality is contained in a few console commands
+**3) All of the migrations functionality is contained in a few console commands**:
 
 ```
 doctrine:migrations
@@ -38,14 +38,14 @@ doctrine:migrations
 php app/console doctrine:database:drop --force
 php app/console doctrine:database:create
 
-**4) Data Fixtures
+**4) Data Fixtures**:
 
 ```
 app/console doctrine:fixtures:load
 
 ```
 
-**5) Done, access using this url
+**5) Done, access using this url**:
 
 ```
 http://symfony2biso.dev:8080/
