@@ -20,14 +20,14 @@ class DoctrineProduct implements Domain\Repository\Product
     /**
      * Get Product By Id
      * @param $id
-     * @return \Domain\Catalog\Entity\Product | null
+     * @return Domain\Catalog\Entity\Product | null
      */
     public function getById($id)
     {
         $domainProduct = null;
         $productDoctrine = $this->em->getRepository($this->productClass)->find($id);
         if ($productDoctrine instanceof \AppBundle\Infrastructure\Catalog\Entity\Product) {
-            $domainProduct = Domain\Factory\Product::build($productDoctrine->toArray());
+            $domainProduct = Domain\Factory\Product::build((object) $productDoctrine->toArray());
         }
         return $domainProduct;
     }

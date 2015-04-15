@@ -1,13 +1,42 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>
+<html lang="en">
+
+<head>
+    <meta charset="{{ _charset }}" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex,nofollow" />
+    <title>{% block title %} - External Shop{% endblock %}</title>
+    <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/main.css') }}" rel="stylesheet" />
+    <link href="{{ asset('components/metisMenu/dist/metisMenu.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('sb/css/timeline.css') }}" rel="stylesheet" />
+    <link href="{{ asset('sb/css/sb-admin-2.css') }}" rel="stylesheet" />
+    <link href="{{ asset('components/morrisjs/morris.css') }}" rel="stylesheet" />
+    <link href="{{ asset('components/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" />
+    {% block stylesheets %}{% endblock %}
+</head>
+
+<body>
+<div id="wrapper">
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Symfony2Biso</a>
+        </div>
+    </nav>
+
+    <div id="page-wrapper">
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+    </div>
+</div>
+
+<script src="{{ asset('components/jquery/dist/jquery.min.js') }}"></script>
+<script src="{{ asset('components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('components/metisMenu/dist/metisMenu.min.js') }}"></script>
+<script src="{{ asset('components/raphael/raphael-min.js') }}"></script>
+<script src="{{ asset('components/morrisjs/morris.min.js') }}"></script>
+{#<script src="{{ asset('components/morris-data.js') }}"></script>#}
+<script src="{{ asset('sb/js/sb-admin-2.js') }}"></script>
+{% block javascript %}{% endblock %}
+</body>
 </html>

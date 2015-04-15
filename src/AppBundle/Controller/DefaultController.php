@@ -12,9 +12,10 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        //$product = $this->get('repository.product')->getById(1);
         $product = $this->get('repository.orm.product')->getById(1);
-        die(var_dump($product));
+        return $this->render('default/index.html.twig', [
+            'product' => $product
+        ]);
     }
 
     /**
