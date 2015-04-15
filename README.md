@@ -18,25 +18,13 @@ php composer.phar install
 docker-compose up
 ```
 
-**3) All of the migrations functionality is contained in a few console commands**:
+**3) Create database and update schema
 
 ```
-doctrine:migrations
-  :diff     Generate a migration by comparing your current database to your mapping information.
-  :execute  Execute a single migration version up or down manually.
-  :generate Generate a blank migration class.
-  :migrate  Execute a migration to a specified version or the latest available version.
-  :status   View the status of a set of migrations.
-  :version  Manually add and delete migration versions from the version table.
-```
-
-**3.1) Examples:
-***1) php app/console doctrine:migrations:status
-***2) php app/console doctrine:migrations:generate
-***3) php app/console doctrine:migrations:status --show-versions
-
-php app/console doctrine:database:drop --force
 php app/console doctrine:database:create
+php app/console doctrine:schema:update
+
+```
 
 **4) Data Fixtures**:
 
