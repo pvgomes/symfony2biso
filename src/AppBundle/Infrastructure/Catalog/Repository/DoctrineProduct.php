@@ -29,6 +29,8 @@ class DoctrineProduct implements Domain\Repository\Product
         if ($productDoctrine instanceof \AppBundle\Infrastructure\Catalog\Entity\Product) {
             $domainProduct = Domain\Factory\Product::build((object) $productDoctrine->toArray());
         }
+        $domainProduct->setName($productDoctrine->getName());
+        $domainProduct->setDescription($productDoctrine->getDescription());
         return $domainProduct;
     }
 
