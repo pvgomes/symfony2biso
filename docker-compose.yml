@@ -1,7 +1,7 @@
 php:
   build: ./docker/php
   volumes:
-    - .:/var/www/externalshop
+    - .:/var/www/symfony2biso
   links:
     - mariadb:mariadb
 nginx:
