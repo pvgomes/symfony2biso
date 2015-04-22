@@ -18,12 +18,4 @@ class DefaultController extends Controller
         ]);
     }
 
-    /**
-     * @Route("/app/poc", name="poc")
-     */
-    public function pocAction()
-    {
-        $product = $this->get('repository.product')->getBySku('MA048AP14WXLTRI-296312');
-        die(var_dump($product));
-    }
 }
