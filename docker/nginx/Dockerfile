@@ -2,21 +2,14 @@
 #
 # Version   0.0.1
 
-FROM        mariorez/debian-php56
-MAINTAINER  Mario Rezende <mariorez@gmail.com>
+FROM pvgomes/nginx:latest
 
-RUN apt-get update && apt-get install -y nginx
+COPY ./symfony2biso-dev.conf /etc/nginx/sites-available/
+COPY ./symfony2biso-prod.conf /etc/nginx/sites-available/
 
-WORKDIR /etc/nginx
-
-# Change Nginx default user (www-data) to docker
-RUN sed -i "s/www-data/docker/" nginx.conf \
-    && echo "daemon off;" >> nginx.conf \
-    && rm sites-enabled/default
-
-COPY ./symfony2biso.conf /etc/nginx/sites-available/
-
-RUN ln -nfs /etc/nginx/sites-available/symfony2biso.conf /etc/nginx/sites-enabled/symfony2biso.conf
+RUN ln -nfs /etc/nginx/sites-available/symfony2biso-dev.conf /etc/nginx/sites-enabled/symfony2biso-dev.conf \
+    && ln -nfs /etc/nginx/sites-available/symfony2biso-prod.conf /etc/nginx/sites-enabled/symfony2biso-prod.conf \
+    && rm sites-enabled/domain.conf
 
 EXPOSE 80
 
