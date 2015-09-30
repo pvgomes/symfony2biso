@@ -13,6 +13,10 @@ imports:
 
 monolog:
     handlers:
+        elk:
+            type:   service
+            id:     monolog.handler.redis
+            level:  error
         main:
             type:         fingers_crossed
             action_level: error

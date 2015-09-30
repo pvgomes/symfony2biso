@@ -1,13 +1,10 @@
-# This file is a "template" of what your parameters.yml file should look like
 parameters:
-    database_driver:   pdo_mysql
-    database_host:     127.0.0.1
-    database_port:     ~
-    database_name:     symfony
-    database_user:     root
-    database_password: ~
-    # You should uncomment this if you want use pdo_sqlite
-    # database_path: "%kernel.root_dir%/data.db3"
+    database_driver:   %symfony2biso_database_driver% #pdo_mysql
+    database_host:     %symfony2biso_database_host%
+    database_port:     %symfony2biso_database_port%
+    database_name:     %symfony2biso_database_schema%
+    database_user:     %symfony2biso_database_user%
+    database_password: %symfony2biso_database_password%
 
     mailer_transport:  smtp
     mailer_host:       127.0.0.1
@@ -17,4 +14,19 @@ parameters:
     locale:            en
 
     # A secret key that's used to generate certain security-related tokens
-    secret:            ThisTokenIsNotSoSecretChangeIt
+    secret:            %symfony2biso_secret_token%
+
+    # Redis
+    symfony2biso_redis_dsn: %symfony2biso_redis_host% #'tcp://127.0.0.1:6379'
+    symfony2biso_redis_log_dsn: %symfony2biso_redis_log_host% #'tcp://127.0.0.1:6379'
+
+    # Log
+    symfony2biso_log_stash_key: %symfony2biso_logstash_key%
+    symfony2biso_log_redis_key: %symfony2biso_redis_log_key%
+
+    # RabbitMQ
+    symfony2biso_rabbit_host: %symfony2biso_rabbit_host%
+    symfony2biso_rabbit_port: %symfony2biso_rabbit_port%
+    symfony2biso_rabbit_user: %symfony2biso_rabbit_user%
+    symfony2biso_rabbit_password: %symfony2biso_rabbit_password%
+    symfony2biso_rabbit_vhost: %symfony2biso_rabbit_vhost%
