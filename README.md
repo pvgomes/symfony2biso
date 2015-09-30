@@ -1,7 +1,7 @@
 Symfony2Biso
 ============
 
-Symfony2 using Business Isolation Layer
+Symfony2 using Business Isolation Layer for B2B E-commerce integration
 
 
 ## Project configuration

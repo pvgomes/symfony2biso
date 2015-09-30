@@ -9,20 +9,31 @@
         }
     },
     "require": {
-        "php": ">=5.3.9",
-        "symfony/symfony": "2.7.*@dev",
-        "symfony/assetic-bundle": "~2.3",
-        "sensio/distribution-bundle": "~3.0,>=3.0.12",
-        "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
-        "doctrine/orm": "2.5.*@dev",
-        "doctrine/dbal": "2.5.*@dev",
-        "doctrine/common": "2.5.*@dev",
-        "doctrine/doctrine-bundle": "1.4.*@dev",
-        "doctrine/migrations": "1.0.*@dev",
-        "doctrine/doctrine-migrations-bundle": "2.1.*@dev",
-        "twig/twig": "~1.18",
-        "incenteev/composer-parameter-handler": "~2.0",
-        "biso": "dev-master"
+        "php":                                  ">=5.3.9",
+        "doctrine/common":                      "2.5.*",
+        "doctrine/dbal":                        "2.5.*",
+        "doctrine/doctrine-bundle":             "1.5.*",
+        "doctrine/doctrine-migrations-bundle":  "1.0.*",
+        "doctrine/migrations":                  "1.0.*",
+        "doctrine/orm":                         "2.5.*",
+        "friendsofsymfony/rest-bundle":         "1.7.*",
+        "guzzlehttp/guzzle":                    "6.0.*",
+        "incenteev/composer-parameter-handler": "2.1.*",
+        "jms/serializer-bundle":                "1.0.*",
+        "justinrainbow/json-schema":            "1.4.*",
+        "nelmio/api-doc-bundle":                "2.9.*",
+        "oldsound/rabbitmq-bundle":             "1.7.*",
+        "predis/predis":                        "1.0.*",
+        "sensio/distribution-bundle":           "4.0.*",
+        "sensio/framework-extra-bundle":        "3.0.*",
+        "sensio/generator-bundle":              "2.5.*",
+        "stof/doctrine-extensions-bundle":      "1.2.*",
+        "symfony/assetic-bundle":               "2.6.*",
+        "symfony/monolog-bundle":               "2.7.*",
+        "symfony/swiftmailer-bundle":           "2.3.*",
+        "symfony/symfony":                      "2.7.*",
+        "twig/twig":                            "1.21.*",
+        "winzou/state-machine-bundle":          "0.2.*"
     },
     "repositories": [
       {
@@ -42,10 +53,13 @@
       }
     ],
     "require-dev": {
-        "sensio/generator-bundle": "~2.3",
-        "doctrine/doctrine-fixtures-bundle": "2.2.*@dev",
-        "doctrine/data-fixtures": "1.0.*@dev",
-        "fzaninotto/faker": "1.5.*@dev"
+        "codeclimate/php-test-reporter":     "0.1.*",
+        "doctrine/data-fixtures":            "1.1.*",
+        "doctrine/doctrine-fixtures-bundle": "2.2.*",
+        "fzaninotto/faker":                  "1.5.*",
+        "liip/functional-test-bundle":       "1.2.*",
+        "phpunit/phpunit":                   "4.8.*",
+        "respect/rest":                      "^0.6.0"
     },
     "scripts": {
         "post-root-package-install": [
@@ -53,21 +67,11 @@
         ],
         "post-install-cmd": [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap"
         ],
         "post-update-cmd": [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap"
         ]
     },
     "config": {
@@ -78,7 +82,8 @@
         "symfony-web-dir": "web",
         "symfony-assets-install": "relative",
         "incenteev-parameters": {
-            "file": "app/config/parameters.yml"
+            "file": "app/config/parameters.yml",
+            "keep-outdated": true
         }
     }
 }
