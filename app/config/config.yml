@@ -2,6 +2,9 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
+    - { resource: api.yml }
+    - { resource: state_machine.yml }
+    - { resource: queue.yml }
 
 framework:
     #esi:             ~
@@ -15,13 +18,14 @@ framework:
     validation:      { enable_annotations: true }
     templating:
         engines: ['twig']
-        #assets_version: SomeVersionScheme
+        assets_version: v9
     default_locale:  "%locale%"
     trusted_hosts:   ~
     trusted_proxies: ~
     session:
         # handler_id set to null will use default session handler from php.ini
         handler_id:  ~
+        name: 'Biso-SESSID'
     fragments:       ~
     http_method_override: true
 
@@ -66,7 +70,15 @@ doctrine:
             AppBundle:
                 mapping: true
                 type: annotation
-                dir: 'Infrastructure'
+                dir: 'Domain'
                 alias: 'AppBundle'
-                prefix: 'AppBundle\Infrastructure'
+                prefix: 'AppBundle\Domain'
                 is_bundle: true
+
+# Doctrine Extensions Configuration
+stof_doctrine_extensions:
+    default_locale: en_US
+    orm:
+        default:
+            timestampable: true
+            sluggable: true
