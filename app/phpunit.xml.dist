@@ -8,10 +8,19 @@
          bootstrap="bootstrap.php.cache"
 >
     <testsuites>
-        <testsuite name="Project Test Suite">
+        <testsuite name="All">
             <directory>../src/*/*Bundle/Tests</directory>
             <directory>../src/*/Bundle/*Bundle/Tests</directory>
             <directory>../src/*Bundle/Tests</directory>
+        </testsuite>
+        <testsuite name="Unit">
+            <directory>../src/*/*Bundle/Tests</directory>
+            <directory>../src/*/Bundle/*Bundle/Tests</directory>
+            <directory>../src/*Bundle/Tests</directory>
+            <exclude>../src/AppBundle/Tests/Functional</exclude>
+        </testsuite>
+        <testsuite name="Functional">
+            <directory>../src/AppBundle/Tests/Functional</directory>
         </testsuite>
     </testsuites>
 
@@ -25,8 +34,11 @@
         <whitelist>
             <directory>../src</directory>
             <exclude>
+                <directory>../src/*Bundle/Infrastructure/Core</directory>
+                <directory>../src/*Bundle/Infrastructure/Product</directory>
                 <directory>../src/*Bundle/Resources</directory>
                 <directory>../src/*Bundle/Tests</directory>
+                <directory>../src/*Bundle/DataFixtures</directory>
                 <directory>../src/*/*Bundle/Resources</directory>
                 <directory>../src/*/*Bundle/Tests</directory>
                 <directory>../src/*/Bundle/*Bundle/Resources</directory>
@@ -34,4 +46,8 @@
             </exclude>
         </whitelist>
     </filter>
+
+    <logging>
+        <log type="coverage-clover" target="../build/logs/clover.xml" />
+    </logging>
 </phpunit>
