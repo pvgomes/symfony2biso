@@ -171,16 +171,16 @@ class Morris.Bar extends Morris.Grid
     row = @data[index]
     content = "<div class='morris-hover-row-label'>#{row.label}</div>"
     for y, j in row.y
-      content += """
+      productContent += """
         <div class='morris-hover-point' style='color: #{@colorFor(row, j, 'label')}'>
           #{@options.labels[j]}:
           #{@yLabelFormat(y)}
         </div>
       """
     if typeof @options.hoverCallback is 'function'
-      content = @options.hoverCallback(index, @options, content, row.src)
+      productContent = @options.hoverCallback(index, @options, productContent, row.src)
     x = @left + (index + 0.5) * @width / @data.length
-    [content, x]
+    [productContent, x]
 
   drawXAxisLabel: (xPos, yPos, text) ->
     label = @raphael.text(xPos, yPos, text)

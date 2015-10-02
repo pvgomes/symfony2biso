@@ -673,7 +673,7 @@ Licensed under the BSD-2-Clause License.
     };
 
     Hover.prototype.html = function(content) {
-      return this.el.html(content);
+      return this.el.html(productContent);
     };
 
     Hover.prototype.moveTo = function(x, y) {
@@ -840,16 +840,16 @@ Licensed under the BSD-2-Clause License.
     Line.prototype.hoverContentForRow = function(index) {
       var content, j, row, y, _i, _len, _ref;
       row = this.data[index];
-      content = "<div class='morris-hover-row-label'>" + row.label + "</div>";
+      productContent = "<div class='morris-hover-row-label'>" + row.label + "</div>";
       _ref = row.y;
       for (j = _i = 0, _len = _ref.length; _i < _len; j = ++_i) {
         y = _ref[j];
-        content += "<div class='morris-hover-point' style='color: " + (this.colorFor(row, j, 'label')) + "'>\n  " + this.options.labels[j] + ":\n  " + (this.yLabelFormat(y)) + "\n</div>";
+        productContent += "<div class='morris-hover-point' style='color: " + (this.colorFor(row, j, 'label')) + "'>\n  " + this.options.labels[j] + ":\n  " + (this.yLabelFormat(y)) + "\n</div>";
       }
       if (typeof this.options.hoverCallback === 'function') {
-        content = this.options.hoverCallback(index, this.options, content, row.src);
+        productContent = this.options.hoverCallback(index, this.options, productContent, row.src);
       }
-      return [content, row._x, row._ymax];
+      return [productContent, row._x, row._ymax];
     };
 
     Line.prototype.generatePaths = function() {
@@ -1587,17 +1587,17 @@ Licensed under the BSD-2-Clause License.
     Bar.prototype.hoverContentForRow = function(index) {
       var content, j, row, x, y, _i, _len, _ref;
       row = this.data[index];
-      content = "<div class='morris-hover-row-label'>" + row.label + "</div>";
+      productContent = "<div class='morris-hover-row-label'>" + row.label + "</div>";
       _ref = row.y;
       for (j = _i = 0, _len = _ref.length; _i < _len; j = ++_i) {
         y = _ref[j];
-        content += "<div class='morris-hover-point' style='color: " + (this.colorFor(row, j, 'label')) + "'>\n  " + this.options.labels[j] + ":\n  " + (this.yLabelFormat(y)) + "\n</div>";
+        productContent += "<div class='morris-hover-point' style='color: " + (this.colorFor(row, j, 'label')) + "'>\n  " + this.options.labels[j] + ":\n  " + (this.yLabelFormat(y)) + "\n</div>";
       }
       if (typeof this.options.hoverCallback === 'function') {
-        content = this.options.hoverCallback(index, this.options, content, row.src);
+        productContent = this.options.hoverCallback(index, this.options, productContent, row.src);
       }
       x = this.left + (index + 0.5) * this.width / this.data.length;
-      return [content, x];
+      return [productContent, x];
     };
 
     Bar.prototype.drawXAxisLabel = function(xPos, yPos, text) {

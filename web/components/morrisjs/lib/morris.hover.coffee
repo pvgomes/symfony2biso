@@ -19,7 +19,7 @@ class Morris.Hover
       @moveTo(x, y)
 
   html: (content) ->
-    @el.html(content)
+    @el.html(productContent)
 
   moveTo: (x, y) ->
     parentWidth  = @options.parent.innerWidth()

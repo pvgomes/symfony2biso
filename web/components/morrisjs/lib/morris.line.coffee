@@ -101,15 +101,15 @@ class Morris.Line extends Morris.Grid
     row = @data[index]
     content = "<div class='morris-hover-row-label'>#{row.label}</div>"
     for y, j in row.y
-      content += """
+      productContent += """
         <div class='morris-hover-point' style='color: #{@colorFor(row, j, 'label')}'>
           #{@options.labels[j]}:
           #{@yLabelFormat(y)}
         </div>
       """
     if typeof @options.hoverCallback is 'function'
-      content = @options.hoverCallback(index, @options, content, row.src)
-    [content, row._x, row._ymax]
+      productContent = @options.hoverCallback(index, @options, productContent, row.src)
+    [productContent, row._x, row._ymax]
 
 
   # generate paths for series lines

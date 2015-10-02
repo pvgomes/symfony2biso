@@ -1,3 +1,15 @@
+/* OVERRIDE ----------------------------------------------------------------- */
+.navbar-brand {
+    padding: 5px 15px;
+}
+
+
+
+.navbar-top-links a {
+    color: #ffffff;
+}
+
+
 .page-header {
     margin: 10px 0 10px;
 }
@@ -20,4 +32,38 @@
     background: white;
     cursor: inherit;
     display: block;
+}
+
+/* CUSTOMIZATION ------------------------------------------------------------ */
+.extshop-date {
+    text-align: right;
+}
+
+.extshop-number {
+    text-align: center;
+}
+
+.extshop-money,
+.extshop-price {
+    color: darkblue;
+    text-align: right;
+}
+
+.extshop-price-diff {
+    color: darkgreen;
+    text-align: right;
+}
+.autocomplete {
+
+    position: absolute;
+    background-color: #FFFFFF;
+    z-index: 9999;
+    font-size:14px;
+    width: 440px;
+    display: none;
+}
+
+.autocomplete > table > tbody tr > td:hover {
+    background-color: #337ab7;
+    color: #FFFFFF;
 }

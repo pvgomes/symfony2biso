@@ -216,7 +216,7 @@
 	        var $tip = that.getDomElement();
 
 	        // convert tooltip content template to real tipText
-	        var tipText = that.stringFormat(that.tooltipOptions.content, target);
+	        var tipText = that.stringFormat(that.tooltipOptions.productContent, target);
 
 	        $tip.html(tipText);
 	        plot.setTooltipPosition({ x: position.pageX, y: position.pageY });
@@ -307,8 +307,8 @@
         }
 
         // if it is a function callback get the content string
-        if (typeof(content) === 'function') {
-            content = content(item.series.label, x, y, item);
+        if (typeof(productContent) === 'function') {
+            productContent = productContent(item.series.label, x, y, item);
         }
 
         // percent match for pie charts and stacked percent
@@ -316,49 +316,49 @@
             p = item.series.percent;
         } else if (typeof (item.series.percents) !== 'undefined') {
             p = item.series.percents[item.dataIndex];
-        }        
+        }
         if (typeof p === 'number') {
-            content = this.adjustValPrecision(percentPattern, content, p);
+            productContent = this.adjustValPrecision(percentPattern, productContent, p);
         }
 
         // series match
         if (typeof(item.series.label) !== 'undefined') {
-            content = content.replace(seriesPattern, item.series.label);
+            productContent = productContent.replace(seriesPattern, item.series.label);
         } else {
             //remove %s if label is undefined
-            content = content.replace(seriesPattern, "");
+            productContent = productContent.replace(seriesPattern, "");
         }
 
         // x axis label match
         if (this.hasAxisLabel('xaxis', item)) {
-            content = content.replace(xLabelPattern, item.series.xaxis.options.axisLabel);
+            productContent = productContent.replace(xLabelPattern, item.series.xaxis.options.axisLabel);
         } else {
             //remove %lx if axis label is undefined or axislabels plugin not present
-            content = content.replace(xLabelPattern, "");
+            productContent = productContent.replace(xLabelPattern, "");
         }
 
         // y axis label match
         if (this.hasAxisLabel('yaxis', item)) {
-            content = content.replace(yLabelPattern, item.series.yaxis.options.axisLabel);
+            productContent = productContent.replace(yLabelPattern, item.series.yaxis.options.axisLabel);
         } else {
             //remove %ly if axis label is undefined or axislabels plugin not present
-            content = content.replace(yLabelPattern, "");
+            productContent = productContent.replace(yLabelPattern, "");
         }
 
         // time mode axes with custom dateFormat
         if (this.isTimeMode('xaxis', item) && this.isXDateFormat(item)) {
-            content = content.replace(xPattern, this.timestampToDate(x, this.tooltipOptions.xDateFormat, item.series.xaxis.options));
+            productContent = productContent.replace(xPattern, this.timestampToDate(x, this.tooltipOptions.xDateFormat, item.series.xaxis.options));
         }
 		if (this.isTimeMode('yaxis', item) && this.isYDateFormat(item)) {
-            content = content.replace(yPattern, this.timestampToDate(y, this.tooltipOptions.yDateFormat, item.series.yaxis.options));
+            productContent = productContent.replace(yPattern, this.timestampToDate(y, this.tooltipOptions.yDateFormat, item.series.yaxis.options));
         }
 
         // set precision if defined
         if (typeof x === 'number') {
-            content = this.adjustValPrecision(xPattern, content, x);
+            productContent = this.adjustValPrecision(xPattern, productContent, x);
         }
         if (typeof y === 'number') {
-            content = this.adjustValPrecision(yPattern, content, y);
+            productContent = this.adjustValPrecision(yPattern, productContent, y);
         }
 
         // change x from number to given label, if given
@@ -378,7 +378,7 @@
             if (item.series.xaxis[ticks].length > tickIndex && !this.isTimeMode('xaxis', item)) {
                 var valueX = (this.isCategoriesMode('xaxis', item)) ? item.series.xaxis[ticks][tickIndex].label : item.series.xaxis[ticks][tickIndex].v;
                 if (valueX === x) {
-                    content = content.replace(xPattern, item.series.xaxis[ticks][tickIndex].label);
+                    productContent = productContent.replace(xPattern, item.series.xaxis[ticks][tickIndex].label);
                 }
             }
         }
@@ -389,7 +389,7 @@
                 if (item.series.yaxis.ticks.hasOwnProperty(index)) {
                     var valueY = (this.isCategoriesMode('yaxis', item)) ? item.series.yaxis.ticks[index].label : item.series.yaxis.ticks[index].v;
                     if (valueY === y) {
-                        content = content.replace(yPattern, item.series.yaxis.ticks[index].label);
+                        productContent = productContent.replace(yPattern, item.series.yaxis.ticks[index].label);
                     }
                 }
             }
@@ -398,17 +398,17 @@
         // if no value customization, use tickFormatter by default
         if (typeof item.series.xaxis.tickFormatter !== 'undefined') {
             //escape dollar
-            content = content.replace(xPatternWithoutPrecision, item.series.xaxis.tickFormatter(x, item.series.xaxis).replace(/\$/g, '$$'));
+            productContent = productContent.replace(xPatternWithoutPrecision, item.series.xaxis.tickFormatter(x, item.series.xaxis).replace(/\$/g, '$$'));
         }
         if (typeof item.series.yaxis.tickFormatter !== 'undefined') {
             //escape dollar
-            content = content.replace(yPatternWithoutPrecision, item.series.yaxis.tickFormatter(y, item.series.yaxis).replace(/\$/g, '$$'));
+            productContent = productContent.replace(yPatternWithoutPrecision, item.series.yaxis.tickFormatter(y, item.series.yaxis).replace(/\$/g, '$$'));
         }
 
         if (customText)
-            content = content.replace(customTextPattern, customText);
+            productContent = productContent.replace(customTextPattern, customText);
 
-        return content;
+        return productContent;
     };
 
     // helpers just for readability
@@ -438,17 +438,17 @@
     FlotTooltip.prototype.adjustValPrecision = function (pattern, content, value) {
 
         var precision;
-        var matchResult = content.match(pattern);
+        var matchResult = productContent.match(pattern);
         if( matchResult !== null ) {
             if(RegExp.$1 !== '') {
                 precision = RegExp.$1;
                 value = value.toFixed(precision);
 
                 // only replace content if precision exists, in other case use thickformater
-                content = content.replace(pattern, value);
+                productContent = productContent.replace(pattern, value);
             }
         }
-        return content;
+        return productContent;
     };
 
     // other plugins detection below
