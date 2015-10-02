@@ -1,0 +1,28 @@
+{
+    "title": "Product Price Update",
+    "type": "object",
+    "properties": {
+        "postalCode": {
+            "type": "string"
+        },
+        "items": {
+            "type": "array",
+            "minItems": 1,
+            "items": [
+                {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "quantity":{
+                            "type": "integer"
+                        }
+                    },
+                    "required": ["id", "quantity"]
+                }
+            ]
+        }
+    },
+    "required": ["postalCode", "items"]
+}

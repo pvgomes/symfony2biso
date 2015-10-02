@@ -1,0 +1,10 @@
+{
+    "title": "Cancel Order",
+    "type": "object",
+    "properties": {
+        "notification": {
+            "type": "string"
+        }
+    },
+    "required": ["notification"]
+}

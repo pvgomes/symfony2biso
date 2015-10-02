@@ -1,0 +1,16 @@
+{
+    "title": "Product Price Update",
+    "type": "object",
+    "properties": {
+        "price": {
+            "type": "number",
+            "minimum": 0,
+            "exclusiveMinimum": true
+        },
+        "special_price": {
+            "type": "number",
+            "description": "This a promotional price of product"
+        }
+    },
+    "required": ["price", "special_price"]
+}

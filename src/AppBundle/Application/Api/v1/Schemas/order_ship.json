@@ -1,0 +1,10 @@
+{
+    "title": "Ship Order",
+    "type": "object",
+    "properties": {
+        "notification": {
+            "type": "string"
+        }
+    },
+    "required": ["notification"]
+}

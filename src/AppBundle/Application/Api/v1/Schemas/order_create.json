@@ -1,0 +1,23 @@
+{
+    "title": "Walmart Order",
+    "type": "object",
+    "properties": {
+
+        "marketplaceOrderId": {
+            "type": "string"
+        },
+
+        "items": {
+            "type": "array"
+        },
+
+        "clientProfileData":{
+            "type" : "object"
+        },
+
+        "shippingData" : {
+            "type" : "object"
+        }
+    },
+    "required": ["marketplaceOrderId", "items", "clientProfileData", "shippingData"]
+}
