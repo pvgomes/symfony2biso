@@ -1,0 +1,7 @@
+services:
+
+    # QUEUES
+    seller_create_product:
+        class: AppBundle\Application\Product\SellerCreateConsumer
+
+

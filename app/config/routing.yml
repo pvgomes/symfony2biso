@@ -1,3 +1,13 @@
 app:
-    resource: "@AppBundle/Controller/"
+    resource: "@AppBundle/Application/Controller/"
     type:     annotation
+
+api:
+    resource: "@AppBundle/Application/Api/v1/Controller/"
+
+logout:
+    path:   /logout
+
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /api/doc

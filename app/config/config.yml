@@ -70,9 +70,9 @@ doctrine:
             AppBundle:
                 mapping: true
                 type: annotation
-                dir: 'Domain'
+                dir: 'Infrastructure'
                 alias: 'AppBundle'
-                prefix: 'AppBundle\Domain'
+                prefix: 'AppBundle\Infrastructure'
                 is_bundle: true
 
 # Doctrine Extensions Configuration

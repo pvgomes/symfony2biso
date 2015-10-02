@@ -1,0 +1,45 @@
+# see https://github.com/videlalvaro/RabbitMqBundle#usage
+old_sound_rabbit_mq:
+    connections:
+        default:
+            host:     "%symfony2biso_rabbit_host%"
+            port:     "%symfony2biso_rabbit_port%"
+            user:     "%symfony2biso_rabbit_user%"
+            password: "%symfony2biso_rabbit_password%"
+            vhost:    "%symfony2biso_rabbit_vhost%"
+            lazy:     true
+            connection_timeout: 3
+            read_write_timeout: 3
+            keepalive: false
+            heartbeat: 0
+
+    producers:
+        # PRODUCT --------------------------------------------------------------
+        seller_create_product:
+            connection:       default
+            queue_options:    { name: 'seller.create.product', durable: true, auto_delete: false }
+            exchange_options: { name: 'seller.create.product', type: direct }
+
+        # ORDER ----------------------------------------------------------------
+        seller_create_order:
+            connection:       default
+            queue_options:    { name: 'seller.create.order', durable: true, auto_delete: false }
+            exchange_options: { name: 'seller.create.order', type: direct }
+
+    consumers:
+        # PRODUCT --------------------------------------------------------------
+        seller_create_product:
+            connection:       default
+            queue_options:    { name: 'seller.create.product', durable: true, auto_delete: false }
+            exchange_options: { name: 'seller.create.product', type: direct }
+            qos_options:      { prefetch_size: 0, prefetch_count: 1, global: false }
+            callback:         seller_create_product
+
+        # ORDER ----------------------------------------------------------------
+        seller_create_order:
+            connection:       default
+            queue_options:    { name: 'seller.create.order', durable: true, auto_delete: false }
+            exchange_options: { name: 'seller.create.order', type: direct }
+            qos_options:      { prefetch_size: 0, prefetch_count: 1, global: false }
+            callback:         seller_create_order
+

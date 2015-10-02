@@ -1,0 +1,48 @@
+fos_rest:
+    param_fetcher_listener: true
+    body_listener: true
+    format_listener:
+        rules:
+            - { path: ^/, priorities: [ html, json, xml ], fallback_format: json, prefer_extension: true }
+
+    body_converter:
+        enabled: true
+        validate: true
+
+    service:
+        serializer: null
+    view:
+        view_response_listener: 'force'
+        formats:
+            xml:  true
+            json: true
+        templating_formats:
+            html: true
+            json: false
+            xml: true
+
+    exception:
+        codes:
+            'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
+            'Doctrine\ORM\OptimisticLockException': HTTP_CONFLICT
+        messages:
+            'Symfony\Component\Routing\Exception\ResourceNotFoundException': true
+    allowed_methods_listener: true
+    access_denied_listener:
+        json: true
+
+    disable_csrf_role: ROLE_API
+
+nelmio_api_doc:
+    name:
+    sandbox:
+      endpoint: http://symfony2biso.dev:8080
+      accept_type: "application/json"
+      body_format:
+        formats: [ "json", "form" ]
+        default_format: "json"
+      authentication:
+        delivery: header
+        name: venture-access-token
+    motd:
+      template: Components/motd.html.twig
