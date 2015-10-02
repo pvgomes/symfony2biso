@@ -28,7 +28,7 @@ Class DummyData
             'base_url' => 'http://symfony2biso_mockServer_1',
             'uri_create_order' => 'iris/webservice/symfony2biso-create-order',
             'uri_confirm_order' => 'iris/webservice/symfony2biso-confirm-order',
-            'uri_cancel_order' => 'iris/webservice/symfony2biso-partner-order-cancel',
+            'uri_cancel_order' => 'iris/webservice/symfony2biso-market-order-cancel',
             'uri_confirm_reservation' => 'iris/webservice/symfony2bisoconfirmreservation?view=json',
         ],
         'biso.freight' => [

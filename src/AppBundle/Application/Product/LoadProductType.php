@@ -13,7 +13,7 @@ class LoadProductType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('partner', 'entity', [
+            ->add('market', 'entity', [
                 'class' => 'AppBundle\Infrastructure\Core\Market',
                 'choice_label' => 'name',
             ])
