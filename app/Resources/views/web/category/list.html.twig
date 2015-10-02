@@ -47,7 +47,7 @@
             <thead>
             <tr>
                 <th>#</th>
-                <th>ID Venture</th>
+                <th>ID Seller</th>
                 <th>nome</th>
                 <th>chave</th>
                 <th>criado</th>
@@ -58,7 +58,7 @@
             {% for category in categories %}
                 <tr>
                     <td>{{ loop.index }}</td>
-                    <td class="extshop-number">{{ category.categoryVentureId }}</td>
+                    <td class="extshop-number">{{ category.categorySellerId }}</td>
                     <td>{{ category.name }}</td>
                     <td>{{ category.nameKey }}</td>
                     <td class="extshop-date">{{ category.createdAt|date('d/m/Y - H:i') }}</td>

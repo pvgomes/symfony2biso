@@ -43,7 +43,7 @@
                 </h1>
             </div>
             <div class="modal-body">
-                <form action="{{ path('login_check') }}" class="form col-md-12 center-block">
+                <form action="{{ path('login_check') }}" class="form col-md-12 center-block" method="POST">
                     <div class="form-group">
                         <input type="text" class="form-control input-lg" placeholder="Username" name="_username" value="{{ last_username }}" >
                     </div>

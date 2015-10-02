@@ -1,5 +1,6 @@
 {% extends "base.html.twig" %}
-{% block title %}Partner List{{ parent() }}{% endblock %}
+
+{% block title %}Seller List{{ parent() }}{% endblock %}
 
 {#{% set pagination %}
 <nav>
@@ -34,12 +35,11 @@
 {% block body %}
     <div class="row">
         <div class="col-lg-12">
-            <h2 class="page-header">Partners</h2>
+            <h2 class="page-header">Sellers</h2>
         </div>
     </div>
 
 <div class="row" id="productContent">
-
     <div class="col-md-3">
         {{ form_start(form) }}
         <div class="form-group">
@@ -47,12 +47,10 @@
             {{ form_errors(form.name) }}
             {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
         </div>
-        <button type="submit" class="btn btn-success">Criar Partner</button>
+        <button type="submit" class="btn btn-success">Criar Seller</button>
         {{ form_end(form) }}
     </div>
-
     <div class="col-lg-12">
-
         <hr>
         {#{{ pagination }}#}
 
@@ -61,15 +59,17 @@
                 <tr>
                     <th>#</th>
                     <th>Nome</th>
-                    <th>Partner Key</th>
+                    <th>Seller Key</th>
+                    <th>Access Token</th>
                 </tr>
             </thead>
             <tbody>
-            {% for partner in partners %}
+            {% for seller in sellers %}
                 <tr class="product-main">
-                    <td>{{ partner.id }}</td>
-                    <td>{{ partner.name }}</td>
-                    <td nowrap="nowrap">{{ partner.keyName }}</td>
+                    <td>{{ seller.id }}</td>
+                    <td>{{ seller.name }}</td>
+                    <td>{{ seller.keyName }}</td>
+                    <td>{{ seller.accessToken }}</td>
                 </tr>
             {% endfor %}
             </tbody>

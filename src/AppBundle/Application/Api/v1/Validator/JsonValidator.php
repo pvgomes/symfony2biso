@@ -48,16 +48,16 @@ Trait JsonValidator
     }
 
     /**
-     * Get Order Schema by Seller and Partner, if not exists, loads default schema
+     * Get Order Schema by Seller and Market, if not exists, loads default schema
      *
      * @param string $sellerKey
      * @param string $action
-     * @param bool $usePartnerKey
+     * @param bool $useMarketKey
      * @return string filename
      */
-    private function loadOrderSchema($sellerKey, $action, $usePartnerKey = true)
+    private function loadOrderSchema($sellerKey, $action, $useMarketKey = true)
     {
-        if ($usePartnerKey) {
+        if ($useMarketKey) {
             $partnerKey = (self::PARTNER_KEY)?'_'.self::PARTNER_KEY:'';
 
             $schema = 'order_'.$action.$partnerKey.'.json';
@@ -138,8 +138,8 @@ Trait JsonValidator
         return $this->loadOrderSchema('', 'cancel', false);
     }
 
-    public function orderShipSchema($sellerKey = '', $usePartnerKey = false)
+    public function orderShipSchema($sellerKey = '', $useMarketKey = false)
     {
-        return $this->loadOrderSchema($sellerKey, 'ship', $usePartnerKey);
+        return $this->loadOrderSchema($sellerKey, 'ship', $useMarketKey);
     }
 }

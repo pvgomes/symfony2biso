@@ -2,28 +2,28 @@
 
 namespace AppBundle\Application\Controller\Web;
 
-use AppBundle\Domain\Core;
+use AppBundle\Infrastructure\Core;
 use AppBundle\Application\Core\UserForm;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Application\Controller\Pagination;
-use AppBundle\Domain\Product;
+use AppBundle\Infrastructure\Product;
 
 class SystemController extends Pagination
 {
 
     /**
-     * @Route("/system/partner", name="partner_list")
+     * @Route("/system/market", name="market_list")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function partnerAction(Request $request)
+    public function marketAction(Request $request)
     {
-        $partnerRepository = $this->get('partner_repository');
+        $marketRepository = $this->get('market_repository');
 
-        $partner = new Core\Partner();
-        $form = $this->createFormBuilder($partner)
+        $market = new Core\Market();
+        $form = $this->createFormBuilder($market)
             ->add('name', 'text')
             ->getForm();
 
@@ -32,19 +32,19 @@ class SystemController extends Pagination
         if ($form->isSubmitted() && $form->isValid()) {
 
             try {
-                $partnerRepository->add($partner);
-                $this->addFlash('success', 'Partner criado com sucesso');
+                $marketRepository->add($market);
+                $this->addFlash('success', 'Market criado com sucesso');
 
             } catch (\Exception $exception) {
                 $this->addFlash('alert', $exception->getMessage());
             }
         }
 
-        $partners = $partnerRepository->getAll();
+        $markets = $marketRepository->getAll();
         $viewVars['form'] = $form->createView();
-        $viewVars['partners'] = $partners;
+        $viewVars['markets'] = $markets;
 
-        return $this->render('web/system/partner.html.twig', $viewVars);
+        return $this->render('web/system/market.html.twig', $viewVars);
     }
 
     /**
@@ -54,9 +54,9 @@ class SystemController extends Pagination
      */
     public function sellerAction(Request $request)
     {
-        $repositoryVenture = $this->get('seller_repository');
+        $repositorySeller = $this->get('seller_repository');
 
-        $seller = new Core\Venture();
+        $seller = new Core\Seller();
         $form = $this->createFormBuilder($seller)
             ->add('name', 'text')
             ->getForm();
@@ -68,15 +68,15 @@ class SystemController extends Pagination
             $seller->setAccessToken($accessToken);
 
             try {
-                $repositoryVenture->add($seller);
-                $this->addFlash('success', 'Venture criada com sucesso');
+                $repositorySeller->add($seller);
+                $this->addFlash('success', 'Seller criada com sucesso');
 
             } catch (\Exception $exception) {
                 $this->addFlash('alert', $exception->getMessage());
             }
         }
 
-        $sellers = $repositoryVenture->getAll();
+        $sellers = $repositorySeller->getAll();
         $viewVars['form'] = $form->createView();
         $viewVars['sellers'] = $sellers;
 
@@ -163,7 +163,7 @@ class SystemController extends Pagination
      */
     public function configurationAction(Request $request)
     {
-        $sellerKeyName = $this->getUser()->getVenture()->getKeyName();
+        $sellerKeyName = $this->getUser()->getSeller()->getKeyName();
         $prefix = $sellerKeyName == 'gfg' ? '' : $sellerKeyName;
 
         /**
@@ -295,11 +295,11 @@ class SystemController extends Pagination
         $isProductsCached = true;
 
         try {
-            /** @var \AppBundle\Domain\Core\User $user */
+            /** @var \AppBundle\Infrastructure\Core\User $user */
             $user = $this->getUser();
-            /** @var \AppBundle\Domain\Core\Venture $seller */
-            $seller = $user->getVenture();
-            /** @var \AppBundle\Domain\Core\ConfigurationService $configurationService */
+            /** @var \AppBundle\Infrastructure\Core\Seller $seller */
+            $seller = $user->getSeller();
+            /** @var \AppBundle\Infrastructure\Core\ConfigurationService $configurationService */
             $configurationService = $this->get('configuration_service');
             $configurationService->warmUpProductCache($seller);
         } catch (\Exception $e) {

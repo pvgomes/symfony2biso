@@ -22,7 +22,7 @@ class OrderController extends Pagination
             : 0;
 
         $user = $this->getUser();
-        $seller = $user->getVenture();
+        $seller = $user->getSeller();
 
         $form = $this->createFormBuilder([$request->getContent()], ['method' => 'GET'])
             ->add('search', 'text')
@@ -35,7 +35,7 @@ class OrderController extends Pagination
 
         $orders = $this
             ->get('order_repository')
-            ->paginateByVenture($seller, $firstResult, $maxResult, $searchData);
+            ->paginateBySeller($seller, $firstResult, $maxResult, $searchData);
 
         $viewVars = $this->getPagination($pageCurrent, $maxResult, $firstResult, count($orders));
 
@@ -63,7 +63,7 @@ class OrderController extends Pagination
         $form->submit($request);
         $searchData = $form->getData();
 
-        $orders = $orderRepository->getAllByVentureWithFilter($this->getUser()->getVenture(), $searchData);
+        $orders = $orderRepository->getAllBySellerWithFilter($this->getUser()->getSeller(), $searchData);
 
         $handle = fopen('php://output', 'w+');
         $orderExport = $this->get('order_export');

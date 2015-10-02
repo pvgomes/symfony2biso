@@ -2,7 +2,7 @@
 
 namespace AppBundle\Application\Controller\Web;
 
-use AppBundle\Domain\Product\ProductContext;
+use AppBundle\Infrastructure\Product\ProductContext;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 use AppBundle\Application\Controller\Pagination;
 use AppBundle\Application\AppEvents;
 use AppBundle\Application\Product\LoadProductType;
-use AppBundle\Domain\Product;
+use AppBundle\Infrastructure\Product;
 
 class ProductController extends Pagination
 {
@@ -38,7 +38,7 @@ class ProductController extends Pagination
 
         $products = $this
             ->get('product_repository')
-            ->paginateByVenture($this->getUser()->getVenture(), $firstResult, $maxResult, $searchData);
+            ->paginateBySeller($this->getUser()->getSeller(), $firstResult, $maxResult, $searchData);
 
         $viewVars = $this->getPagination($pageCurrent, $maxResult, $firstResult, count($products), 15);
 
@@ -134,15 +134,15 @@ class ProductController extends Pagination
      */
     public function publishAction(Request $request)
     {
-        /** @var \AppBundle\Domain\Core\User $user */
+        /** @var \AppBundle\Infrastructure\Core\User $user */
         $user = $this->getUser();
 
-        /** @var \AppBundle\Domain\Core\Venture $seller */
-        $seller = $user->getVenture();
+        /** @var \AppBundle\Infrastructure\Core\Seller $seller */
+        $seller = $user->getSeller();
 
         $loadProduct = new Product\LoadProduct();
         $loadProduct->setUser($user);
-        $loadProduct->setVenture($seller);
+        $loadProduct->setSeller($seller);
 
         $form = $this->createForm(new LoadProductType(), $loadProduct, [
             'action' => $this->generateUrl('product_publish'),
@@ -153,24 +153,26 @@ class ProductController extends Pagination
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $productContext = new ProductContext($seller->getKeyName(), $loadProduct->getPartner()->getKeyName());
+//            $productContext = new ProductContext($seller->getKeyName(), $loadProduct->getMarket()->getKeyName());
+//
+//            /** @var \AppBundle\Application\Product\LoadProductService $loadProductService */
+//            $loadProductService = $this->get('load_product_service');
+//
+//            try {
+//                $productContext->setEventName(AppEvents::VENTURE_LOAD_PRODUCT);
+//                $productContext->setLoadProduct($loadProduct);
+//                $loadProductService->setContext($productContext);
+//                $loadProductService->create();
+//                $flashMsg = "Planilha para publicação de produtos importada. Em alguns instantes os produtos serão publicados.";
+//                $flashMsgType = "success";
+//            } catch (\Exception $exception) {
+//                $flashMsg = "Erro importar a planilha. Confira os erros de acordo com a planilha importada.";
+//                $flashMsgType = "warning";
+//            }
+//
+//            $this->addFlash($flashMsgType , $flashMsg);
 
-            /** @var \AppBundle\Application\Product\LoadProductService $loadProductService */
-            $loadProductService = $this->get('load_product_service');
 
-            try {
-                $productContext->setEventName(AppEvents::VENTURE_LOAD_PRODUCT);
-                $productContext->setLoadProduct($loadProduct);
-                $loadProductService->setContext($productContext);
-                $loadProductService->create();
-                $flashMsg = "Planilha para publicação de produtos importada. Em alguns instantes os produtos serão publicados.";
-                $flashMsgType = "success";
-            } catch (\Exception $exception) {
-                $flashMsg = "Erro importar a planilha. Confira os erros de acordo com a planilha importada.";
-                $flashMsgType = "warning";
-            }
-
-            $this->addFlash($flashMsgType , $flashMsg);
         }
 
         $pageCurrent = abs($request->query->get('page', 1));
@@ -208,7 +210,7 @@ class ProductController extends Pagination
         $form->submit($request);
         $searchData = $form->getData();;
 
-        $products = $productRepository->getAllByVentureWithFilter($this->getUser()->getVenture(), $searchData);
+        $products = $productRepository->getAllBySellerWithFilter($this->getUser()->getSeller(), $searchData);
 
         $handle = fopen('php://output', 'w+');
         $productExport = $this->get('product_export');

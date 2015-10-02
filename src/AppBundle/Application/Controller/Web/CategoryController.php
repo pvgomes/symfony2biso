@@ -22,10 +22,10 @@ class CategoryController extends Pagination
             : 0;
 
         $user = $this->getUser();
-        $seller = $user->getVenture();
+        $seller = $user->getSeller();
         $categories = $this
             ->get('category_repository')
-            ->paginateByVenture($seller, $firstResult, $maxResult);
+            ->paginateBySeller($seller, $firstResult, $maxResult);
 
         $viewVars = $this->getPagination($pageCurrent, $maxResult, $firstResult, count($categories));
 
@@ -37,10 +37,10 @@ class CategoryController extends Pagination
     /**
      * @Route("/category/", name="product_categories")
      */
-    public function getCategoriesByVentureAction(Request $request)
+    public function getCategoriesBySellerAction(Request $request)
     {
         $categoryRepository = $this->get('category_repository');
-        $categories = $categoryRepository->getAllByVenture($this->getUser()->getVenture());
+        $categories = $categoryRepository->getAllBySeller($this->getUser()->getSeller());
 
         $cat = [];
         foreach ($categories as $category) {

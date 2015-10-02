@@ -62,11 +62,11 @@
             <span class="help-block"></span>
 
         </div>
-            {{ form_errors(form.partner) }}
+            {{ form_errors(form.market) }}
         <div class="col-md-4" style="border-left: 2px solid #cccccc">
             <p><strong>Selecione o parceiro que deseja publicar os produtos.</strong></p>
             <div class="form-group">
-                {{ form_widget(form.partner) }} {{ form_widget(form.republish) }} Re-Publicação
+                {{ form_widget(form.market) }} {{ form_widget(form.republish) }} Re-Publicação
             </div>
             </div>
         </div>
@@ -103,7 +103,7 @@
                             <td>{{ loop.index + counter }}</td>
                             <td>{{ load.name }}</td>
                             <td>{{ load.user.name }}</td>
-                            <td>{{ load.partner.name }}</td>
+                            <td>{{ load.market.name }}</td>
                             <td class="extshop-number">{{ load.quantity }}</td>
                             <td class="status extshop-number">
                                 <a href="{{ path('product_load_report', {action: 'success', id: load.id}) }}" class="success" style="color:green"></a> |

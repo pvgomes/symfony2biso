@@ -6,8 +6,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use AppBundle\Domain\Order\OrderContext;
-use AppBundle\Domain\Product\ProductContext;
+use AppBundle\Infrastructure\Order\OrderContext;
+use AppBundle\Infrastructure\Product\ProductContext;
 
 class DashboardController extends Controller
 {
@@ -18,8 +18,8 @@ class DashboardController extends Controller
     public function orderAction(Request $request)
     {
         $user = $this->getUser();
-        /** @var \AppBundle\Domain\Core\Venture $seller */
-        $seller = $user->getVenture();
+        /** @var \AppBundle\Infrastructure\Core\Seller $seller */
+        $seller = $user->getSeller();
 
         $configuration = $this->get('configuration_repository');
         $seller->setConfiguration($configuration);
@@ -44,8 +44,8 @@ class DashboardController extends Controller
     public function productAction(Request $request)
     {
         $user = $this->getUser();
-        /** @var \AppBundle\Domain\Core\Venture $seller */
-        $seller = $user->getVenture();
+        /** @var \AppBundle\Infrastructure\Core\Seller $seller */
+        $seller = $user->getSeller();
 
         $configuration = $this->get('configuration_repository');
         $seller->setConfiguration($configuration);

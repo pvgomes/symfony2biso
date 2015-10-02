@@ -46,7 +46,7 @@
                         <td>{{ order.market.name }}</td>
                     </tr>
                     <tr>
-                        <td>Venture</td>
+                        <td>Seller</td>
                         <td>{{ order.seller.name }}</td>
                     </tr>
                     <tr>
@@ -54,7 +54,7 @@
                         <td><b>{{ order.marketOrderNumber }}</b></td>
                     </tr>
                     <tr>
-                        <td>Número Pedido Venture</td>
+                        <td>Número Pedido Seller</td>
                         <td><b>{{ order.sellerOrderNumber }}</b></td>
                     </tr>
                     <tr>
@@ -90,7 +90,7 @@
                     </tr>
                     <tr>
                         <th>ID</th>
-                        <th>Partner ID</th>
+                        <th>Market ID</th>
                         <th>Nome</th>
                         <th>SKU</th>
                         <th>Preço</th>
@@ -118,8 +118,8 @@
                                     <tr>
                                         <th>Historico</th>
                                         <th>Ação</th>
-                                        <th>Status na Venture</th>
-                                        <th>Status no Partner</th>
+                                        <th>Status na Seller</th>
+                                        <th>Status no Market</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -127,8 +127,8 @@
                                         <tr>
                                             <td>{{ history.createdAt|date("d/m/Y H:i:s") }}</td>
                                             <td>{{ history.eventName }}</td>
-                                            <td><abbr title="{{ history.statusVenture.description }}" class="initialism">{{ history.statusVenture.name }}</abbr></td>
-                                            <td><abbr title="{{ history.statusPartner.description }}" class="initialism">{{ history.statusPartner.name }}</abbr></td>
+                                            <td><abbr title="{{ history.statusSeller.description }}" class="initialism">{{ history.statusSeller.name }}</abbr></td>
+                                            <td><abbr title="{{ history.statusMarket.description }}" class="initialism">{{ history.statusMarket.name }}</abbr></td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>

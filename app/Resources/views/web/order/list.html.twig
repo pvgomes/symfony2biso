@@ -92,10 +92,10 @@ $(document).ready(function() {
             <thead>
             <tr>
                 <th>#</th>
-                <th>Partner</th>
+                <th>Market</th>
                 <th>ExtShop nº</th>
-                <th>Partner nº</th>
-                <th>Venture nº</th>
+                <th>Market nº</th>
+                <th>Seller nº</th>
                 <th>Qte Itens</th>
                 <th>Frete</th>
                 <th>Total</th>
@@ -124,8 +124,8 @@ $(document).ready(function() {
                             <tr>
                                 <td colspan="10">{{ item.product.name }} ({{ item.product.sku }})</td>
                                 <td>{{ item.total|number_format(2,',','.') }}</td>
-                                <td><abbr title="{{ item.statusVenture.description }}"  class="initialism">{{ item.statusVenture.name }}</abbr></td>
-                                <td><abbr title="{{ item.statusPartner.description }}"  class="initialism">{{ item.statusPartner.name }}</abbr></td>
+                                <td><abbr title="{{ item.statusSeller.description }}"  class="initialism">{{ item.statusSeller.name }}</abbr></td>
+                                <td><abbr title="{{ item.statusMarket.description }}"  class="initialism">{{ item.statusMarket.name }}</abbr></td>
                             </tr>
                         {% endfor %}
                         </table>
