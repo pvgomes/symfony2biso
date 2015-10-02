@@ -1,4 +1,5 @@
 imports:
+    - { resource: services_seller.yml }
     - { resource: services_product.yml }
     - { resource: services_order.yml }
 
@@ -29,7 +30,7 @@ services:
 
     app.tokens.action_listener:
         class: AppBundle\Application\Api\v1\Auth\TokenListener
-        arguments: ["@market_repository"]
+        arguments: ["@seller_repository"]
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
@@ -44,5 +45,5 @@ services:
         class: Doctrine\ORM\EntityRepository
         factory_service: doctrine.orm.entity_manager
         factory_method: getRepository
-        arguments: ["AppBundle\\Infrastructure\\Core\\Partner"]
+        arguments: ["AppBundle\\Infrastructure\\Core\\Market"]
 

@@ -1,0 +1,11 @@
+services:
+
+    seller.repository_factory:
+        class: AppBundle\Infrastructure\Product\Seller\RepositoryFactory
+
+    # REPOSITORIES
+    seller_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+        arguments: ["AppBundle\\Infrastructure\\Core\\Seller"]
