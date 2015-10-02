@@ -1,8 +1,13 @@
+/* #5E597D  */
+
 /* OVERRIDE ----------------------------------------------------------------- */
 .navbar-brand {
     padding: 5px 15px;
 }
 
+.default-color-one {
+    background-color: #5E597D;
+}
 
 
 .navbar-top-links a {

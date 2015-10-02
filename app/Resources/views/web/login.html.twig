@@ -1,15 +1,34 @@
-{% extends "base.html.twig" %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block title %}Login{{ parent() }}{% endblock %}
+<head>
+    <meta charset="{{ _charset }}" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex,nofollow" />
+    <title>{% block title %} Biso {% endblock %}</title>
+    <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet" />
+    <link href="{{ asset('components/metisMenu/dist/metisMenu.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('sb/css/timeline.css') }}" rel="stylesheet" />
+    <link href="{{ asset('sb/css/sb-admin-2.css') }}" rel="stylesheet" />
+    <link href="{{ asset('components/morrisjs/morris.css') }}" rel="stylesheet" />
+    <link href="{{ asset('components/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('css/main.css') }}" rel="stylesheet" />
+    {% block stylesheets %}{% endblock %}
+    <style>
+        .modal-footer {   border-top: 0px; }
+        .modal-dialog {
+            width: 600px;
+            margin: 150px auto;
+        }
+    </style>
+</head>
 
-{% block body %}
-    <div class="row">
-        <div class="col-lg-12">
-            <h2 class="page-header">Login</h2>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 col-md-offset-2">
+<body>
+
+<div id="loginModal" class="modal show" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
             {% if error %}
                 <div class="ui error message">
                     <div class="header">Acesso proibido</div>
@@ -17,19 +36,41 @@
                 </div>
             {% endif %}
 
-            <form action="{{ path('login_check') }}" method="post" class="ui large form">
-                <div class="form-group input-group">
-                    <span class="input-group-addon">@</span>
-                    <input type="text" class="form-control" placeholder="Username" name="_username" value="{{ last_username }}" >
-                </div>
 
-                <div class="form-group input-group">
-                    <span class="input-group-addon">#</span>
-                    <input type="password" class="form-control" placeholder="Password" name="_password" >
-                </div>
+            <div class="modal-header">
+                <h1 class="text-center">
+                    <a href="{{ path('dashboard') }}"><img src="{{ asset('images/logo-ex-white.png') }}" ></a>
+                </h1>
+            </div>
+            <div class="modal-body">
+                <form action="{{ path('login_check') }}" class="form col-md-12 center-block">
+                    <div class="form-group">
+                        <input type="text" class="form-control input-lg" placeholder="Username" name="_username" value="{{ last_username }}" >
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control input-lg" placeholder="Password" name="_password" >
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-lg btn-block default-color-one">Login</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-12">
 
-                <button type="submit" class="btn btn-default">Login</button>
-            </form>
+                </div>
+            </div>
         </div>
     </div>
-{% endblock %}
+</div>
+
+<script src="{{ asset('components/jquery/dist/jquery.min.js') }}"></script>
+<script src="{{ asset('components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('components/metisMenu/dist/metisMenu.min.js') }}"></script>
+<script src="{{ asset('components/raphael/raphael-min.js') }}"></script>
+<script src="{{ asset('components/morrisjs/morris.min.js') }}"></script>
+<script src="{{ asset('sb/js/sb-admin-2.js') }}"></script>
+{% block javascript %}{% endblock %}
+</body>
+</html>
+
