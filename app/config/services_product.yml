@@ -4,4 +4,9 @@ services:
     seller_create_product:
         class: AppBundle\Application\Product\SellerCreateConsumer
 
-
+    # REPOSITORIES
+    load_product_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+        arguments: ["AppBundle\\Infrastructure\\Product\\LoadProduct"]

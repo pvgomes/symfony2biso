@@ -152,7 +152,7 @@ class LoadProductRepository extends EntityRepository
     public function paginateByUser(UserInterface $user, $firstResult = 0, $maxResult = 10)
     {
         $dql = "SELECT l
-                FROM AppBundle\LoadProduct l
+                FROM AppBundle\Infrastructure\Product\LoadProduct l
                 WHERE l.user = :user
                 ORDER BY l.createdAt DESC";
 
