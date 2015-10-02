@@ -1,0 +1,26 @@
+<table class="table">
+    {% for externalProduct in externalProducts %}
+        <tr>
+            <td width="13%">
+                <param value="{{ externalProduct.json }}" name="externalProductJson" id="jsonRawData{{ productId }}">
+                <strong> Partner: </strong> </strong>{{ externalProduct.market.name }}
+                <br>
+                <strong> External SKU: </strong> {{ externalProduct.sku }}
+            </td>
+            <td class="external-json" colspan="8" width="60%">
+
+                {% if (externalProduct.json) %}
+                <button class="btn btn-default btn-xs" type="button" onclick="Product.toggleJson({{ externalProduct.id }})">JSON</button>
+                {% endif %}
+                <button id="btnJsonRaw-{{ externalProduct.id }}" class="btn btn-xs btn-default" style="display: none" onclick="Product.showJsonRaw({{ externalProduct.id }})">Raw</button>
+                <div id="json{{ productId }}" style="width: 45%">
+                    <div id="wrapperJsonPretty-{{ externalProduct.id }}"></div>
+                    <div id="jsonRaw-{{ externalProduct.id }}" style="display: none">
+                        {{ externalProduct.json }}
+                    </div>
+                    <param id="productJsonData-{{ externalProduct.id }}" value="{{ externalProduct.json }}"/>
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
+</table>

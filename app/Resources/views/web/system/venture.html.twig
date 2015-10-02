@@ -1,0 +1,82 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Venture List{{ parent() }}{% endblock %}
+
+{#{% set pagination %}
+<nav>
+    <ul class="pagination">
+        <li>
+            <a href="{{ path('product_list', {'page': 1}) }}" aria-label="Previous"{% if page == 1 %} class="disabled"{% endif %}>
+                <span aria-hidden="true">&laquo; first</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('product_list', {'page': prev}) }}" aria-label="Previous"{% if page == 1 %} class="disabled"{% endif %}>
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        {% for i in pageStart..pages %}
+            <li{% if i == page %} class="active"{% endif %}><a href="{{ path('product_list', {'page': i}) }}">{{ i }}</a></li>
+        {% endfor %}
+        <li>
+            <a href="{{ path('product_list', {'page': next}) }}" aria-label="Next"{% if page == pages %} class="disabled"{% endif %}>
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('product_list', {'page': last}) }}" aria-label="Next"{% if page == pages %} class="disabled"{% endif %}>
+                <span aria-hidden="true">last &raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+{% endset %}#}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">Ventures</h2>
+        </div>
+    </div>
+
+<div class="row" id="productContent">
+    <div class="col-md-3">
+        {{ form_start(form) }}
+        <div class="form-group">
+            <label>Nome</label>
+            {{ form_errors(form.name) }}
+            {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <button type="submit" class="btn btn-success">Criar Venture</button>
+        {{ form_end(form) }}
+    </div>
+    <div class="col-lg-12">
+        <hr>
+        {#{{ pagination }}#}
+
+        <table class="table table-bordered table-striped table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nome</th>
+                    <th>Venture Key</th>
+                    <th>Access Token</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for seller in sellers %}
+                <tr class="product-main">
+                    <td>{{ seller.id }}</td>
+                    <td>{{ seller.name }}</td>
+                    <td>{{ seller.keyName }}</td>
+                    <td>{{ seller.accessToken }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {#{{ pagination }}#}
+
+    </div>
+</div>
+{% endblock %}

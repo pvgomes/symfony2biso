@@ -1,0 +1,70 @@
+winzou_state_machine:
+    orders_market:
+        class: AppBundle\Infrastructure\Order\Item
+        property_path: statePartner
+        graph: orders_market
+        states:
+            - market-create-order
+            - market-confirm-order
+            - market-shipped-order
+            - market-delivered-order
+            - market-delivered-fail-order
+            - market-cancel-order
+            - canceled
+        transitions:
+            on_market_confirm_order:
+                from: [market-create-order]
+                to: market-confirm-order
+            on_market_ship:
+                from: [market-confirm-order]
+                to: market-shipped-order
+            on_market_deliver:
+                from: [market-shipped-order]
+                to: market-delivered-order
+            on_market_deliver_fail:
+                from: [market-delivered-order]
+                to: market-delivered-fail-order
+            on_market_canceled:
+                from: [market-create-order, market-confirm-order]
+                to: market-cancel-order
+            on_market_ack_cancel:
+                from: [market-create-order, market-confirm-order]
+                to: canceled
+
+
+
+    orders_seller:
+        class: AppBundle\Infrastructure\Order\Item
+        property_path: stateVenture
+        graph: orders_seller
+        states:
+            - seller-create-waiting
+            - seller-create-order
+            - seller-confirm-order
+            - seller-shipped-order
+            - seller-delivered-order
+            - seller-delivered-fail-order
+            - seller-cancel-order
+            - canceled
+        transitions:
+            on_seller_create_order:
+                from: [seller-create-waiting]
+                to: seller-create-order
+            on_seller_confirm_order:
+                from: [seller-create-order]
+                to: seller-confirm-order
+            on_seller_ship:
+                from: [seller-confirm-order]
+                to: seller-shipped-order
+            on_seller_deliver:
+                from: [seller-shipped-order]
+                to: seller-delivered-order
+            on_seller_deliver_fail:
+                from: [seller-delivered-order]
+                to: seller-delivered-fail-order
+            on_seller_canceled:
+                from: [seller-create-order, seller-confirm-order]
+                to: seller-cancel-order
+            on_seller_ack_cancel:
+                from: [seller-create-order, seller-confirm-order]
+                to: canceled

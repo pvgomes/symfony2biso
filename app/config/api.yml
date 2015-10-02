@@ -43,6 +43,6 @@ nelmio_api_doc:
         default_format: "json"
       authentication:
         delivery: header
-        name: venture-access-token
+        name: seller-access-token
     motd:
       template: Components/motd.html.twig

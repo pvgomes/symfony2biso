@@ -1,0 +1,147 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Pedidos{{ parent() }}{% endblock %}
+
+{% block javascript %}
+<script src="{{ asset('js/order.js') }}"></script>
+<script src="{{ asset('components/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+<script>
+$(document).ready(function() {
+    $('.date').datepicker({
+        autoclose: true,
+        format: 'yyyy-mm-dd'
+    });
+});
+
+</script>
+{% endblock %}
+
+{% block stylesheets %}
+<link href="{{ asset('components/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% set pagination %}
+    <nav>
+        <ul class="pagination">
+            <li>
+                <a href="{{ path('order_list', {'page': 1}) }}" aria-label="Previous"{% if page == 1 %} class="disabled"{% endif %}>
+                    <span aria-hidden="true">&laquo; primeira</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('order_list', {'page': prev}) }}" aria-label="Previous"{% if page == 1 %} class="disabled"{% endif %}>
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {% for i in pageStart..pages %}
+                <li{% if i == page %} class="active"{% endif %}><a href="{{ path('order_list', {'page': i}) }}&{{ filterParam }}">{{ i }}</a></li>
+            {% endfor %}
+            <li>
+                <a href="{{ path('order_list', {'page': next}) }}" aria-label="Next"{% if page == pages %} class="disabled"{% endif %}>
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('order_list', {'page': last}) }}" aria-label="Next"{% if page == pages %} class="disabled"{% endif %}>
+                    <span aria-hidden="true">última &raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+{% endset %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">Pedidos</h2>
+        </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 10px;">
+        <div class="col-lg-12">
+            <div class="navbar-right" style="margin-right: 4px;">
+
+                {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                <div class="form-inline">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1"> <i class="fa fa-search"></i></span>
+                        {{  form_widget(form.search, {'attr': {'class': 'form-control input-sm', 'placeholder' : 'Número do Pedido', 'validate' : 'valitdate'}}) }}
+                    </div>
+
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1"> <i class="fa fa-calendar"></i></span>
+                        {{  form_widget(form.dateStart, {'attr': {'class': 'form-control input-sm date', 'placeholder':'Data Inicio'}}) }}
+                    </div>
+
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1"> <i class="fa fa-calendar"></i></span>
+                        {{  form_widget(form.dateEnd, {'attr': {'class': 'form-control input-sm date', 'placeholder':'Data Fim'}}) }}
+                    </div>
+                    <input type="submit" value="Buscar" class="btn btn-primary btn-sm">
+                    <a href="{{ path('order_export_csv') }}?{{ filterParam }}"><button type="button" class="btn btn-default btn-sm">Exportar</button></a>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+<div class="row" id="productContent">
+    <div class="col-lg-12">
+
+        <table class="table table-bordered table-striped table-hover table-condensed">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Partner</th>
+                <th>ExtShop nº</th>
+                <th>Partner nº</th>
+                <th>Venture nº</th>
+                <th>Qte Itens</th>
+                <th>Frete</th>
+                <th>Total</th>
+                <th>Criado</th>
+                <th>Atualizado</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for order in orders %}
+                <tr onClick="Order.showItems({{ order.id }})">
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.market.Name }}</td>
+                    <td class="extshop-number"><a href="{{ path('order_view',{id: order.id}) }}">{{ order.orderNumber }}</a></td>
+                    <td class="extshop-number">{{ order.marketOrderNumber }}</td>
+                    <td class="extshop-number">{{ order.sellerOrderNumber }}</td>
+                    <td class="extshop-number">{{ order.items|length }}</td>
+                    <td class="extshop-money">{{ order.freightAmount|number_format(2, ',', '.') }}</td>
+                    <td class="extshop-money">{{ order.totalAmount|number_format(2, ',', '.') }}</td>
+                    <td class="extshop-date">{{ order.createdAt|date('d/m/Y - H:i') }}</td>
+                    <td class="extshop-date">{{ order.updatedAt|date('d/m/Y - H:i') }}</td>
+                </tr>
+                <tr id="orderItems-{{ order.id }}" style="display: none">
+                    <td colspan="10">
+                        <table class="table">
+                        {% for item in order.items %}
+                            <tr>
+                                <td colspan="10">{{ item.product.name }} ({{ item.product.sku }})</td>
+                                <td>{{ item.total|number_format(2,',','.') }}</td>
+                                <td><abbr title="{{ item.statusVenture.description }}"  class="initialism">{{ item.statusVenture.name }}</abbr></td>
+                                <td><abbr title="{{ item.statusPartner.description }}"  class="initialism">{{ item.statusPartner.name }}</abbr></td>
+                            </tr>
+                        {% endfor %}
+                        </table>
+                    </td>
+                </tr>
+
+            {% else %}
+                <tr>
+                    <td colspan="10">Não há pedidos</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {{ pagination }}
+
+    </div>
+</div>
+{% endblock %}

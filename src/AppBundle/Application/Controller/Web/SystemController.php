@@ -1,0 +1,312 @@
+<?php
+
+namespace AppBundle\Application\Controller\Web;
+
+use AppBundle\Domain\Core;
+use AppBundle\Application\Core\UserForm;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Application\Controller\Pagination;
+use AppBundle\Domain\Product;
+
+class SystemController extends Pagination
+{
+
+    /**
+     * @Route("/system/partner", name="partner_list")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function partnerAction(Request $request)
+    {
+        $partnerRepository = $this->get('partner_repository');
+
+        $partner = new Core\Partner();
+        $form = $this->createFormBuilder($partner)
+            ->add('name', 'text')
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            try {
+                $partnerRepository->add($partner);
+                $this->addFlash('success', 'Partner criado com sucesso');
+
+            } catch (\Exception $exception) {
+                $this->addFlash('alert', $exception->getMessage());
+            }
+        }
+
+        $partners = $partnerRepository->getAll();
+        $viewVars['form'] = $form->createView();
+        $viewVars['partners'] = $partners;
+
+        return $this->render('web/system/partner.html.twig', $viewVars);
+    }
+
+    /**
+     * @Route("/system/seller", name="seller_list")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function sellerAction(Request $request)
+    {
+        $repositoryVenture = $this->get('seller_repository');
+
+        $seller = new Core\Venture();
+        $form = $this->createFormBuilder($seller)
+            ->add('name', 'text')
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $accessToken = strtoupper(sha1($seller->getKeyName().uniqid('',true)));
+            $seller->setAccessToken($accessToken);
+
+            try {
+                $repositoryVenture->add($seller);
+                $this->addFlash('success', 'Venture criada com sucesso');
+
+            } catch (\Exception $exception) {
+                $this->addFlash('alert', $exception->getMessage());
+            }
+        }
+
+        $sellers = $repositoryVenture->getAll();
+        $viewVars['form'] = $form->createView();
+        $viewVars['sellers'] = $sellers;
+
+        return $this->render('web/system/seller.html.twig', $viewVars);
+    }
+
+    /**
+     * @Route("/system/user", name="user_list")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function userAction(Request $request)
+    {
+        $repositoryUser = $this->get('user_repository');
+
+        $user = new Core\User();
+        $form = $this->createForm(new UserForm(), $user);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $encoder = $this->get('security.password_encoder');
+            $encoded = $encoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($encoded);
+
+            try {
+                $repositoryUser->add($user);
+                $this->addFlash('success', 'Usuário criado com sucesso');
+
+            } catch (\Exception $exception) {
+                $this->addFlash('alert', $exception->getMessage());
+            }
+        }
+
+        $users = $repositoryUser->getAll();
+
+        $viewVars['users'] = $users;
+        $viewVars['form'] = $form->createView();
+
+        return $this->render('web/system/user.html.twig', $viewVars);
+    }
+
+
+    /**
+     * @Route("/system/user/edit/{id}", name="user_edit")
+     * @param Request $request
+     * @param $id
+     * @internal param $userId
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function editUser(Request $request, $id)
+    {
+        $userRepository =  $this->get('user_repository');
+        $user = $userRepository->get($id);
+
+        $form = $this->createForm(new UserForm(), $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $encoder = $this->get('security.password_encoder');
+            $encoded = $encoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($encoded);
+
+            try {
+                $userRepository->add($user);
+                $this->addFlash('success', 'Informações do usuário atualizadas com sucesso');
+
+            } catch (\Exception $exception) {
+                $this->addFlash('alert', $exception->getMessage());
+            }
+        }
+
+        $viewVars['user'] = $user;
+        $viewVars['form'] = $form->createView();
+
+        return $this->render('web/system/user_edit.html.twig', $viewVars);
+    }
+
+
+    /**
+     * @Route("/system/configuration", name="configuration_list")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function configurationAction(Request $request)
+    {
+        $sellerKeyName = $this->getUser()->getVenture()->getKeyName();
+        $prefix = $sellerKeyName == 'gfg' ? '' : $sellerKeyName;
+
+        /**
+         * @var \Predis\Client $redisClient;
+         */
+        $redisClient = $this->get('redis.client');
+        $keys = $redisClient->keys($prefix.'*');
+
+        $configurationKeys = [];
+
+        $data = array();
+        $form = $this->createFormBuilder($data)
+            ->add('key', 'text')
+            ->add('value', 'textarea')
+            ->getForm();
+
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+            $data = $form->getData();
+            try {
+                $redisClient->set($data['key'], $data['value']);
+                $flashMsg = "Chave gravada.";
+                $flashMsgType = "success";
+            } catch (\Exception $e) {
+                $flashMsg = "Erro ao inserir a chave de configuração.";
+                $flashMsgType = "warning";
+            }
+
+            $this->addFlash($flashMsgType , $flashMsg);
+        }
+
+        $id = 1;
+        foreach ($keys as $key) {
+            if ($redisClient->type($key) == "string") {
+                $configurationKeys[$key] = ['id' => $id, 'value' => $redisClient->get($key)];
+            }
+            $id++;
+        }
+
+        $viewVars['form'] = $form->createView();
+        $viewVars['configuration_keys'] = $configurationKeys;
+
+        return $this->render('web/system/configuration.html.twig', $viewVars);
+    }
+
+
+    /**
+     * @Route("/system/account", name="my_account")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function accountAction(Request $request)
+    {
+        $user = $this->getUser();
+        $form = $this->createForm(new UserForm(), $user);
+        $form->remove('userRole');
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $encoder = $this->get('security.password_encoder');
+                $encoded = $encoder->encodePassword($user, $user->getPassword());
+                $user->setPassword($encoded);
+
+                $userRepository =  $this->get('user_repository');
+                $userRepository->add($user);
+                $this->addFlash('success', 'Informações de conta atualizadas');
+
+            } catch (\Exception $exception) {
+                $this->addFlash('alert', $exception->getMessage());
+            }
+        }
+
+        $viewVars['form'] = $form->createView();
+        $viewVars['user'] = $user;
+
+        return $this->render('web/system/user_edit.html.twig', $viewVars);
+    }
+
+    /**
+     * @Route("/system/removekey", name="remove_key", condition="request.isXmlHttpRequest()")
+     */
+    public function removekeyAction(Request $request)
+    {
+        $isRemoved = true;
+
+        try {
+            $key = $request->get('key');
+            /**
+             * @var \Predis\Client $redisClient;
+             */
+            $redisClient = $this->get('redis.client');
+            $redisClient->del([$key]);
+        } catch (\Exception $e) {
+            $isRemoved = false;
+        }
+
+        return new JsonResponse(['isRemoved' => $isRemoved]);
+    }
+
+    /**
+     * @Route("/system/updatekey", name="update_key", condition="request.isXmlHttpRequest()")
+     */
+    public function updatekeyAction(Request $request)
+    {
+        $isUpdated = true;
+
+        try {
+            $key = $request->get('key');
+            $value = $request->get('value');
+            /**
+             * @var \Predis\Client $redisClient;
+             */
+            $redisClient = $this->get('redis.client');
+            $redisClient->set($key, $value);
+        } catch (\Exception $e) {
+            $isUpdated = false;
+        }
+
+        return new JsonResponse(['isUpdated' => $isUpdated]);
+    }
+
+    /**
+     * @Route("/system/productcache", name="product_cache", condition="request.isXmlHttpRequest()")
+     */
+    public function productcacheAction(Request $request)
+    {
+        $isProductsCached = true;
+
+        try {
+            /** @var \AppBundle\Domain\Core\User $user */
+            $user = $this->getUser();
+            /** @var \AppBundle\Domain\Core\Venture $seller */
+            $seller = $user->getVenture();
+            /** @var \AppBundle\Domain\Core\ConfigurationService $configurationService */
+            $configurationService = $this->get('configuration_service');
+            $configurationService->warmUpProductCache($seller);
+        } catch (\Exception $e) {
+            $isProductsCached = false;
+        }
+
+        return new JsonResponse(['isProductsCached' => $isProductsCached]);
+    }
+
+}

@@ -11,8 +11,6 @@ use AppBundle\Domain\Product\Category;
 
 /**
  * LoadAppData.
- *
- * @author Mario Rezende
  */
 class LoadProductData extends AbstractFixture implements OrderedFixtureInterface
 {
@@ -492,7 +490,7 @@ EOD;
             [
                 'skuVenture' => 'HA032TO39BOQTRI-237547',
                 'skuPartner' => 3499903,
-                'venture' => $rawVentureProduct1,
+                'seller' => $rawVentureProduct1,
                 'partner' => $rawPartnerProduct1,
                 'categoryId' => 960,
                 'categoryName' => 'Lançadores, Piões e Batalhas',
@@ -501,7 +499,7 @@ EOD;
             [
                 'skuVenture' => 'DI017AC36EGD-6459',
                 'skuPartner' => 32708,
-                'venture' => $rawVentureProduct2,
+                'seller' => $rawVentureProduct2,
                 'partner' => $rawPartnerProduct2,
                 'categoryId' => 220,
                 'categoryName' => 'Cadeira Descanso Outlet B',
@@ -529,7 +527,7 @@ EOD;
 
             $product = new Product();
             $product->setSku($rawData['skuVenture']);
-            $product->setProductAttributes($rawData['venture']);
+            $product->setProductAttributes($rawData['seller']);
             $product->setVenture($tricaeVenture);
             $product->setCategory($category);
             $product->setName($product->getName());
