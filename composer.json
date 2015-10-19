@@ -33,7 +33,8 @@
         "symfony/swiftmailer-bundle":           "2.3.*",
         "symfony/symfony":                      "2.7.*",
         "twig/twig":                            "1.21.*",
-        "winzou/state-machine-bundle":          "0.2.*"
+        "winzou/state-machine-bundle":          "0.2.*",
+        "biso":          "dev-master"
     },
     "repositories": [
       {

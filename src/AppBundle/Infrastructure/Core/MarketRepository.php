@@ -5,7 +5,7 @@ namespace AppBundle\Infrastructure\Core;
 use AppBundle\Infrastructure;
 
 
-class MarketRepository extends EntityRepository
+class MarketRepository extends EntityRepository implements \Domain\Core\MarketRepository
 {
     private $entityPath = 'AppBundle\Infrastructure\Core\Market';
 
@@ -43,8 +43,9 @@ class MarketRepository extends EntityRepository
         return $market;
     }
 
-    public function add(Infrastructure\Core\Market $market)
+    public function add(\Domain\Core\Market $market)
     {
+        $market =
         $this->getEntityManager()->persist($market);
         $this->getEntityManager()->flush();
     }

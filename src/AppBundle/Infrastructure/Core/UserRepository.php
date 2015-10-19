@@ -4,7 +4,7 @@ namespace AppBundle\Infrastructure\Core;
 
 use AppBundle\Infrastructure;
 
-class UserRepository extends EntityRepository
+class UserRepository extends EntityRepository implements \Domain\Core\UserRepository
 {
     private $entityPath = 'AppBundle\Infrastructure\Core\User';
 
