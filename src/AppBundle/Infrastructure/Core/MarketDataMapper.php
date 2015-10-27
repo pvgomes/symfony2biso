@@ -5,7 +5,9 @@ namespace AppBundle\Infrastructure\Core;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-class MarketDataMapper implements \Domain\Core\DataMapper
+use \Domain as Domain;
+
+class MarketDataMapper implements Domain\Core\DataMapper
 {
 
     private static $instance = null;
@@ -30,7 +32,14 @@ class MarketDataMapper implements \Domain\Core\DataMapper
 
     public function assign($marketInfrastructure)
     {
+        if (!$marketInfrastructure instanceof Market) {
+            throw new \DomainException("Invalid Market");
+        }
+        $marketDomain = new Domain\Core\Market();
+        $marketDomain->setName($marketInfrastructure->getName());
 
+
+        return $marketDomain;
     }
 
     public function assignFull($marketInfrastructure)
@@ -40,7 +49,15 @@ class MarketDataMapper implements \Domain\Core\DataMapper
 
     public function map($marketDomain)
     {
-        return $marketDomain;
+        if (!$marketDomain instanceof Domain\Core\Market) {
+            throw new \DomainException("Invalid Market");
+        }
+        $marketInfrastructure = new Market();
+        $marketInfrastructure->setId($marketDomain->getId());
+        $marketInfrastructure->setName($marketDomain->getName());
+        $marketInfrastructure->setKeyName($marketDomain->getKeyName());
+
+        return $marketInfrastructure;
     }
 
 }

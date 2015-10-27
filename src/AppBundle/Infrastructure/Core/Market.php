@@ -53,6 +53,14 @@ class Market
     private $configuration;
 
     /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
      * Get id.
      *
      * @return int
