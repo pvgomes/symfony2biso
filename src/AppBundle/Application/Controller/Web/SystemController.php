@@ -2,6 +2,7 @@
 
 namespace AppBundle\Application\Controller\Web;
 
+use AppBundle\Application\Core\CreateMarketCommand;
 use AppBundle\Infrastructure\Core;
 use AppBundle\Application\Core\UserForm;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -20,7 +21,8 @@ class SystemController extends Pagination
      */
     public function marketAction(Request $request)
     {
-        $marketRepository = $this->get('market_repository');
+        /** @var \AppBundle\Application\CommandBus\CommandBus $commandBus */
+        $commandBus = $this->get('command_bus');
 
         $market = new Core\Market();
         $form = $this->createFormBuilder($market)
@@ -32,17 +34,17 @@ class SystemController extends Pagination
         if ($form->isSubmitted() && $form->isValid()) {
 
             try {
-                $marketRepository->add($market);
-                $this->addFlash('success', 'Market criado com sucesso');
+                $createMarketCommand = new CreateMarketCommand($market);
+                $commandBus->execute($createMarketCommand);
+                $this->addFlash('success', 'Mercado criado com sucesso');
 
             } catch (\Exception $exception) {
                 $this->addFlash('alert', $exception->getMessage());
             }
         }
 
-        $markets = $marketRepository->getAll();
         $viewVars['form'] = $form->createView();
-        $viewVars['markets'] = $markets;
+        $viewVars['markets'] = [];
 
         return $this->render('web/system/market.html.twig', $viewVars);
     }

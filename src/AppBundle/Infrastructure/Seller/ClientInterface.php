@@ -2,47 +2,77 @@
 
 namespace AppBundle\Infrastructure\Seller;
 
-use Predis;
+use AppBundle\Infrastructure\Core;
+use AppBundle\Infrastructure\Order\Order;
 
-/**
- * ClientInterface.
- *
- * @author Mario Rezende
- */
 interface ClientInterface
 {
-    /**
-     * @param Predis\Client $client
-     */
-    public function __construct(Predis\Client $client);
+    public function __construct();
+
+    public function create($sendData);
+
 
     /**
-     * @param string $key
+     * Create again a product on Market.
      *
-     * @return bool
-     */
-    public function exists($key);
-
-    /**
-     * @param string $key
+     * @param string $sendData
      *
-     * @return array
+     * @return string Response content
+     * @throws \Exception
      */
-    public function get($key);
+    public function reCreate($sendData);
 
     /**
-     * Add the specified members to the set stored at key
-     * @param string $key
-     * @param array $members
-     * @return mixed
+     * @param string $skuId
+     * @param $sendData
+     * @return string Response content
      */
-    public function sadd($key, array $members);
+    public function updateProduct($skuId, $sendData);
 
     /**
-     * Returns if member is a member of the set stored at key.
-     * @param $key
-     * @param $member
-     * @return boolean
+     * Update Product Price on Market
+     *
+     * @param $skuId
+     * @param $price
+     * @return string Response content
+     * @throws \Exception
      */
-    public function sismember($key, $member);
+    public function updatePrice($skuId, $price, $specialPrice);
+
+    /**
+     * Update Product Stock on Market
+     *
+     * @param $skuId
+     * @param $stock
+     *
+     * @return string Response content
+     * @throws \Exception
+     */
+    public function updateStock($skuId, $stock);
+
+    public function products($page = 1, $limit = 20);
+
+    /**
+     * @param Order $order
+     * @param string $message
+     * @return string Response content
+     * @throws \Exception
+     */
+    public function cancelOrder(Order $order, $message);
+
+    /**
+     * @param Order $order
+     * @param $message
+     * @return string Response content
+     * @throws \Exception
+     */
+    public function shipOrder(Order $order, $message);
+
+    /**
+     * @param Order $order
+     * @param string $message
+     * @return string Response content
+     * @throws \Exception
+     */
+    public function deliverOrder(Order $order, $message);
 }

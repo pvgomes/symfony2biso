@@ -9,16 +9,8 @@ use AppBundle\Infrastructure\Order\Order;
 interface ClientInterface
 {
 
-    public function __construct(Core\Market $market, BusinessContext $context);
+    public function __construct();
 
-    /**
-     * Create Product on Market.
-     *
-     * @param string $sendData
-     *
-     * @return string Response content
-     * @throws \Exception
-     */
     public function create($sendData);
 
 
