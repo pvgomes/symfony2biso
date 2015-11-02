@@ -3,10 +3,35 @@
 namespace AppBundle\Infrastructure\Core;
 
 use AppBundle\Infrastructure;
+use Domain\Core\Domain;
+use \Domain\Core\Seller;
 
-class SellerRepository extends EntityRepository
+class SellerRepository extends EntityRepository implements \Domain\Core\SellerRepository
 {
+
     private $entityPath = 'AppBundle\Infrastructure\Core\Seller';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function get($id)
+    {
+        $repository = $this->getRepository();
+        return $repository->find($id);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAll()
+    {
+        $repository = $this->getRepository()
+            ->createQueryBuilder('p')
+            ->orderBy('p.createdAt', 'DESC')
+            ->getQuery();
+
+        return $repository->getResult();
+    }
 
     /**
      * {@inheritdoc}
@@ -19,10 +44,15 @@ class SellerRepository extends EntityRepository
         return $seller;
     }
 
-    public function add(Infrastructure\Core\Seller $seller)
+    /**
+     * {@inheritdoc}
+     */
+    public function add(Seller $seller)
     {
+        $seller = SellerDataMapper::getInstance()->map($seller);
         $this->getEntityManager()->persist($seller);
         $this->getEntityManager()->flush($seller);
+        return $seller;
     }
 
     /**
@@ -32,4 +62,5 @@ class SellerRepository extends EntityRepository
     {
         return $this->entityPath;
     }
+
 }
