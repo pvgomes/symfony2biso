@@ -170,9 +170,6 @@ class SystemController extends Controller
         /** @var \AppBundle\Application\CommandBus\CommandBus $commandBus */
         $commandBus = $this->get("command_bus");
 
-        /** @var \AppBundle\Infrastructure\Core\ConfigurationRepository $configurationRepository */
-        $configurationRepository = $this->get('configuration_repository');
-
         $data = array();
         $form = $this->createFormBuilder($data)
             ->add('key', 'text')
@@ -198,10 +195,8 @@ class SystemController extends Controller
             $this->addFlash($flashMsgType , $flashMsg);
         }
 
-        $configurationKeys = $configurationRepository->getByVenture($this->getUser()->getVenture());
-
         $viewVars['form'] = $form->createView();
-        $viewVars['configurations'] = $configurationKeys;
+        $viewVars['configurations'] = [];
 
         return $this->render('web/system/configuration.html.twig', $viewVars);
     }

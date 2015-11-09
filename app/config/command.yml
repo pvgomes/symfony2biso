@@ -2,4 +2,9 @@ services:
 
     command_bus:
         class: AppBundle\Application\CommandBus\CommandBus
-        arguments: ["@service_container"]
+        arguments:
+            - "@service_container"
+            - "@command_inflector"
+
+    command_inflector:
+        class: AppBundle\Application\CommandBus\CommandNameInflector
