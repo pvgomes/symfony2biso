@@ -39,7 +39,7 @@ interface ClientInterface
      */
     public function updatePrice($skuId, $price, $specialPrice);
 
-    /**
+    /**Importer
      * Update Product Stock on Market
      *
      * @param $skuId
