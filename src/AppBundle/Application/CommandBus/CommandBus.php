@@ -3,9 +3,10 @@
 namespace AppBundle\Application\CommandBus;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Domain;
 
-class CommandBus implements CommandBusInterface {
-
+class CommandBus implements Domain\CommandBus
+{
     /**
      * @param ContainerInterface $serviceContainer
      */
@@ -22,7 +23,7 @@ class CommandBus implements CommandBusInterface {
         $this->inflector = $inflector;
     }
 
-    public function execute(CommandInterface $command)
+    public function execute(Domain\Command $command)
     {
         return $this->getHandler($command)->handle($command);
     }

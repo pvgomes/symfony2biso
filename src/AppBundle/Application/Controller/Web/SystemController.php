@@ -2,16 +2,18 @@
 
 namespace AppBundle\Application\Controller\Web;
 
+use AppBundle\Application\Core\CreateConfigurationCommand;
 use AppBundle\Application\Core\CreateMarketCommand;
 use AppBundle\Infrastructure\Core;
 use AppBundle\Application\Core\UserForm;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Application\Controller\Pagination;
 use AppBundle\Infrastructure\Product;
 
-class SystemController extends Pagination
+class SystemController extends Controller
 {
 
     /**
@@ -165,16 +167,11 @@ class SystemController extends Pagination
      */
     public function configurationAction(Request $request)
     {
-        $sellerKeyName = $this->getUser()->getSeller()->getKeyName();
-        $prefix = $sellerKeyName == 'gfg' ? '' : $sellerKeyName;
+        /** @var \AppBundle\Application\CommandBus\CommandBus $commandBus */
+        $commandBus = $this->get("command_bus");
 
-        /**
-         * @var \Predis\Client $redisClient;
-         */
-        $redisClient = $this->get('redis.client');
-        $keys = $redisClient->keys($prefix.'*');
-
-        $configurationKeys = [];
+        /** @var \AppBundle\Infrastructure\Core\ConfigurationRepository $configurationRepository */
+        $configurationRepository = $this->get('configuration_repository');
 
         $data = array();
         $form = $this->createFormBuilder($data)
@@ -186,9 +183,13 @@ class SystemController extends Pagination
             $form->handleRequest($request);
             $data = $form->getData();
             try {
-                $redisClient->set($data['key'], $data['value']);
+                $createConfigurationCommand = new CreateConfigurationCommand($this->getUser()->getVenture(), $data['key'], $data['value']);
+                $commandBus->execute($createConfigurationCommand);
                 $flashMsg = "Chave gravada.";
                 $flashMsgType = "success";
+            } catch (\DomainException $e) {
+                $flashMsg = $e->getMessage();
+                $flashMsgType = "warning";
             } catch (\Exception $e) {
                 $flashMsg = "Erro ao inserir a chave de configuração.";
                 $flashMsgType = "warning";
@@ -197,16 +198,10 @@ class SystemController extends Pagination
             $this->addFlash($flashMsgType , $flashMsg);
         }
 
-        $id = 1;
-        foreach ($keys as $key) {
-            if ($redisClient->type($key) == "string") {
-                $configurationKeys[$key] = ['id' => $id, 'value' => $redisClient->get($key)];
-            }
-            $id++;
-        }
+        $configurationKeys = $configurationRepository->getByVenture($this->getUser()->getVenture());
 
         $viewVars['form'] = $form->createView();
-        $viewVars['configuration_keys'] = $configurationKeys;
+        $viewVars['configurations'] = $configurationKeys;
 
         return $this->render('web/system/configuration.html.twig', $viewVars);
     }
