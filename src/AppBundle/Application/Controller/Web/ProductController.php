@@ -4,6 +4,7 @@ namespace AppBundle\Application\Controller\Web;
 
 use AppBundle\Infrastructure\Product\ProductContext;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -12,7 +13,7 @@ use AppBundle\Application\AppEvents;
 use AppBundle\Application\Product\LoadProductType;
 use AppBundle\Infrastructure\Product;
 
-class ProductController extends Pagination
+class ProductController extends Controller
 {
     /**
      * @Route("/product/list", name="product_list")
