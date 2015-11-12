@@ -29,9 +29,14 @@ class CreateConfigurationCommand implements Domain\Command
         $this->configuration->setMarket($market);
     }
 
-    public function getDomainEntity()
+    public function domainEntity()
     {
         return ConfigurationDataMapper::getInstance()->assignFull($this->configuration);
+    }
+
+    public function resourceName()
+    {
+        return 'configuration';
     }
 
 }

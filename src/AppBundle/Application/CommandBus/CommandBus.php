@@ -28,7 +28,7 @@ class CommandBus implements Domain\CommandBus
         return $this->getHandler($command)->handle($command);
     }
 
-    private function getHandler($command)
+    private function getHandler(Domain\Command $command)
     {
         $handlerName = $this->inflector->getHandler($command);
 
@@ -36,7 +36,7 @@ class CommandBus implements Domain\CommandBus
             throw new \InvalidArgumentException("command doesn't exists");
         }
 
-        $handler = new $handlerName($this->container->get('configuration_repository'));
+        $handler = new $handlerName($this->container->get($command->resourceName().'_repository'));
 
         if (!$handler instanceof Domain\Handler) {
             throw new \DomainException("invalid handler");
