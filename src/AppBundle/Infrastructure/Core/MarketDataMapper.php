@@ -36,8 +36,9 @@ class MarketDataMapper implements Domain\Core\DataMapper
             throw new \DomainException("Invalid Market");
         }
         $marketDomain = new Domain\Core\Market();
+        $marketDomain->setId($marketInfrastructure->getId());
         $marketDomain->setName($marketInfrastructure->getName());
-
+        $marketDomain->setKeyName($marketInfrastructure->getKeyName());
 
         return $marketDomain;
     }

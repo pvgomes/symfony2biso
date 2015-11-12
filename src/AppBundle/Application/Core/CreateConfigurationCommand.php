@@ -3,16 +3,15 @@
 
 namespace AppBundle\Application\Core;
 
-use AppBundle\Infrastructure\Core\Configuration;
-use AppBundle\Infrastructure\Core\ConfigurationDataMapper;
 use AppBundle\Infrastructure\Core\Market;
+use AppBundle\Infrastructure\Core\MarketDataMapper;
 use Domain;
 
 class CreateConfigurationCommand implements Domain\Command
 {
 
     /**
-     * @var \AppBundle\Infrastructure\Core\Configuration
+     * @var \Domain\Core\Configuration
      */
     private $configuration;
 
@@ -23,15 +22,15 @@ class CreateConfigurationCommand implements Domain\Command
      */
     public function __construct(Market $market, $key, $value)
     {
-        $this->configuration = new Configuration();
+        $this->configuration = new Domain\Core\Configuration();
         $this->configuration->setKey($key);
         $this->configuration->setValue($value);
-        $this->configuration->setMarket($market);
+        $this->configuration->setMarket(MarketDataMapper::getInstance()->assign($market));
     }
 
     public function domainEntity()
     {
-        return ConfigurationDataMapper::getInstance()->assignFull($this->configuration);
+        return $this->configuration;
     }
 
     public function resourceName()
