@@ -23,11 +23,11 @@ class User implements UserInterface, \Serializable
     private $id;
 
     /**
-     * @var Seller
-     * @ORM\ManyToOne(targetEntity="Seller")
-     * @ORM\JoinColumn(name="fk_seller", referencedColumnName="id")
+     * @var Market
+     * @ORM\ManyToOne(targetEntity="Market")
+     * @ORM\JoinColumn(name="fk_market", referencedColumnName="id")
      **/
-    private $seller;
+    private $market;
 
     /**
      * @var string
@@ -94,27 +94,19 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * Set seller.
-     *
-     * @param seller $seller
-     *
-     * @return User
+     * @return Market
      */
-    public function setSeller(Seller $seller = null)
+    public function getMarket()
     {
-        $this->seller = $seller;
-
-        return $this;
+        return $this->market;
     }
 
     /**
-     * Get seller.
-     *
-     * @return seller
+     * @param Market $market
      */
-    public function getSeller()
+    public function setMarket(Market $market)
     {
-        return $this->seller;
+        $this->market = $market;
     }
 
     /**

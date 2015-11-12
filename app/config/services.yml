@@ -28,10 +28,6 @@ services:
 
 # Symfony2Biso ----------------------------------------------------------------
 
-    command_bus:
-        class: AppBundle\Application\CommandBus\CommandBus
-        arguments: ["@service_container"]
-
     app.tokens.action_listener:
         class: AppBundle\Application\Api\v1\Auth\TokenListener
         arguments: ["@seller_repository"]
@@ -44,6 +40,12 @@ services:
         factory_service: doctrine.orm.entity_manager
         factory_method: getRepository
         arguments: ["AppBundle\\Infrastructure\\Core\\User"]
+
+    configuration_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+        arguments: ["AppBundle\\Infrastructure\\Core\\Configuration"]
 
     market_repository:
         class: Doctrine\ORM\EntityRepository

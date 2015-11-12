@@ -106,7 +106,7 @@ class Configuration
      *
      * @return Configuration
      */
-    public function setVenture(Market $market)
+    public function setMarket(Market $market)
     {
         $this->market = $market;
 
