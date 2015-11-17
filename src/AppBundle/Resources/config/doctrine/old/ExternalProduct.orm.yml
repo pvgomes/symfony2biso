@@ -1,0 +1,68 @@
+AppBundle\Entity\ExternalProduct:
+    type: entity
+    table: external_product
+    indexes:
+        IDX_AE8DDEE4B02ED5B:
+            columns:
+                - fk_market
+        IDX_AE8DDEE23653981:
+            columns:
+                - fk_product
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        sku:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+        json:
+            type: text
+            nullable: true
+            length: null
+            options:
+                fixed: false
+        status:
+            type: string
+            nullable: false
+            length: 30
+            options:
+                fixed: false
+        createdAt:
+            type: datetime
+            nullable: false
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            column: updated_at
+    manyToOne:
+        fkProduct:
+            targetEntity: Product
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                fk_product:
+                    referencedColumnName: id
+            orphanRemoval: false
+        fkMarket:
+            targetEntity: Market
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                fk_market:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

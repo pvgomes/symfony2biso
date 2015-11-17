@@ -1,0 +1,70 @@
+AppBundle\Entity\SalesOrderItemStatusHistory:
+    type: entity
+    table: sales_order_item_status_history
+    indexes:
+        IDX_5435BE7C9325FB20:
+            columns:
+                - fk_item
+        IDX_5435BE7C963867C1:
+            columns:
+                - fk_sales_order_item_status_market
+        IDX_5435BE7C68E31F6:
+            columns:
+                - fk_sales_order_item_status_seller
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        eventName:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: event_name
+        createdAt:
+            type: datetime
+            nullable: false
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            column: updated_at
+    manyToOne:
+        fkSalesOrderItemStatusSeller:
+            targetEntity: SalesOrderItemStatus
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                fk_sales_order_item_status_seller:
+                    referencedColumnName: id
+            orphanRemoval: false
+        fkItem:
+            targetEntity: SalesOrderItem
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                fk_item:
+                    referencedColumnName: id
+            orphanRemoval: false
+        fkSalesOrderItemStatusMarket:
+            targetEntity: SalesOrderItemStatus
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                fk_sales_order_item_status_market:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

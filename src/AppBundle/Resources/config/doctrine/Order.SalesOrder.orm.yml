@@ -1,0 +1,90 @@
+AppBundle\Entity\SalesOrder:
+    type: entity
+    table: sales_order
+    indexes:
+        IDX_36D222EDBB4BB6C:
+            columns:
+                - fk_seller
+        IDX_36D222E4B02ED5B:
+            columns:
+                - fk_market
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        orderNumber:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: order_number
+        marketOrderNumber:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+            column: market_order_number
+        sellerOrderNumber:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: seller_order_number
+        totalAmount:
+            type: decimal
+            nullable: false
+            precision: 10
+            scale: 2
+            column: total_amount
+        freightAmount:
+            type: decimal
+            nullable: false
+            precision: 10
+            scale: 2
+            column: freight_amount
+        rawData:
+            type: text
+            nullable: false
+            length: null
+            options:
+                fixed: false
+            column: raw_data
+        createdAt:
+            type: datetime
+            nullable: false
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            column: updated_at
+    manyToOne:
+        fkMarket:
+            targetEntity: Market
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                fk_market:
+                    referencedColumnName: id
+            orphanRemoval: false
+        fkSeller:
+            targetEntity: Seller
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                fk_seller:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

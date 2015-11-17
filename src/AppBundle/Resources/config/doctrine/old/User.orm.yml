@@ -1,0 +1,81 @@
+AppBundle\Entity\User:
+    type: entity
+    table: user
+    indexes:
+        IDX_8D93D6494B02ED5B:
+            columns:
+                - fk_market
+    uniqueConstraints:
+        UNIQ_8D93D649F85E0677:
+            columns:
+                - username
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        username:
+            type: string
+            nullable: false
+            length: 30
+            options:
+                fixed: false
+        name:
+            type: string
+            nullable: false
+            length: 100
+            options:
+                fixed: false
+        password:
+            type: string
+            nullable: false
+            length: 64
+            options:
+                fixed: false
+        isActive:
+            type: boolean
+            nullable: false
+            column: is_active
+        createdAt:
+            type: datetime
+            nullable: false
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            column: updated_at
+    manyToOne:
+        fkMarket:
+            targetEntity: Market
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                fk_market:
+                    referencedColumnName: id
+            orphanRemoval: false
+    manyToMany:
+        fkUserRole:
+            targetEntity: UserRole
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: fkUser
+            joinTable:
+                name: users_role
+                joinColumns:
+                    -
+                        name: fk_user
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    -
+                        name: fk_user_role
+                        referencedColumnName: id
+            orderBy: null
+    lifecycleCallbacks: {  }

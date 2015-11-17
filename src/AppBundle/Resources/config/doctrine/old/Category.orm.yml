@@ -1,0 +1,69 @@
+AppBundle\Entity\Category:
+    type: entity
+    table: category
+    indexes:
+        IDX_64C19C1DBB4BB6C:
+            columns:
+                - fk_seller
+    uniqueConstraints:
+        name_seller:
+            columns:
+                - name_key
+                - fk_seller
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        categorySellerId:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+            column: category_seller_id
+        categoryAttributes:
+            type: array
+            nullable: false
+            length: null
+            options:
+                fixed: false
+            column: category_attributes
+        name:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        nameKey:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+            column: name_key
+        createdAt:
+            type: datetime
+            nullable: false
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            column: updated_at
+    manyToOne:
+        fkSeller:
+            targetEntity: Seller
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                fk_seller:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

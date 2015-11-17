@@ -1,0 +1,47 @@
+AppBundle\Entity\UserRole:
+    type: entity
+    table: user_role
+    uniqueConstraints:
+        UNIQ_2DE8C6A35E237E06:
+            columns:
+                - name
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        description:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        createdAt:
+            type: datetime
+            nullable: false
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            column: updated_at
+    manyToMany:
+        fkUser:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: fkUserRole
+            inversedBy: null
+            joinTable: null
+            orderBy: null
+    lifecycleCallbacks: {  }

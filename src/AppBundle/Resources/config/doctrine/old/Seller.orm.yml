@@ -1,0 +1,46 @@
+AppBundle\Entity\Seller:
+    type: entity
+    table: seller
+    uniqueConstraints:
+        UNIQ_FB1AD3FCD824A5CF:
+            columns:
+                - key_name
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        keyName:
+            type: string
+            nullable: false
+            length: 60
+            options:
+                fixed: false
+            column: key_name
+        accessToken:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: access_token
+        createdAt:
+            type: datetime
+            nullable: false
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            column: updated_at
+    lifecycleCallbacks: {  }

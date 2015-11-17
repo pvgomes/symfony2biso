@@ -522,46 +522,4 @@ class Order
             $item->addAdditionals(Item::ADDITIONALS_TRACKING, $tracking);
         }
     }
-
-    /**
-     * Set orderNumber
-     *
-     * @param string $orderNumber
-     *
-     * @return Order
-     */
-    public function setOrderNumber($orderNumber)
-    {
-        $this->orderNumber = $orderNumber;
-
-        return $this;
-    }
-
-    /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     *
-     * @return Order
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * Set updatedAt
-     *
-     * @param \DateTime $updatedAt
-     *
-     * @return Order
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
 }
