@@ -1,4 +1,4 @@
-AppBundle\Entity\UserRole:
+Domain\Core\UserRole:
     type: entity
     table: user_role
     uniqueConstraints:
@@ -36,11 +36,11 @@ AppBundle\Entity\UserRole:
             nullable: false
             column: updated_at
     manyToMany:
-        fkUser:
+        users:
             targetEntity: User
             cascade: {  }
             fetch: LAZY
-            mappedBy: fkUserRole
+            mappedBy: roles
             inversedBy: null
             joinTable: null
             orderBy: null

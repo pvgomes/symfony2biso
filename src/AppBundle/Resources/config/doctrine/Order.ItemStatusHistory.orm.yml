@@ -1,4 +1,4 @@
-Domain\Core\SalesOrderItemStatusHistory:
+Domain\Order\ItemStatusHistory:
     type: entity
     table: sales_order_item_status_history
     indexes:
@@ -37,8 +37,8 @@ Domain\Core\SalesOrderItemStatusHistory:
             nullable: false
             column: updated_at
     manyToOne:
-        fkSalesOrderItemStatusSeller:
-            targetEntity: SalesOrderItemStatus
+        statusSeller:
+            targetEntity: ItemStatus
             cascade: {  }
             fetch: LAZY
             mappedBy: null
@@ -47,8 +47,8 @@ Domain\Core\SalesOrderItemStatusHistory:
                 fk_sales_order_item_status_seller:
                     referencedColumnName: id
             orphanRemoval: false
-        fkItem:
-            targetEntity: SalesOrderItem
+        item:
+            targetEntity: Item
             cascade: {  }
             fetch: LAZY
             mappedBy: null
@@ -57,8 +57,8 @@ Domain\Core\SalesOrderItemStatusHistory:
                 fk_item:
                     referencedColumnName: id
             orphanRemoval: false
-        fkSalesOrderItemStatusMarket:
-            targetEntity: SalesOrderItemStatus
+        statusMarket:
+            targetEntity: ItemStatus
             cascade: {  }
             fetch: LAZY
             mappedBy: null

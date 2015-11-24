@@ -1,4 +1,4 @@
-AppBundle\Entity\LoadProductReport:
+Domain\Product\LoadProductReport:
     type: entity
     table: load_product_report
     indexes:
@@ -45,7 +45,7 @@ AppBundle\Entity\LoadProductReport:
             nullable: false
             column: updated_at
     manyToOne:
-        fkLoadProduct:
+        loadProduct:
             targetEntity: LoadProduct
             cascade: {  }
             fetch: LAZY
@@ -55,8 +55,8 @@ AppBundle\Entity\LoadProductReport:
                 fk_load_product:
                     referencedColumnName: id
             orphanRemoval: false
-        fkMarket:
-            targetEntity: Market
+        market:
+            targetEntity: Domain\Core\Market
             cascade: {  }
             fetch: LAZY
             mappedBy: null

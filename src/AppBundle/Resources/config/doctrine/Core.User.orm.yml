@@ -1,4 +1,4 @@
-\Domain\Core\User:
+Domain\Core\User:
     type: entity
     table: user
     indexes:
@@ -50,7 +50,7 @@
             nullable: false
             column: updated_at
     manyToOne:
-        fkMarket:
+        market:
             targetEntity: Market
             cascade: {  }
             fetch: LAZY
@@ -61,12 +61,12 @@
                     referencedColumnName: id
             orphanRemoval: false
     manyToMany:
-        fkUserRole:
+        roles:
             targetEntity: UserRole
             cascade: {  }
             fetch: LAZY
             mappedBy: null
-            inversedBy: fkUser
+            inversedBy: users
             joinTable:
                 name: users_role
                 joinColumns:

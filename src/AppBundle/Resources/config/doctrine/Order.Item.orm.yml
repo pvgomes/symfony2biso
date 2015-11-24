@@ -1,4 +1,4 @@
-Domain\Order\SalesOrderItem:
+Domain\Order\Item:
     type: entity
     table: sales_order_item
     indexes:
@@ -24,7 +24,7 @@ Domain\Order\SalesOrderItem:
             generator:
                 strategy: IDENTITY
     fields:
-        totalAmount:
+        total:
             type: float
             nullable: false
             precision: 10
@@ -63,7 +63,7 @@ Domain\Order\SalesOrderItem:
                     referencedColumnName: id
             orphanRemoval: false
         order:
-            targetEntity: SalesOrder
+            targetEntity: Order
             cascade: {  }
             fetch: LAZY
             mappedBy: null
@@ -72,7 +72,7 @@ Domain\Order\SalesOrderItem:
                 fk_order:
                     referencedColumnName: id
             orphanRemoval: false
-        salesOrderItemStatusSeller:
+        stateSeller:
             targetEntity: ItemStatus
             cascade: {  }
             fetch: LAZY
@@ -82,7 +82,7 @@ Domain\Order\SalesOrderItem:
                 fk_sales_order_item_status_seller:
                     referencedColumnName: id
             orphanRemoval: false
-        salesOrderItemStatusMarket:
+        stateMarket:
             targetEntity: ItemStatus
             cascade: {  }
             fetch: LAZY

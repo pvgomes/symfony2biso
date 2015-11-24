@@ -1,4 +1,4 @@
-AppBundle\Entity\SalesOrder:
+Domain\Order\Order:
     type: entity
     table: sales_order
     indexes:
@@ -67,8 +67,8 @@ AppBundle\Entity\SalesOrder:
             nullable: false
             column: updated_at
     manyToOne:
-        fkMarket:
-            targetEntity: Market
+        market:
+            targetEntity: Domain\Core\Market
             cascade: {  }
             fetch: LAZY
             mappedBy: null
@@ -77,8 +77,8 @@ AppBundle\Entity\SalesOrder:
                 fk_market:
                     referencedColumnName: id
             orphanRemoval: false
-        fkSeller:
-            targetEntity: Seller
+        seller:
+            targetEntity: Domain\Core\Seller
             cascade: {  }
             fetch: LAZY
             mappedBy: null

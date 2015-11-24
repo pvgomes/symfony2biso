@@ -1,4 +1,4 @@
-AppBundle\Entity\Market:
+Domain\Core\Market:
     type: entity
     table: market
     uniqueConstraints:
