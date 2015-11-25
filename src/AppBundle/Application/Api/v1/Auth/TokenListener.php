@@ -1,7 +1,8 @@
 <?php
 namespace AppBundle\Application\Api\v1\Auth;
 
-use AppBundle\Infrastructure\Core\SellerRepository;
+use Doctrine\ORM\EntityRepository;
+use Domain\Core\SellerRepository;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -14,7 +15,7 @@ class TokenListener {
     private $sellerRepository;
 
 
-    public function __construct(SellerRepository $sellerRepository)
+    public function __construct(EntityRepository $sellerRepository)
     {
         $this->sellerRepository = $sellerRepository;
     }

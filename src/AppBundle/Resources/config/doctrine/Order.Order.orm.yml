@@ -1,4 +1,4 @@
-Domain\Order\Order:
+AppBundle\Infrastructure\Order\Order:
     type: entity
     table: sales_order
     indexes:
@@ -58,17 +58,9 @@ Domain\Order\Order:
             options:
                 fixed: false
             column: raw_data
-        createdAt:
-            type: datetime
-            nullable: false
-            column: created_at
-        updatedAt:
-            type: datetime
-            nullable: false
-            column: updated_at
     manyToOne:
         market:
-            targetEntity: Domain\Core\Market
+            targetEntity: AppBundle\Infrastructure\Core\Market
             cascade: {  }
             fetch: LAZY
             mappedBy: null
@@ -78,7 +70,7 @@ Domain\Order\Order:
                     referencedColumnName: id
             orphanRemoval: false
         seller:
-            targetEntity: Domain\Core\Seller
+            targetEntity: AppBundle\Infrastructure\Core\Seller
             cascade: {  }
             fetch: LAZY
             mappedBy: null

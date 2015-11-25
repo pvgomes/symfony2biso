@@ -1,4 +1,4 @@
-Domain\Core\Market:
+AppBundle\Infrastructure\Core\Market:
     type: entity
     table: market
     uniqueConstraints:
@@ -28,12 +28,4 @@ Domain\Core\Market:
             options:
                 fixed: false
             column: key_name
-        createdAt:
-            type: datetime
-            nullable: false
-            column: created_at
-        updatedAt:
-            type: datetime
-            nullable: false
-            column: updated_at
     lifecycleCallbacks: {  }

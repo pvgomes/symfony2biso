@@ -1,4 +1,4 @@
-Domain\Order\ItemStatus:
+AppBundle\Infrastructure\Order\ItemStatus:
     type: entity
     table: sales_order_item_status
     uniqueConstraints:
@@ -34,12 +34,4 @@ Domain\Order\ItemStatus:
             length: 255
             options:
                 fixed: false
-        createdAt:
-            type: datetime
-            nullable: false
-            column: created_at
-        updatedAt:
-            type: datetime
-            nullable: false
-            column: updated_at
     lifecycleCallbacks: {  }

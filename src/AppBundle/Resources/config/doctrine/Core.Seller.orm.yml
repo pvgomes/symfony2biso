@@ -1,4 +1,4 @@
-Domain\Core\Seller:
+AppBundle\Infrastructure\Core\Seller:
     type: entity
     table: seller
     uniqueConstraints:
@@ -35,12 +35,4 @@ Domain\Core\Seller:
             options:
                 fixed: false
             column: access_token
-        createdAt:
-            type: datetime
-            nullable: false
-            column: created_at
-        updatedAt:
-            type: datetime
-            nullable: false
-            column: updated_at
     lifecycleCallbacks: {  }

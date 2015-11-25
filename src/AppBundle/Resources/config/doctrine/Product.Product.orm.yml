@@ -1,4 +1,4 @@
-Domain\Product\Product:
+AppBundle\Infrastructure\Product\Product:
     type: entity
     table: product
     indexes:
@@ -53,14 +53,6 @@ Domain\Product\Product:
             options:
                 fixed: false
             column: product_attributes
-        createdAt:
-            type: datetime
-            nullable: false
-            column: created_at
-        updatedAt:
-            type: datetime
-            nullable: false
-            column: updated_at
     manyToOne:
         category:
             targetEntity: Category
@@ -73,7 +65,7 @@ Domain\Product\Product:
                     referencedColumnName: id
             orphanRemoval: false
         seller:
-            targetEntity: Domain\Core\Seller
+            targetEntity: AppBundle\Infrastructure\Core\Seller
             cascade: {  }
             fetch: LAZY
             mappedBy: null

@@ -1,4 +1,4 @@
-Domain\Core\Configuration:
+AppBundle\Infrastructure\Core\Configuration:
     type: entity
     table: configuration
     indexes:
@@ -31,10 +31,6 @@ Domain\Core\Configuration:
         status:
             type: boolean
             nullable: false
-        createdAt:
-            type: datetime
-            nullable: false
-            column: created_at
     manyToOne:
         market:
             targetEntity: Market

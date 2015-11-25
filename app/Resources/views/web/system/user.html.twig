@@ -54,9 +54,9 @@
             {{ form_widget(form.username, {'attr': {'class': 'form-control'}}) }}
         </div>
         <div class="form-group">
-            <label for="exampleInputFile">Seller</label>
-            {{ form_errors(form.seller) }}
-            {{ form_widget(form.seller, {'attr': {'class': 'form-control'}}) }}
+            <label for="exampleInputFile">Market</label>
+            {{ form_errors(form.market) }}
+            {{ form_widget(form.market, {'attr': {'class': 'form-control'}}) }}
         </div>
         <div class="form-group">
             <label for="exampleInputFile">Permissões</label>
@@ -82,7 +82,7 @@
                     <th>#</th>
                     <th>Usuário</th>
                     <th>Nome</th>
-                    <th>Seller</th>
+                    <th>Market</th>
                     <th>Ativo</th>
                     <th>Ações</th>
                 </tr>
@@ -93,7 +93,7 @@
                     <td>{{ loop.index }}</td>
                     <td>{{ user.username }}</td>
                     <td>{{ user.name }}</td>
-                    <td>{{ user.seller.name }}</td>
+                    <td>{{ user.market.name }}</td>
                     <td>{{ user.isActive }}</td>
                     <td><a href="{{ path("user_edit",{id: user.id}) }}"><button class="btn btn-xs btn-primary">Editar</button></a></td>
                 </tr>

@@ -94,6 +94,7 @@ class SystemController extends Controller
      */
     public function userAction(Request $request)
     {
+        /** @var  $repositoryUser */
         $repositoryUser = $this->get('user_repository');
 
         $user = new Core\User();

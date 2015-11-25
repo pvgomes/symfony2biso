@@ -19,7 +19,7 @@ class UserForm extends AbstractType
             ->add('name','text')
             ->add('username', 'text')
             ->add('password','password')
-            ->add('seller','entity', ['class' => 'AppBundle\Infrastructure\Core\Seller','choice_label' => 'name'])
+            ->add('market','entity', ['class' => 'AppBundle\Infrastructure\Core\Market','choice_label' => 'name'])
             ->add('userRole','entity', [
                     'class' => 'AppBundle\Infrastructure\Core\UserRole',
                     'choice_label' => 'description',

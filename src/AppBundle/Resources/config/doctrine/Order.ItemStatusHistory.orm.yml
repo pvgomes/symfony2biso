@@ -1,4 +1,4 @@
-Domain\Order\ItemStatusHistory:
+AppBundle\Infrastructure\Order\ItemStatusHistory:
     type: entity
     table: sales_order_item_status_history
     indexes:
@@ -28,14 +28,6 @@ Domain\Order\ItemStatusHistory:
             options:
                 fixed: false
             column: event_name
-        createdAt:
-            type: datetime
-            nullable: false
-            column: created_at
-        updatedAt:
-            type: datetime
-            nullable: false
-            column: updated_at
     manyToOne:
         statusSeller:
             targetEntity: ItemStatus

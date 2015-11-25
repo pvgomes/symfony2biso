@@ -1,4 +1,4 @@
-Domain\Core\UserRole:
+AppBundle\Infrastructure\Core\UserRole:
     type: entity
     table: user_role
     uniqueConstraints:
@@ -27,14 +27,6 @@ Domain\Core\UserRole:
             length: 255
             options:
                 fixed: false
-        createdAt:
-            type: datetime
-            nullable: false
-            column: created_at
-        updatedAt:
-            type: datetime
-            nullable: false
-            column: updated_at
     manyToMany:
         users:
             targetEntity: User

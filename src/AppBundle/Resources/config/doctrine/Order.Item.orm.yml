@@ -1,4 +1,4 @@
-Domain\Order\Item:
+AppBundle\Infrastructure\Order\Item:
     type: entity
     table: sales_order_item
     indexes:
@@ -37,14 +37,6 @@ Domain\Order\Item:
             options:
                 fixed: false
             column: market_id
-        createdAt:
-            type: datetime
-            nullable: false
-            column: created_at
-        updatedAt:
-            type: datetime
-            nullable: false
-            column: updated_at
         additionals:
             type: text
             nullable: true
@@ -53,7 +45,7 @@ Domain\Order\Item:
                 fixed: false
     manyToOne:
         product:
-            targetEntity: Domain\Product\Product
+            targetEntity: AppBundle\Infrastructure\Product\Product
             cascade: {  }
             fetch: LAZY
             mappedBy: null

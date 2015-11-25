@@ -1,4 +1,4 @@
-Domain\Product\LoadProductReport:
+AppBundle\Infrastructure\Product\LoadProductReport:
     type: entity
     table: load_product_report
     indexes:
@@ -36,14 +36,6 @@ Domain\Product\LoadProductReport:
             length: 255
             options:
                 fixed: false
-        createdAt:
-            type: datetime
-            nullable: false
-            column: created_at
-        updatedAt:
-            type: datetime
-            nullable: false
-            column: updated_at
     manyToOne:
         loadProduct:
             targetEntity: LoadProduct
@@ -56,7 +48,7 @@ Domain\Product\LoadProductReport:
                     referencedColumnName: id
             orphanRemoval: false
         market:
-            targetEntity: Domain\Core\Market
+            targetEntity: AppBundle\Infrastructure\Core\Market
             cascade: {  }
             fetch: LAZY
             mappedBy: null

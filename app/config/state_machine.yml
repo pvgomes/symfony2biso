@@ -1,6 +1,6 @@
 winzou_state_machine:
     orders_market:
-        class: AppBundle\Infrastructure\Order\Item
+        class: Domain\Order\Item
         property_path: statePartner
         graph: orders_market
         states:
@@ -34,7 +34,7 @@ winzou_state_machine:
 
 
     orders_seller:
-        class: AppBundle\Infrastructure\Order\Item
+        class: Domain\Order\Item
         property_path: stateVenture
         graph: orders_seller
         states:

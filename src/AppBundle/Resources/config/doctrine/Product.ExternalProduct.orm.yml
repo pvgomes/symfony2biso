@@ -1,4 +1,4 @@
-Domain\Product\ExternalProduct:
+AppBundle\Infrastructure\Product\ExternalProduct:
     type: entity
     table: external_product
     indexes:
@@ -36,14 +36,6 @@ Domain\Product\ExternalProduct:
             length: 30
             options:
                 fixed: false
-        createdAt:
-            type: datetime
-            nullable: false
-            column: created_at
-        updatedAt:
-            type: datetime
-            nullable: false
-            column: updated_at
     manyToOne:
         product:
             targetEntity: Product
@@ -56,7 +48,7 @@ Domain\Product\ExternalProduct:
                     referencedColumnName: id
             orphanRemoval: false
         market:
-            targetEntity: Domain\Core\Market
+            targetEntity: AppBundle\Infrastructure\Core\Market
             cascade: {  }
             fetch: LAZY
             mappedBy: null

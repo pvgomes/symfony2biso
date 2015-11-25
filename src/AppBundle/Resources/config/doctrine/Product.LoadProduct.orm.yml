@@ -1,4 +1,4 @@
-Domain\Product\LoadProduct:
+AppBundle\Infrastructure\Product\LoadProduct:
     type: entity
     table: load_product
     indexes:
@@ -35,17 +35,9 @@ Domain\Product\LoadProduct:
         republish:
             type: boolean
             nullable: false
-        createdAt:
-            type: datetime
-            nullable: false
-            column: created_at
-        updatedAt:
-            type: datetime
-            nullable: false
-            column: updated_at
     manyToOne:
         user:
-            targetEntity: Domain\Core\User
+            targetEntity: AppBundle\Infrastructure\Core\User
             cascade: {  }
             fetch: LAZY
             mappedBy: null
@@ -55,7 +47,7 @@ Domain\Product\LoadProduct:
                     referencedColumnName: id
             orphanRemoval: false
         market:
-            targetEntity: Domain\Core\Market
+            targetEntity: AppBundle\Infrastructure\Core\Market
             cascade: {  }
             fetch: LAZY
             mappedBy: null
@@ -65,7 +57,7 @@ Domain\Product\LoadProduct:
                     referencedColumnName: id
             orphanRemoval: false
         seller:
-            targetEntity: Domain\Core\Seller
+            targetEntity: AppBundle\Infrastructure\Core\Seller
             cascade: {  }
             fetch: LAZY
             mappedBy: null

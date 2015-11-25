@@ -72,8 +72,8 @@ doctrine:
                 mapping: true
                 type: yml
                 dir: Resources/config/doctrine
-                alias: 'Domain'
-                prefix: 'Domain'
+                alias: 'AppBundle'
+                prefix: 'AppBundle\Infrastructure'
                 is_bundle: true
 
 # Doctrine Extensions Configuration

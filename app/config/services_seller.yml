@@ -1,7 +1,7 @@
 services:
 
     seller.repository_factory:
-        class: AppBundle\Infrastructure\Product\Seller\RepositoryFactory
+        class: Domain\Product\Seller\RepositoryFactory
 
     # REPOSITORIES
     seller_repository:

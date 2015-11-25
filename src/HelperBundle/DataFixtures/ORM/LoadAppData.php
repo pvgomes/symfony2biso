@@ -5,13 +5,13 @@ namespace HelperBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use AppBundle\Infrastructure\Core\User;
-use AppBundle\Infrastructure\Core\UserRole;
 use AppBundle\Infrastructure\Core\Market;
 use AppBundle\Infrastructure\Core\Seller;
+use AppBundle\Infrastructure\Core\User;
+use AppBundle\Infrastructure\Core\UserRole;
 use AppBundle\Infrastructure\Order\ItemStatus;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * LoadAppData.
@@ -37,9 +37,9 @@ class LoadAppData extends AbstractFixture implements OrderedFixtureInterface, Co
         ['canceled', 'Cancelado', 'Pedido cancelado (Market ou Seller)'],
     ];
 
-    private $markets = ['Walmart', 'aliexpress', 'biso'];
+    private $sellers = ['Walmart', 'aliexpress', 'biso'];
 
-    private $sellers = [
+    private $markets = [
         'Aliexpress' => [
             'username' => 'fulano',
             'name' => 'Fulano de Tal',
@@ -79,12 +79,12 @@ class LoadAppData extends AbstractFixture implements OrderedFixtureInterface, Co
             $manager->persist($status);
         }
 
-        foreach ($this->markets as $marketName) {
-            $market = new Market();
-            $market->setName($marketName);
-
-            $manager->persist($market);
-            $this->addReference($marketName, $market);
+        foreach ($this->sellers as $sellerName) {
+            $seller = new Seller();
+            $seller->setName($sellerName);
+            $seller->setKeyName(strtolower($sellerName));
+            $manager->persist($seller);
+            $this->addReference($sellerName, $seller);
         }
 
         $role = new UserRole();
@@ -93,19 +93,22 @@ class LoadAppData extends AbstractFixture implements OrderedFixtureInterface, Co
 
         $manager->persist($role);
 
-        foreach ($this->sellers as $sellerName => $userData) {
-            $seller = new Seller();
-            $seller->setName($sellerName);
-            $seller->setAccessToken('123');
+        foreach ($this->markets as $marketName => $userData) {
+            $market = new Market();
+            $market->setName($marketName);
+            $market->setKeyName(strtolower($marketName));
+            $market->setAccessToken('123');
 
-            $manager->persist($seller);
-            $this->addReference($sellerName, $seller);
+            $manager->persist($market);
+            $this->addReference($marketName, $market);
 
             $user = new User();
             $user->setUsername($userData['username']);
             $user->setName($userData['name']);
-            $user->setSeller($seller);
+            $user->setMarket($market);
+
             $plainPassword = $userData['password'];
+            /** @var \Symfony\Component\Security\Core\Encoder\UserPasswordEncoder $encoder */
             $encoder = $this->container->get('security.password_encoder');
             $encoded = $encoder->encodePassword($user, $plainPassword);
             $user->setPassword($encoded);

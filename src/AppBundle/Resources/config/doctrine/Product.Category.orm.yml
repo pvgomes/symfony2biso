@@ -1,4 +1,4 @@
-Domain\Product\Category:
+AppBundle\Infrastructure\Product\Category:
     type: entity
     table: category
     indexes:
@@ -20,7 +20,7 @@ Domain\Product\Category:
             generator:
                 strategy: IDENTITY
     fields:
-        categorySellerId:
+        categoryMarketId:
             type: string
             nullable: false
             length: 255
@@ -47,17 +47,9 @@ Domain\Product\Category:
             options:
                 fixed: false
             column: name_key
-        createdAt:
-            type: datetime
-            nullable: false
-            column: created_at
-        updatedAt:
-            type: datetime
-            nullable: false
-            column: updated_at
     manyToOne:
         seller:
-            targetEntity: Domain\Core\Seller
+            targetEntity: AppBundle\Infrastructure\Core\Seller
             cascade: {  }
             fetch: LAZY
             mappedBy: null

@@ -1,5 +1,6 @@
-Domain\Core\User:
+AppBundle\Infrastructure\Core\User:
     type: entity
+    repositoryClass: AppBundle\Infrastructure\Core\UserRepository
     table: user
     indexes:
         IDX_8D93D6494B02ED5B:
@@ -41,14 +42,6 @@ Domain\Core\User:
             type: boolean
             nullable: false
             column: is_active
-        createdAt:
-            type: datetime
-            nullable: false
-            column: created_at
-        updatedAt:
-            type: datetime
-            nullable: false
-            column: updated_at
     manyToOne:
         market:
             targetEntity: Market
