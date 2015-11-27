@@ -5,11 +5,6 @@ namespace AppBundle\Application\Core;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-/**
- * Class UserForm
- *
- * @author Thiago Ribeiro
- */
 class UserForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)

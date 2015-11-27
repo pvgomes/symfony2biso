@@ -103,7 +103,6 @@
                 <tr>
                     <th>Chave</th>
                     <th>Valor</th>
-                    <th>Dia da Atualização</th>
                     <th>Ação</th>
                 </tr>
                 </thead>
@@ -112,9 +111,6 @@
                     <tr id="row_{{ configuration.id }}">
                         <td width="20%"><strong>{{ configuration.key }}</strong></td>
                         <td width="65%"><textarea class="form-control" id="content_{{ configuration.id }}" rows="4">{{ configuration.value|raw }}</textarea></td>
-                        <td width="15%">
-                            {{ configuration.createdAt|date('d/m/Y - H:i') }}
-                        </td>
                         <td width="15%">
                         <span class="btn btn-danger" onclick="Configuration.removeKey('{{ configuration.id }}','{{ configuration.key }}')">
                             <i class="fa fa-fw fa-trash"></i>Remover

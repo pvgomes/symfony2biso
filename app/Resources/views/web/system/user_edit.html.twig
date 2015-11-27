@@ -27,9 +27,9 @@
             {{ form_widget(form.username, {'attr': {'class': 'form-control'}}) }}
         </div>
         <div class="form-group">
-            <label for="exampleInputFile">Seller</label>
-            {{ form_errors(form.seller) }}
-            {{ form_widget(form.seller, {'attr': {'class': 'form-control'}}) }}
+            <label for="exampleInputFile">market</label>
+            {{ form_errors(form.market) }}
+            {{ form_widget(form.market, {'attr': {'class': 'form-control'}}) }}
         </div>
         {% if is_granted('ROLE_SYSTEM_ADMIN') %}
         <div class="form-group">

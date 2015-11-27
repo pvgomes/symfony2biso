@@ -1,5 +1,6 @@
 AppBundle\Infrastructure\Core\Configuration:
     type: entity
+    repositoryClass: AppBundle\Infrastructure\Core\ConfigurationRepository
     table: configuration
     indexes:
         IDX_A5E2A5D74B02ED5B:
@@ -21,7 +22,7 @@ AppBundle\Infrastructure\Core\Configuration:
             length: 60
             options:
                 fixed: false
-            column: key
+            column: key_name
         value:
             type: text
             nullable: false

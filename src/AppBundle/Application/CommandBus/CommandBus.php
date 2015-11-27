@@ -36,7 +36,8 @@ class CommandBus implements Domain\CommandBus
             throw new \InvalidArgumentException("command doesn't exists");
         }
 
-        $handler = new $handlerName($this->container->get($command->resourceName().'_repository'));
+        $repository = $this->container->get($command->resourceName().'_repository');
+        $handler = new $handlerName($repository);
 
         if (!$handler instanceof Domain\Handler) {
             throw new \DomainException("invalid handler");

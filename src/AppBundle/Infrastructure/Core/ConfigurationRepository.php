@@ -43,7 +43,7 @@ class ConfigurationRepository extends EntityRepository implements Domain\Core\Co
     public function getByMarket(Domain\Core\Market $venture)
     {
         $repository = $this->getRepository();
-        return  $repository->findBy(['status' => Domain\Core\Configuration::STATUS_ACTIVE, 'venture' => $venture], ['id' => 'desc']);
+        return  $repository->findBy(['status' => Domain\Core\Configuration::STATUS_ACTIVE, 'market' => $venture], ['id' => 'desc']);
     }
 
     /**

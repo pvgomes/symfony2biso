@@ -4,7 +4,8 @@
 namespace AppBundle\Application\Core;
 
 use AppBundle\Infrastructure\Core\Market;
-use AppBundle\Infrastructure\Core\MarketDataMapper;
+use AppBundle\Infrastructure\Core\Configuration;
+
 use Domain;
 
 class CreateConfigurationCommand implements Domain\Command
@@ -22,10 +23,10 @@ class CreateConfigurationCommand implements Domain\Command
      */
     public function __construct(Market $market, $key, $value)
     {
-        $this->configuration = new Domain\Core\Configuration();
+        $this->configuration = new Configuration();
         $this->configuration->setKey($key);
         $this->configuration->setValue($value);
-        $this->configuration->setMarket(MarketDataMapper::getInstance()->assign($market));
+        $this->configuration->setMarket($market);
     }
 
     public function domainEntity()
