@@ -39,7 +39,7 @@ class ProductController extends Controller
 
         $products = $this
             ->get('product_repository')
-            ->paginateBySeller($this->getUser()->getSeller(), $firstResult, $maxResult, $searchData);
+            ->paginateBySeller($this->getUser()->getMarket(), $firstResult, $maxResult, $searchData);
 
         $viewVars = $this->getPagination($pageCurrent, $maxResult, $firstResult, count($products), 15);
 

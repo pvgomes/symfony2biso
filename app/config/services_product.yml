@@ -5,6 +5,12 @@ services:
         class: AppBundle\Application\Product\SellerCreateConsumer
 
     # REPOSITORIES
+    product_repository:
+         class: Doctrine\ORM\EntityRepository
+         factory_service: doctrine.orm.entity_manager
+         factory_method: getRepository
+         arguments: ["Domain\\Product\\Product"]
+
     load_product_repository:
         class: Doctrine\ORM\EntityRepository
         factory_service: doctrine.orm.entity_manager
