@@ -3,4 +3,11 @@ services:
     seller_create_order:
         class: AppBundle\Application\Order\SellerCreateConsumer
 
+    # REPOSITORIES
+    order_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+        arguments: ["AppBundle\\Infrastructure\\Order\\Order"]
+
 

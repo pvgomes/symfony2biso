@@ -9,7 +9,7 @@ use AppBundle\Application\Controller\Pagination;
 use AppBundle\Domain\Product;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class OrderController extends Controller
+class OrderController extends Pagination
 {
     /**
      * @Route("/order/list", name="order_list")
@@ -23,7 +23,7 @@ class OrderController extends Controller
             : 0;
 
         $user = $this->getUser();
-        $seller = $user->getSeller();
+        $market = $user->getMarket();
 
         $form = $this->createFormBuilder([$request->getContent()], ['method' => 'GET'])
             ->add('search', 'text')
@@ -33,10 +33,9 @@ class OrderController extends Controller
         $form->submit($request);
         $searchData = $form->getData();
 
-
         $orders = $this
             ->get('order_repository')
-            ->paginateBySeller($seller, $firstResult, $maxResult, $searchData);
+            ->listByMarket($market, $firstResult, $maxResult, $searchData);
 
         $viewVars = $this->getPagination($pageCurrent, $maxResult, $firstResult, count($orders));
 
@@ -45,40 +44,6 @@ class OrderController extends Controller
         $viewVars['filterParam'] = $this->getFilterUrl($searchData);
 
         return $this->render('web/order/list.html.twig', $viewVars);
-    }
-
-    /**
-     * @Route("/order/export", name="order_export_csv")
-     */
-    public function exportCsvAction(Request $request)
-    {
-
-        $response = new StreamedResponse();
-        $orderRepository = $this->get('order_repository');
-
-        $form = $this->createFormBuilder([$request->getContent()], ['method' => 'GET'])
-            ->add('search', 'text')
-            ->add('dateStart', 'text')
-            ->add('dateEnd', 'text')
-            ->getForm();
-        $form->submit($request);
-        $searchData = $form->getData();
-
-        $orders = $orderRepository->getAllBySellerWithFilter($this->getUser()->getSeller(), $searchData);
-
-        $handle = fopen('php://output', 'w+');
-        $orderExport = $this->get('order_export');
-        $orderExport->setOrders($orders);
-        $orderExport->setHandle($handle);
-
-        $response->setCallback([$orderExport, 'export']);
-
-        $response->setStatusCode(200);
-        $response->headers->set('Content-Type', 'text/csv; charset=utf-8');
-        $response->headers->set('Content-Disposition','attachment; filename="orders.csv"');
-
-        return $response;
-
     }
 
     /**

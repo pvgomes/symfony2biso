@@ -2,35 +2,6 @@
 
 {% block title %}Categorias{{ parent() }}{% endblock %}
 
-{% set pagination %}
-    <nav>
-        <ul class="pagination">
-            <li>
-                <a href="{{ path('category_list', {'page': 1}) }}" aria-label="Previous"{% if page == 1 %} class="disabled"{% endif %}>
-                    <span aria-hidden="true">&laquo; primeira</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ path('category_list', {'page': prev}) }}" aria-label="Previous"{% if page == 1 %} class="disabled"{% endif %}>
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            {% for i in pageStart..pages %}
-                <li{% if i == page %} class="active"{% endif %}><a href="{{ path('category_list', {'page': i}) }}">{{ i }}</a></li>
-            {% endfor %}
-            <li>
-                <a href="{{ path('category_list', {'page': next}) }}" aria-label="Next"{% if page == pages %} class="disabled"{% endif %}>
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ path('category_list', {'page': last}) }}" aria-label="Next"{% if page == pages %} class="disabled"{% endif %}>
-                    <span aria-hidden="true">última &raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-{% endset %}
 
 {% block body %}
     <div class="row">
@@ -55,24 +26,14 @@
             </tr>
             </thead>
             <tbody>
-            {% for category in categories %}
-                <tr>
-                    <td>{{ loop.index }}</td>
-                    <td class="extshop-number">{{ category.categorySellerId }}</td>
-                    <td>{{ category.name }}</td>
-                    <td>{{ category.nameKey }}</td>
-                    <td class="extshop-date">{{ category.createdAt|date('d/m/Y - H:i') }}</td>
-                    <td class="extshop-date">{{ category.updatedAt|date('d/m/Y - H:i') }}</td>
-                </tr>
-            {% else %}
+
                 <tr>
                     <td colspan="5">Nenhuma categoria para seller</td>
                 </tr>
-            {% endfor %}
+
             </tbody>
         </table>
 
-        {{ pagination }}
     </div>
 </div>
 {% endblock %}

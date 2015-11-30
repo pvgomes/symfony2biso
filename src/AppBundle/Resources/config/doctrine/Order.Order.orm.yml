@@ -1,5 +1,6 @@
 AppBundle\Infrastructure\Order\Order:
     type: entity
+    repositoryClass: AppBundle\Infrastructure\Order\OrderRepository
     table: sales_order
     indexes:
         IDX_36D222EDBB4BB6C:

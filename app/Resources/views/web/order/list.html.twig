@@ -78,7 +78,6 @@ $(document).ready(function() {
                         {{  form_widget(form.dateEnd, {'attr': {'class': 'form-control input-sm date', 'placeholder':'Data Fim'}}) }}
                     </div>
                     <input type="submit" value="Buscar" class="btn btn-primary btn-sm">
-                    <a href="{{ path('order_export_csv') }}?{{ filterParam }}"><button type="button" class="btn btn-default btn-sm">Exportar</button></a>
                 </div>
                 {{ form_end(form) }}
             </div>
