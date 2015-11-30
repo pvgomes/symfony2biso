@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AppBundle\Application\Core;
 
 use AppBundle\Infrastructure\Core\Market;

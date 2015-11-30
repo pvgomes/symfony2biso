@@ -32,7 +32,7 @@ Trait JsonValidator
     private function getSchemaFile($schemaName)
     {
         $retrivier = new UriRetriever();
-        $schema = $retrivier->retrieve('file://' . $this->getSchemaDirectory() .DIRECTORY_SEPARATOR. $schemaName);
+        $schema = $retrivier->retrieve('file://' . $this->getSchemaDirectory() . DIRECTORY_SEPARATOR . $schemaName);
 
         return $schema;
     }
@@ -44,7 +44,7 @@ Trait JsonValidator
     {
         $rootDir = $this->get('kernel')->getRootDir();
 
-        return $rootDir.'/../src/AppBundle/Application/Api/v1/Schemas/';
+        return $rootDir . '/../src/AppBundle/Application/Api/v1/Schemas/';
     }
 
     /**
@@ -58,12 +58,12 @@ Trait JsonValidator
     private function loadOrderSchema($sellerKey, $action, $useMarketKey = true)
     {
         if ($useMarketKey) {
-            $partnerKey = (self::PARTNER_KEY)?'_'.self::PARTNER_KEY:'';
+            $partnerKey = (self::PARTNER_KEY) ? '_' . self::PARTNER_KEY : '';
 
-            $schema = 'order_'.$action.$partnerKey.'.json';
-            $sellerSchema = 'order_'.$action.$partnerKey.'_'.$sellerKey.'.json';
+            $schema = 'order_' . $action . $partnerKey . '.json';
+            $sellerSchema = 'order_' . $action . $partnerKey . '_' . $sellerKey . '.json';
 
-            if (file_exists($this->getSchemaDirectory().DIRECTORY_SEPARATOR.$sellerSchema)) {
+            if (file_exists($this->getSchemaDirectory() . DIRECTORY_SEPARATOR . $sellerSchema)) {
                 $schema = $sellerSchema;
             }
         } else {
@@ -82,7 +82,7 @@ Trait JsonValidator
      */
     private function productSchema($action)
     {
-        $schema = 'product_'.$action.'.json';
+        $schema = 'product_' . $action . '.json';
 
         return $schema;
     }
@@ -92,54 +92,9 @@ Trait JsonValidator
      *
      * @return string filename
      */
-    public function loadOrderCreateGFGSchema($sellerKey)
+    public function loadConfigurationSchema($sellerKey)
     {
-        return $this->loadOrderSchema($sellerKey, 'create');
-    }
-
-    /**
-     * @param string $sellerKey
-     *
-     * @return string filename
-     */
-    public function loadOrderCreateWalmartSchema($sellerKey)
-    {
-        return $this->loadOrderSchema($sellerKey, 'create');
-    }
-
-    /**
-     * @return string filename
-     */
-    public function productStockUpdateSchema()
-    {
-        return $this->productSchema('stock_update');
-    }
-
-    /**
-     * @return string filename
-     */
-    public function productPriceUpdateSchema()
-    {
-        return $this->productSchema('price_update');
-    }
-
-    public function loadOrderPreviewWalmartSchema()
-    {
-        return $this->loadOrderSchema('', 'preview');
-    }
-
-    public function productUpdateSchema()
-    {
-        return $this->productSchema('update');
-    }
-
-    public function orderCancelSchema()
-    {
-        return $this->loadOrderSchema('', 'cancel', false);
-    }
-
-    public function orderShipSchema($sellerKey = '', $useMarketKey = false)
-    {
-        return $this->loadOrderSchema($sellerKey, 'ship', $useMarketKey);
+        return $this->loadOrderSchema($sellerKey, 'configuration');
     }
 }
+
