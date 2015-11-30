@@ -28,4 +28,11 @@ AppBundle\Infrastructure\Core\Market:
             options:
                 fixed: false
             column: key_name
+        accessToken:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: access_token
     lifecycleCallbacks: {  }
