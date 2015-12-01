@@ -48,7 +48,7 @@
             "reference": "origin/master"
           },
           "autoload": {
-            "psr-0": { "\\Domain\\": "src" }
+            "psr-0": { "Domain\\": "src" }
           }
         }
       }
