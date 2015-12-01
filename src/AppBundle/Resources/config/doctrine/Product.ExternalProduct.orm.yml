@@ -1,10 +1,11 @@
 AppBundle\Infrastructure\Product\ExternalProduct:
     type: entity
+    repositoryClass: AppBundle\Infrastructure\Product\ExternalProductRepository
     table: external_product
     indexes:
         IDX_AE8DDEE4B02ED5B:
             columns:
-                - fk_market
+                - fk_seller
         IDX_AE8DDEE23653981:
             columns:
                 - fk_product
@@ -47,14 +48,14 @@ AppBundle\Infrastructure\Product\ExternalProduct:
                 fk_product:
                     referencedColumnName: id
             orphanRemoval: false
-        market:
-            targetEntity: AppBundle\Infrastructure\Core\Market
+        seller:
+            targetEntity: AppBundle\Infrastructure\Core\Seller
             cascade: {  }
             fetch: LAZY
             mappedBy: null
             inversedBy: null
             joinColumns:
-                fk_market:
+                fk_seller:
                     referencedColumnName: id
             orphanRemoval: false
     lifecycleCallbacks: {  }
