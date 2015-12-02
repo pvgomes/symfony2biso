@@ -4,12 +4,20 @@ namespace AppBundle\Infrastructure\Product;
 
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use AppBundle\Infrastructure\Core\EntityRepository;
-use AppBundle\Infrastructure\Product\Category;
 use AppBundle\Infrastructure;
+use \Domain;
 
-class CategoryRepository extends EntityRepository
+class CategoryRepository extends EntityRepository implements Domain\Product\CategoryRepository
 {
-    private $entityPath = 'AppBundle\Infrastructure\Product\Category';
+    private $entityPath = 'Domain\Order\Category';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getEntityPath()
+    {
+        return $this->entityPath;
+    }
 
     /**
      * {@inheritdoc}
@@ -36,116 +44,31 @@ class CategoryRepository extends EntityRepository
     /**
      * {@inheritdoc}
      */
-    public function getAllBySeller(Infrastructure\Core\Seller $seller)
-    {
-        $categories = $this->getRepository()
-            ->findBySeller($seller, ['name' => 'ASC']);
-
-        return $categories;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function add(Infrastructure\Product\Category $category)
+    public function add(Domain\Product\Category $category)
     {
         $this->getEntityManager()->persist($category);
         $this->getEntityManager()->flush();
         return $category;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getByCategorySellerIdAndSeller($categorySellerId, Infrastructure\Core\Seller $seller)
-    {
-        $category = $this->getRepository()
-            ->findOneBy([
-                'categorySellerId' => $categorySellerId,
-                'seller' => $seller
-            ]);
-
-        return $category;
-    }
 
     /**
      * {@inheritdoc}
      */
-    public function getByNameAndSeller($name, Infrastructure\Core\Seller $seller)
+    public function listByMarket(Domain\Core\Market $market, $firstResult = 0, $maxResult = 20, $filter = [])
     {
-        $category = $this->getRepository()
-            ->findOneBy(['name' => $name, 'seller' => $seller]);
-
-        return $category;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getByKeyNameAndSeller($nameKey, Infrastructure\Core\Seller $seller)
-    {
-        $category = $this->getRepository()
-            ->findOneBy(['nameKey' => $nameKey, 'seller' => $seller]);
-
-        return $category;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getEntityPath()
-    {
-        return $this->entityPath;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-
-    public function getOrCreate(Category $category)
-    {
-        $categoryResult = null;
-
-        if ($category->getId()) {
-            $categoryResult = $this->get($category->getId());
-        } elseif ($category->getNameKey()) {
-            $categoryResult = $this
-                ->getByKeyNameAndSeller($category->getNameKey(), $category->getSeller());
-        } elseif ($category->getName()) {
-            $categoryResult = $this
-                ->getByNameAndSeller($category->getName(), $category->getSeller());
-        } else {
-            throw new \InvalidArgumentException("We cant create category");
-        }
-
-        if (!$categoryResult && $category->isValid()) {
-            $category = $this->add($category);
-        } else {
-            $category = $categoryResult;
-        }
-
-        return $category;
-    }
-
-
-    /**
-     * {@inheritdoc}
-     */
-    public function paginateBySeller(Infrastructure\Core\Seller $seller, $firstResult = 0, $maxResult = 20)
-    {
-        $dql = "SELECT c
+        $dql = <<<DQL
+                SELECT c
                 FROM AppBundle\Infrastructure\Product\Category c
-                WHERE c.seller = :seller
-                ORDER BY c.createdAt DESC";
+                WHERE c.market = :market
+DQL;
 
         $query = $this->getEntityManager()
             ->createQuery($dql)
-            ->setParameter('seller', $seller)
+            ->setParameter('market', $market)
             ->setFirstResult($firstResult)
             ->setMaxResults($maxResult);
 
-        $paginator = new Paginator($query, false);
-
-        return $paginator;
+        return new Paginator($query, false);
     }
 }

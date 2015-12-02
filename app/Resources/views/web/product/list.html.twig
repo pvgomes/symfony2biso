@@ -2,6 +2,76 @@
 
 {% block title %}Product List{{ parent() }}{% endblock %}
 
+{% block stylesheets %}
+    <style>
+        .product-main .label,
+        .product-content,
+        td.external-json pre {
+            display: none;
+            width: 900px;
+        }
+    </style>
+    <link href="{{ asset('components/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('components/pretty-json/pretty-json.css') }}" rel="stylesheet"/>
+{% endblock %}
+
+{% block javascript %}
+    <script src="{{ asset('components/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ asset('components/pretty-json/underscore-min.js') }}"></script>
+    <script src="{{ asset('components/pretty-json/backbone-min.js') }}"></script>
+    <script src="{{ asset('components/pretty-json/pretty-json-min.js') }}"></script>
+
+    <script>
+
+        var categories;
+
+        $(document).ready(function() {
+
+            $('.date').datepicker({
+                autoclose: true,
+                format: 'yyyy-mm-dd'
+            });
+
+        });
+
+    </script>
+    <script src="{{ asset('js/product.js') }}"></script>
+{% endblock %}
+
+
+
+{% set pagination %}
+    <nav>
+        <ul class="pagination">
+            <li>
+                <a href="{{ path('product_list', {'page': 1}) }}" aria-label="Previous"{% if page == 1 %} class="disabled"{% endif %}>
+                    <span aria-hidden="true">&laquo; primeira</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('product_list', {'page': prev}) }}" aria-label="Previous"{% if page == 1 %} class="disabled"{% endif %}>
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {% for i in pageStart..pages %}
+                <li{% if i == page %} class="active"{% endif %}><a href="{{ path('product_list', {'page': i}) }}&{{ filterParam }}">{{ i }}</a></li>
+            {% endfor %}
+            <li>
+                <a href="{{ path('product_list', {'page': next}) }}" aria-label="Next"{% if page == pages %} class="disabled"{% endif %}>
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('product_list', {'page': last}) }}" aria-label="Next"{% if page == pages %} class="disabled"{% endif %}>
+                    <span aria-hidden="true">última &raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+{% endset %}
+
+
+
 {% block body %}
 
     <div class="row">
@@ -14,15 +84,82 @@
         <div class="col-md-12">
             <div class="navbar-right" style="margin-right: 4px;">
 
+                {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                <div class="form-inline">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1"> <i class="fa fa-search"></i></span>
+                        {{  form_widget(form.search, {'attr': {'class': 'form-control input-sm', 'placeholder' : 'SKU/Nome'}}) }}
+                    </div>
+
+                    {{ form_widget(form.category, {'attr': {'class':'form-control input-sm', 'placeholder': 'Categoria'}}) }}
+                    <div class="autocomplete" id="categories-list"></div>
+
+                    <input type="submit" value="Buscar" class="btn btn-primary btn-sm">
+
+                </div>
+                {{ form_end(form) }}
             </div>
         </div>
     </div>
 
-<div class="row" id="productContent">
-    <div class="col-lg-12">
+    <div class="row" id="productContent">
+        <div class="col-lg-12">
 
 
 
+            <table class="table table-bordered table-striped table-hover table-condensed">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nome</th>
+                    <th>SKU</th>
+                    <th>Categoria</th>
+                    <th>Estoque</th>
+                    <th>R$</th>
+                    <th nowrap="nowrap">R$ Promo</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for product in products %}
+                    <tr class="product-main" data-product-id="{{ product.id }}" data-content-loaded="false" data-content-hidden="true" data-is-active="false">
+                        <td>{{ product.id }}</td>
+                        <td>
+                            {% if searchTerm %}
+                                {{ product.name|replace({ (searchTerm): '<span style="background-color:yellow">' ~ searchTerm ~ '</span>'})|raw }}
+                            {% else %}
+                                {{ product.name }}
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if searchTerm %}
+                                {{ product.sku|replace({ (searchTerm): '<span style="background-color:yellow">' ~ searchTerm ~ '</span>'})|raw }}
+                            {% else %}
+                                {{ product.sku }}
+                            {% endif %}
+                        </td>
+                        <td>{{ product.category.name }}</td>
+
+                        <td class="extshop-number">{{ product.stock }}</td>
+                        <td class="extshop-price" {% if product.specialPrice < product.price %} style="text-decoration: line-through"{% endif %}>{{ product.price|number_format(2, ',', '.') }}</td>
+                        <td class="extshop-price{% if product.specialPrice < product.price %} extshop-price-diff{% endif %}">{{ product.specialPrice|number_format(2, ',', '.') }}</td>
+                        <td id="product-status-{{ product.id }}">
+                            <span class="fa fa-spinner fa-spin"></span>
+                            <span class="label label-success">Ativo</span>
+                            <span class="label label-danger" title="Produto ainda não publicado em algum Parceiro">Inativo</span>
+                        </td>
+                    </tr>
+                    <tr id="product-content-{{ product.id }}" class="product-content">
+                        <td colspan="10"></td>
+                    </tr>
+                    <tr><!-- for striped rows --></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            {{ pagination }}
+
+        </div>
     </div>
-</div>
 {% endblock %}

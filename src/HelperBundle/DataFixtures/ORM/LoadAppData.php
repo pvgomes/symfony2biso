@@ -268,6 +268,7 @@ class LoadAppData extends AbstractFixture implements OrderedFixtureInterface, Co
             $product->setStock($userData['product']['quantity']);
             $product->setSpecialPrice($userData['product']['special_price']);
             $product->setProductAttributes(json_encode($userData['product']));
+            $product->setMarket($market);
             $manager->persist($product);
 
             // create one external product for each seller

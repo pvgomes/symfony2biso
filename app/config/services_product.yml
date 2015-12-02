@@ -9,10 +9,16 @@ services:
          class: Doctrine\ORM\EntityRepository
          factory_service: doctrine.orm.entity_manager
          factory_method: getRepository
-         arguments: ["Domain\\Product\\Product"]
+         arguments: ["AppBundle\\Infrastructure\\Product\\Product"]
+
+    external_product_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+        arguments: ["AppBundle\\Infrastructure\\Product\\ExternalProduct"]
 
     load_product_repository:
         class: Doctrine\ORM\EntityRepository
         factory_service: doctrine.orm.entity_manager
         factory_method: getRepository
-        arguments: ["Domain\\Product\\LoadProduct"]
+        arguments: ["AppBundle\\Infrastructure\\Product\\LoadProduct"]

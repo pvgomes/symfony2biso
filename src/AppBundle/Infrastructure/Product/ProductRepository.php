@@ -5,11 +5,12 @@ namespace AppBundle\Infrastructure\Product;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use AppBundle\Infrastructure\Core\EntityRepository;
 use AppBundle\Infrastructure\Core;
+use \Domain;
 
-class ProductRepository extends EntityRepository
+class ProductRepository extends EntityRepository implements Domain\Product\ProductRepository
 {
 
-    private $entityPath = 'AppBundle\Infrastructure\Product\Product';
+    private $entityPath = 'Domain\Product\Product';
 
     /**
      * {@inheritdoc}
@@ -22,143 +23,51 @@ class ProductRepository extends EntityRepository
     /**
      * {@inheritdoc}
      */
-    public function add(Product $product)
+    public function add(Domain\Product\Product $product)
     {
         $this->getEntityManager()->persist($product);
         $this->getEntityManager()->flush($product);
     }
 
-    public function paginateBySeller(Core\Seller $seller, $firstResult = 0, $maxResult = 20, $filter = null)
+    public function listByMarket(Domain\Core\Market $market, $firstResult = 0, $maxResult = 20, $filter = [])
     {
         $searchParam = (isset($filter['search'])) ? "AND (p.sku LIKE :search OR p.name LIKE :search) " : '';
-        $date = ($filter['dateStart'] && $filter['dateEnd']) ? "AND p.createdAt BETWEEN :dateStart AND :dateEnd" : '';
         $category = ($filter['category']) ? "AND c.nameKey = :category" : '';
 
-        $dql = "SELECT p
+        $dql = <<<DQL
+                SELECT p
                 FROM AppBundle\Infrastructure\Product\Product p
                 INNER JOIN AppBundle\Infrastructure\Product\Category c WITH p.category = c.id
-                WHERE p.seller = :seller
-                {$searchParam} {$date} {$category}
-                ORDER BY p.createdAt DESC";
+                WHERE p.market = :market
+                {$searchParam} {$category}
+DQL;
+
 
         $query = $this->getEntityManager()
             ->createQuery($dql)
-            ->setParameter('seller', $seller)
+            ->setParameter('market', $market)
             ->setFirstResult($firstResult)
             ->setMaxResults($maxResult);
 
         if ($filter['search']) $query->setParameter("search", "%{$filter['search']}%");
         if ($filter['category']) $query->setParameter('category', $filter['category']);
-        if ($filter['dateStart'] && $filter['dateEnd']) {
-            $query->setParameter('dateStart', "{$filter['dateStart']} 00:00:00");
-            $query->setParameter('dateEnd', "{$filter['dateEnd']} 23:59:59");
-        }
 
-        $paginator = new Paginator($query, false);
-
-        return $paginator;
+        return new Paginator($query, false);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getBySkuAndSeller($sku, Core\Seller $seller)
+    public function bySkuAndMarket($sku, Domain\Core\Market $venture)
     {
-        $product = $this->getRepository()
-            ->findOneBy(['sku' => $sku, 'seller' => $seller]);
-
-        return $product;
+        // TODO: Implement bySkuAndMarket() method.
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getBySkuAndSellerId($sku, $sellerId)
+    public function activeExternalProducts(array $skus, Domain\Core\Market $market, Domain\Core\Seller $seller)
     {
-        $query = $this->getEntityManager()->createQuery('
-           SELECT p
-           FROM AppBundle\Infrastructure\Product\Product p
-           WHERE p.sku = :sku
-           AND IDENTITY(p.seller) = :sellerId
-       ')->setParameters([
-            'sku' => $sku,
-            'sellerId' => $sellerId,
-        ]);
-
-        $product = $query->getOneOrNullResult();
-
-        return $product;
+        // TODO: Implement activeExternalProducts() method.
     }
 
-    public function getBySkuCollectionAndSeller($skuCollection, $seller)
+    public function bySkuAndMarketId($sku, $marketId)
     {
-        $products = $this->getRepository()
-            ->findBy(['sku' => $skuCollection, 'seller' => $seller]);
-
-        return $products;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getActiveExternalProducts(array $skus, Core\Seller $seller, Core\Market $market)
-    {
-        $result = [];
-        $products = $this->getBySkuCollectionAndSeller($skus, $seller);
-
-        foreach ($products as $product) {
-            $externalProduct = $product->getExternalProductFromMarket($market);
-            if (ExternalProduct::STATUS_ACTIVE == $externalProduct->getStatus()) {
-                $result[] = $externalProduct;
-            }
-        }
-
-        return $result;
-    }
-
-
-    public function getAllBySellerWithFilter(Core\Seller $seller, $filter = [])
-    {
-        $searchParam = (isset($filter['search'])) ? "AND (p.sku LIKE :search OR p.name LIKE :search) " : '';
-        $date = ($filter['dateStart'] && $filter['dateEnd']) ? "AND p.createdAt BETWEEN :dateStart AND :dateEnd" : '';
-        $category = ($filter['category']) ? "AND c.nameKey = :category" : '';
-
-        $dql = "SELECT p
-                FROM AppBundle\Infrastructure\Product\Product p
-                INNER JOIN AppBundle\Infrastructure\Product\Category c WITH p.category = c.id
-                WHERE p.seller = :seller
-                {$searchParam} {$date} {$category}
-                ORDER BY p.createdAt DESC";
-
-        $query = $this->getEntityManager()
-            ->createQuery($dql)
-            ->setParameter('seller', $seller);
-
-        if ($filter['search']) $query->setParameter("search", "%{$filter['search']}%");
-        if ($filter['category']) $query->setParameter('category', $filter['category']);
-        if ($filter['dateStart'] && $filter['dateEnd']) {
-            $query->setParameter('dateStart', "{$filter['dateStart']} 00:00:00");
-            $query->setParameter('dateEnd', "{$filter['dateEnd']} 23:59:59");
-        }
-
-        return $query->getResult();
-    }
-
-
-    public function getProductByExternalProductStatus(Core\Seller $seller, $status = ExternalProduct::STATUS_ACTIVE)
-    {
-        $dql = <<<DQL
-        SELECT p FROM AppBundle\Infrastructure\Product\Product p
-        JOIN p.externalProducts ep
-        WHERE ep.status = :status
-        AND p.seller = :seller
-DQL;
-        $query = $this->getEntityManager()
-            ->createQuery($dql)
-            ->setParameter('seller', $seller)
-            ->setParameter('status', $status);
-
-        return $query->getResult();
+        // TODO: Implement bySkuAndMarketId() method.
     }
 
 

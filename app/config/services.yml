@@ -1,6 +1,7 @@
 imports:
     - { resource: services_seller.yml }
     - { resource: services_product.yml }
+    - { resource: services_category.yml }
     - { resource: services_order.yml }
 
 services:

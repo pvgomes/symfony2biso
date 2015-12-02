@@ -9,7 +9,7 @@ use Domain\Order\Order;
 
 class OrderRepository extends EntityRepository implements Domain\Order\OrderRepository
 {
-    private $entityPath = 'AppBundle\Order\Order';
+    private $entityPath = 'Domain\Order\Order';
 
     /**
      * {@inheritdoc}
@@ -31,7 +31,7 @@ class OrderRepository extends EntityRepository implements Domain\Order\OrderRepo
         $this->getEntityManager()->flush();
     }
 
-    public function getByMarketOrderNumber($marketOrderNumber, \Domain\Core\Market $market)
+    public function getByMarketOrderNumber($marketOrderNumber, Domain\Core\Market $market)
     {
         $order = $this->getRepository()
             ->findOneBy(['marketOrderNumber' => $marketOrderNumber, 'market' => $market]);
@@ -39,7 +39,7 @@ class OrderRepository extends EntityRepository implements Domain\Order\OrderRepo
         return $order;
     }
 
-    public function getBySellerOrderNumber($sellerOrderNumber, \Domain\Core\Seller $seller)
+    public function getBySellerOrderNumber($sellerOrderNumber, Domain\Core\Seller $seller)
     {
         $order = $this->getRepository()
             ->findOneBy(['sellerOrderNumber' => $sellerOrderNumber, 'seller' => $seller]);
@@ -47,7 +47,7 @@ class OrderRepository extends EntityRepository implements Domain\Order\OrderRepo
         return $order;
     }
 
-    public function listByMarket(\Domain\Core\Market $market, $firstResult = 0, $maxResult = 20, $filter = [])
+    public function listByMarket(Domain\Core\Market $market, $firstResult = 0, $maxResult = 20, $filter = [])
     {
         $search  = ($filter['search'])
             ? "AND (o.orderNumber = :search OR o.sellerOrderNumber = :search OR o.marketOrderNumber = :search OR o.id = :search)"
