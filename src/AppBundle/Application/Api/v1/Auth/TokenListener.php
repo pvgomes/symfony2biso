@@ -2,6 +2,7 @@
 namespace AppBundle\Application\Api\v1\Auth;
 
 use Doctrine\ORM\EntityRepository;
+use Domain\Core\MarketRepository;
 use Domain\Core\SellerRepository;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
@@ -10,13 +11,19 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 class TokenListener {
 
     /**
+     * @var MarketRepository
+     */
+    private $marketRepository;
+
+    /**
      * @var SellerRepository
      */
     private $sellerRepository;
 
 
-    public function __construct(EntityRepository $sellerRepository)
+    public function __construct(MarketRepository $marketRepository, SellerRepository $sellerRepository)
     {
+        $this->marketRepository = $marketRepository;
         $this->sellerRepository = $sellerRepository;
     }
 
@@ -44,27 +51,26 @@ class TokenListener {
         }
 
         if ($controller[0] instanceof TokenAuthentication) {
-            $token = $event->getRequest()->headers->get('seller-access-token');
-            $key   = $event->getRequest()->headers->get('seller-key');
+            $token = $event->getRequest()->headers->get('access-token');
+            $key   = $event->getRequest()->headers->get('key');
 
-            if (!$this->authSeller($key, $token)) {
+            try {
+                $this->auth($key, $token);
+            } catch(AccessDeniedHttpException $exception) {
+                throw new AccessDeniedHttpException($exception->getMessage());
+            } catch(\Exception $exception) {
                 throw new AccessDeniedHttpException('This action needs a valid token!');
             }
+
         }
     }
 
-    private function authSeller($sellerKey, $sellerAcessToken)
+    private function auth($key, $token)
     {
-        $isValid = false;
-
-        $seller = $this->sellerRepository
-            ->findOneBy(['keyName' => $sellerKey, 'accessToken' => $sellerAcessToken]);
-
-        if($seller) {
-            $isValid = true;
+        if (!$this->marketRepository->byKeyNameAndToken($key, $token) &&
+            !$this->sellerRepository->byKeyNameAndToken($key, $token)) {
+            throw new AccessDeniedHttpException('This action needs a valid token!');
         }
-
-        return $isValid;
     }
 
 }

@@ -78,12 +78,12 @@ abstract class EntityRepository extends DoctrineEntityRepository
     /**
      * {@inheritdoc}
      */
-    public function getAllBySeller(Infrastructure\Core\Seller $seller)
+    public function getAllByMarket(Infrastructure\Core\Market $market)
     {
-        $products = $this->getRepository()
-            ->findBySeller($seller, ['createdAt' => 'DESC']);
+        $entities = $this->getRepository()
+            ->findByMarket($market);
 
-        return $products;
+        return $entities;
     }
 
     /**

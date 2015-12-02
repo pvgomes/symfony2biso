@@ -1,5 +1,6 @@
 AppBundle\Infrastructure\Core\Seller:
     type: entity
+    repositoryClass: AppBundle\Infrastructure\Core\SellerRepository
     table: seller
     uniqueConstraints:
         UNIQ_FB1AD3FCD824A5CF:
@@ -28,4 +29,11 @@ AppBundle\Infrastructure\Core\Seller:
             options:
                 fixed: false
             column: key_name
+        accessToken:
+            type: string
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+            column: access_token
     lifecycleCallbacks: {  }

@@ -29,9 +29,10 @@ services:
 
 # Symfony2Biso ----------------------------------------------------------------
 
+
     app.tokens.action_listener:
         class: AppBundle\Application\Api\v1\Auth\TokenListener
-        arguments: ["@seller_repository"]
+        arguments: ["@market_repository", "@seller_repository"]
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }

@@ -204,6 +204,7 @@ class LoadAppData extends AbstractFixture implements OrderedFixtureInterface, Co
             $seller = new Seller();
             $seller->setName($sellerName);
             $seller->setKeyName(strtolower($sellerName));
+            $seller->setAccessToken('123');
             $manager->persist($seller);
             $this->addReference($sellerName, $seller);
             $sellersEntities[] = $seller;
@@ -220,7 +221,7 @@ class LoadAppData extends AbstractFixture implements OrderedFixtureInterface, Co
             $market = new Market();
             $market->setName($marketName);
             $market->setKeyName(strtolower($marketName));
-            $market->setAccessToken('123');
+            $market->setAccessToken('456');
 
             $manager->persist($market);
             $this->addReference($marketName, $market);

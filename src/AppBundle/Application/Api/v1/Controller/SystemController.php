@@ -5,6 +5,7 @@ namespace AppBundle\Application\Api\v1\Controller;
 use AppBundle\Application\AppEvents;
 use AppBundle\Application\Core\CreateConfigurationCommand;
 use AppBundle\Domain\Order\OrderContext;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -13,9 +14,8 @@ use JsonSchema\Uri\UriRetriever;
 use AppBundle\Application\Api\v1\Auth\TokenAuthentication;
 use AppBundle\Application\Api\v1\Validator\JsonValidator;
 use AppBundle\Application\Api\ApiController;
-use AppBundle\Domain\Exception\InvalidOrderException;
 
-class MarketController extends ApiController implements TokenAuthentication
+class SystemController extends ApiController implements TokenAuthentication
 {
     use JsonValidator;
 
@@ -68,7 +68,8 @@ class MarketController extends ApiController implements TokenAuthentication
      *  },
      *  tags = {
      *      "stable" = "#6BB06C"
-     *  }
+     *  },
+     *  views = { "default", "market" }
      * )
      */
     public function configurationCreate($key, $value)
@@ -101,5 +102,32 @@ class MarketController extends ApiController implements TokenAuthentication
 
         return $jsonResponse;
     }
-    
+
+
+    /**
+     * <strong>Parameters Headers</strong>:<br>
+     * market-access-token = hashCode<br>
+     * market-key = marketKeyName<br>
+     *
+     * @Rest\Get("/api/v1/ping")
+     *
+     * @ApiDoc(
+     *  section="System",
+     *  description="Tests the service availability",
+     *  statusCodes={
+     *      200="Available service",
+     *      400="Unauthorized service",
+     *      500="Unavailable service"
+     *  },
+     *  tags={
+     *      "stable" = "#6BB06C"
+     *  },
+     * views = { "default", "seller", "market"}
+     * )
+     */
+    public function ping()
+    {
+        $response = new Response(json_encode(['message' => 'pong']));
+        return $response;
+    }
 }

@@ -1,5 +1,6 @@
 AppBundle\Infrastructure\Core\Market:
     type: entity
+    repositoryClass: AppBundle\Infrastructure\Core\MarketRepository
     table: market
     uniqueConstraints:
         UNIQ_6BAC85CBD824A5CF:
