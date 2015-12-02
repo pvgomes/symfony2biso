@@ -34,14 +34,6 @@
                         </tr>
                     </thead>
                     <tr>
-                        <td>Data de criação</td>
-                        <td>{{ order.createdAt|date("d/m/Y H:i:s") }}</td>
-                    </tr>
-                    <tr>
-                        <td>Última atualização</td>
-                        <td>{{ order.updatedAt|date("d/m/Y H:i:s") }}</td>
-                    </tr>
-                    <tr>
                         <td>Parceiro</td>
                         <td>{{ order.market.name }}</td>
                     </tr>
@@ -125,7 +117,6 @@
                                     <tbody>
                                     {% for history in item.itemStatusHistory %}
                                         <tr>
-                                            <td>{{ history.createdAt|date("d/m/Y H:i:s") }}</td>
                                             <td>{{ history.eventName }}</td>
                                             <td><abbr title="{{ history.statusSeller.description }}" class="initialism">{{ history.statusSeller.name }}</abbr></td>
                                             <td><abbr title="{{ history.statusMarket.description }}" class="initialism">{{ history.statusMarket.name }}</abbr></td>

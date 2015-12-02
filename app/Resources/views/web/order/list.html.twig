@@ -98,8 +98,6 @@ $(document).ready(function() {
                 <th>Qte Itens</th>
                 <th>Frete</th>
                 <th>Total</th>
-                <th>Criado</th>
-                <th>Atualizado</th>
             </tr>
             </thead>
             <tbody>
@@ -113,8 +111,6 @@ $(document).ready(function() {
                     <td class="extshop-number">{{ order.items|length }}</td>
                     <td class="extshop-money">{{ order.freightAmount|number_format(2, ',', '.') }}</td>
                     <td class="extshop-money">{{ order.totalAmount|number_format(2, ',', '.') }}</td>
-                    <td class="extshop-date">{{ order.createdAt|date('d/m/Y - H:i') }}</td>
-                    <td class="extshop-date">{{ order.updatedAt|date('d/m/Y - H:i') }}</td>
                 </tr>
                 <tr id="orderItems-{{ order.id }}" style="display: none">
                     <td colspan="10">

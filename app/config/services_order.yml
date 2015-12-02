@@ -10,4 +10,10 @@ services:
         factory_method: getRepository
         arguments: ["AppBundle\\Infrastructure\\Order\\Order"]
 
+    # LISTENERS
+    order.queue.listener:
+        class: AppBundle\Application\Order\QueueListener
+        arguments: ["@service_container"]
+        tags:
+            - { name: kernel.event_listener, event: seller.create.order, method: onSellerCreateOrder }
 
