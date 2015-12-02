@@ -7,17 +7,25 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use AppBundle\Application\AppEvents;
+
+use AppBundle\Application\Order\CreateOrderCommand;
+use AppBundle\Application\Exception\InvalidJsonFormat;
+use AppBundle\Application\Exception\InvalidOrderException;
 use AppBundle\Application\Api\ApiController;
 use AppBundle\Application\Api\v1\Validator\JsonValidator;
+
+use Domain;
 
 class OrderController extends ApiController
 {
     use JsonValidator;
 
     /**
+     * <strong>Parameters Headers</strong>:<br>
+     * access-token = hashCode<br>
+     * key = sellerKeyName<br>
      * <pre>{
-     *   "marketplaceOrderId" : "MKT-1000121920192",
+     *   "orderId" : "MKT-1000121920192",
      *   "items" : [ {
      *     "id" : "ABC3534411",
      *     "quantity" : 1,
@@ -77,22 +85,32 @@ class OrderController extends ApiController
      *   }
      * }</pre>
      *
-     * @Rest\Post ("/api/v1/seller/{marketKey}/fulfillment/order/create")
+     * @Rest\Post ("/api/v1/{marketKey}/{sellerKey}/order/create")
      *
      * @ApiDoc(
      *  section="Order",
-     *  description="Endpoint responsável por receber pedidos do parceiro Seller",
+     *  description="Endpoint responsible for receiving seller orders",
      *  requirements={
+     *      {
+     *          "name"="sellerKey",
+     *          "dataType"="string",
+     *          "description"="seller key name. Example: walmart, extra, shoptime"
+     *      },
+     *      {
+     *          "name"="sellerToken",
+     *          "dataType"="string",
+     *          "description"="seller hash token"
+     *      },
      *      {
      *          "name"="marketKey",
      *          "dataType"="string",
-     *          "description"="Nome da market. Exemplo: tricae, kanui"
-     *      }
+     *          "description"="market key name. Example: tricae, kanui, dafiti"
+     *      },
      *  },
      *  statusCodes={
-     *      200="Order recebida com sucesso",
-     *      400="Erro na requisição, a regra de validação é de acordo com a market. Seller cancela o pedido imediatamente",
-     *      500="Erro interno do servidor. Seller adicionará o pedido na fila de re-tentativa"
+     *      200="Order successfully received",
+     *      400="Error in the request, the validation rule is not equal with the market. Seller cancel the order immediately",
+     *      500="Internal Server Error. Seller add the request in the queue to re-attempt"
      *  },
      *  tags={
      *      "stable" = "#6BB06C"
@@ -100,11 +118,8 @@ class OrderController extends ApiController
      *  views = { "default", "seller" }
      * )
      */
-    public function createOrderAction($marketKey)
+    public function createOrderAction($sellerKey, $marketKey)
     {
-        /**
-         * @var Request $request;
-         */
         $request = $this->get('request');
         $orderData = $request->getContent();
         $incomingOrder = json_decode($orderData);
@@ -113,49 +128,26 @@ class OrderController extends ApiController
         $jsonResponse = new JsonResponse();
 
         try {
-            if (! $this->isValidJson($this->loadOrderCreateSellerSchema($marketKey), $incomingOrder)) {
+            /** @var \AppBundle\Application\CommandBus\CommandBus $commandBus */
+            $commandBus = $this->get("command_bus");
+
+            if (! $this->isValidJson($this->loadOrderCreateSellerSchema(), $incomingOrder)) {
                 throw new InvalidJsonFormat(400, $this->getJsonErrors());
             }
 
-            $orderContext = new OrderContext($marketKey, self::PARTNER_KEY);
-            $orderContext->setEventName(AppEvents::PARTNER_CREATE_ORDER);
-            $orderContext->setOrderData($orderData);
-            $orderContext->addAdditionalInfo(['request' => $request]);
-
-            /** @var \AppBundle\Application\Order\OrderService $orderService */
-            $orderService = $this->get('order_service');
-            $orderService->setContext($orderContext);
-            $orderService->setRequestId($this->requestId);
-            $orderNumber = $orderService->create();
+            $createOrderCommand = new CreateOrderCommand($marketKey, $sellerKey, json_decode($orderData, true), Domain\Order\Events::SELLER_CREATE_ORDER);
+            $orderNumber = $commandBus->execute($createOrderCommand);
 
             $jsonResponse->setData(['orderId' => $orderNumber]);
 
         } catch (InvalidJsonFormat $jsonException) {
-            $message = "Partner [".self::PARTNER_KEY."] cannot create Order: Invalid JSON format";
-
-            $errorContent['message'] = $message;
-            $errorContent['description'] = $jsonException->getMessage();
-            $jsonResponse->setData($errorContent);
+            $jsonResponse->setData($jsonException->getMessage());
             $jsonResponse->setStatusCode(400);
-
-            $logContext = [
-                'exception_code' => $jsonException->getCode(),
-                'exception_message' => $jsonException->getMessage(),
-                'exception_trace' => $jsonException->getTraceAsString(),
-                'event' =>  AppEvents::PARTNER_CREATE_ORDER_ERROR,
-                'request'       => $request
-            ];
-
-            $this->get('logger')->error($message, $logContext);
-
         } catch (InvalidOrderException $invalidOrderException) {
-            $errorContent['summary'] = $invalidOrderException->getMessage();
-            $jsonResponse->setData($errorContent);
+            $jsonResponse->setData($invalidOrderException->getMessage());
             $jsonResponse->setStatusCode(400);
-
         } catch (\Exception $exception) {
-            $errorContent['summary'] = 'Try again';
-            $jsonResponse->setData($errorContent);
+            $jsonResponse->setData('Try again');
             $jsonResponse->setStatusCode(500);
         }
 

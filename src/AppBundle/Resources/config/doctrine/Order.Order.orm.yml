@@ -28,14 +28,14 @@ AppBundle\Infrastructure\Order\Order:
             column: order_number
         marketOrderNumber:
             type: string
-            nullable: false
+            nullable: true
             length: 255
             options:
                 fixed: false
             column: market_order_number
         sellerOrderNumber:
             type: string
-            nullable: true
+            nullable: false
             length: 255
             options:
                 fixed: false
@@ -48,7 +48,7 @@ AppBundle\Infrastructure\Order\Order:
             column: total_amount
         freightAmount:
             type: decimal
-            nullable: false
+            nullable: true
             precision: 10
             scale: 2
             column: freight_amount

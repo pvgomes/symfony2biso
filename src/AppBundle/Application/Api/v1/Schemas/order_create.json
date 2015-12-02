@@ -1,9 +1,9 @@
 {
-    "title": "Walmart Order",
+    "title": "Seller Order",
     "type": "object",
     "properties": {
 
-        "marketplaceOrderId": {
+        "orderId": {
             "type": "string"
         },
 
@@ -19,5 +19,5 @@
             "type" : "object"
         }
     },
-    "required": ["marketplaceOrderId", "items", "clientProfileData", "shippingData"]
+    "required": ["orderId", "items", "clientProfileData", "shippingData"]
 }

@@ -15,6 +15,8 @@ class CreateConfigurationCommand implements Domain\Command
      */
     private $configuration;
 
+    private $eventName;
+
     /**
      * @param Market $market
      * @param $key
@@ -22,20 +24,30 @@ class CreateConfigurationCommand implements Domain\Command
      */
     public function __construct(Market $market, $key, $value)
     {
+        $this->eventName = Domain\Core\Events::MARKET_CREATE_CONFIGURATION;
         $this->configuration = new Configuration();
         $this->configuration->setKey($key);
         $this->configuration->setValue($value);
         $this->configuration->setMarket($market);
     }
 
-    public function domainEntity()
+    public function repositories()
     {
-        return $this->configuration;
+        return ['configuration'];
     }
 
-    public function resourceName()
+    public function eventName()
     {
-        return 'configuration';
+        return $this->eventName;
     }
 
+    public function eventNameError()
+    {
+        return $this->eventName . ".error";
+    }
+
+    public function configurationEntity()
+    {
+        return new Configuration();
+    }
 }

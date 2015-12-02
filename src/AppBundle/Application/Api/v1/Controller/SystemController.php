@@ -22,8 +22,8 @@ class SystemController extends ApiController implements TokenAuthentication
 
     /**
      * <strong>Parameters Headers</strong>:<br>
-     * market-access-token = hashCode<br>
-     * market-key = marketKeyName<br>
+     * access-token = hashCode<br>
+     * key = marketKeyName<br>
      * <strong>Request body</strong>:<br>
      * <pre>{
      *     "key": "keyName",
@@ -106,8 +106,8 @@ class SystemController extends ApiController implements TokenAuthentication
 
     /**
      * <strong>Parameters Headers</strong>:<br>
-     * market-access-token = hashCode<br>
-     * market-key = marketKeyName<br>
+     * access-token = hashCode<br>
+     * key = keyName<br>
      *
      * @Rest\Get("/api/v1/ping")
      *

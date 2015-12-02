@@ -44,6 +44,9 @@ class SellerRepository extends EntityRepository implements \Domain\Core\SellerRe
         return $seller;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function byKeyNameAndToken($keyName, $token)
     {
         return $this->getRepository()

@@ -10,7 +10,7 @@ use \Domain;
 class ProductRepository extends EntityRepository implements Domain\Product\ProductRepository
 {
 
-    private $entityPath = 'Domain\Product\Product';
+    private $entityPath = 'AppBundle\Infrastructure\Product\Product';
 
     /**
      * {@inheritdoc}
@@ -55,9 +55,10 @@ DQL;
         return new Paginator($query, false);
     }
 
-    public function bySkuAndMarket($sku, Domain\Core\Market $venture)
+    public function bySkuAndMarket($sku, Domain\Core\Market $market)
     {
-        // TODO: Implement bySkuAndMarket() method.
+        return $this->getRepository()
+            ->findOneBy(['sku' => $sku, 'market' => $market]);
     }
 
     public function activeExternalProducts(array $skus, Domain\Core\Market $market, Domain\Core\Seller $seller)

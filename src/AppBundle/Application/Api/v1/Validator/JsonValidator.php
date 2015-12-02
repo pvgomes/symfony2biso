@@ -47,30 +47,14 @@ Trait JsonValidator
         return $rootDir . '/../src/AppBundle/Application/Api/v1/Schemas/';
     }
 
-    /**
-     * Get Order Schema by Seller and Market, if not exists, loads default schema
-     *
-     * @param string $sellerKey
-     * @param string $action
-     * @param bool $useMarketKey
-     * @return string filename
-     */
-    private function loadOrderSchema($sellerKey, $action, $useMarketKey = true)
+    private function loadOrderSchema($action)
     {
-        if ($useMarketKey) {
-            $partnerKey = (self::PARTNER_KEY) ? '_' . self::PARTNER_KEY : '';
+        return "order_$action.json";
+    }
 
-            $schema = 'order_' . $action . $partnerKey . '.json';
-            $sellerSchema = 'order_' . $action . $partnerKey . '_' . $sellerKey . '.json';
-
-            if (file_exists($this->getSchemaDirectory() . DIRECTORY_SEPARATOR . $sellerSchema)) {
-                $schema = $sellerSchema;
-            }
-        } else {
-            $schema = "order_$action.json";
-        }
-
-        return $schema;
+    public function loadOrderCreateSellerSchema()
+    {
+        return $this->loadOrderSchema('create');
     }
 
     /**

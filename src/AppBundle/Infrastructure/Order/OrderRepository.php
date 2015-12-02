@@ -9,7 +9,7 @@ use Domain\Order\Order;
 
 class OrderRepository extends EntityRepository implements Domain\Order\OrderRepository
 {
-    private $entityPath = 'Domain\Order\Order';
+    private $entityPath = 'AppBundle\Infrastructure\Order\Order';
 
     /**
      * {@inheritdoc}

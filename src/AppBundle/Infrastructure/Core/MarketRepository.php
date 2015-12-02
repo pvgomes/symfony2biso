@@ -15,7 +15,6 @@ class MarketRepository extends EntityRepository implements Domain\Core\MarketRep
     public function get($id)
     {
         $repository = $this->getRepository();
-
         return $repository->find($id);
     }
 
@@ -43,12 +42,17 @@ class MarketRepository extends EntityRepository implements Domain\Core\MarketRep
         return $market;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function byKeyNameAndToken($keyName, $token)
     {
-        return $this->getRepository()
-            ->findOneBy(['keyName' => $keyName, 'accessToken' => $token]);
+        return $this->getRepository()->findOneBy(['keyName' => $keyName, 'accessToken' => $token]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function add(Domain\Core\Market $market)
     {
         $this->getEntityManager()->persist($market);
