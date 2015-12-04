@@ -68,7 +68,7 @@ class LoadAppData extends AbstractFixture implements OrderedFixtureInterface, Co
                     'description' => 'Skate Roxy Vague preto, fabricado em madeira, com lixa emborracha',
                     'activated_at' => '2014-05-23 16:48:40',
                     'updated_at' => '2014-09-30 14:07:47',
-                    'category' => 'game',
+                    'category' => 'games',
                     'brand' => 'sony',
                     'max_price' => '500.00',
                     'price' => '399,90',
@@ -121,8 +121,8 @@ class LoadAppData extends AbstractFixture implements OrderedFixtureInterface, Co
             ],
             'category' => [
                 'categoryId' => '12',
-                'categoryName' => 'Game',
-                'categoryKeyName' => 'game',
+                'categoryName' => 'Games',
+                'categoryKeyName' => 'games',
             ]
         ],
         'Dafiti' => [
@@ -151,7 +151,7 @@ class LoadAppData extends AbstractFixture implements OrderedFixtureInterface, Co
                 'description' => 'SAPATO',
                 'activated_at' => '2014-05-23 16:48:40',
                 'updated_at' => '2014-09-30 14:07:47',
-                'category' => 'game',
+                'category' => 'games',
                 'brand' => 'sony',
                 'max_price' => '500.99',
                 'price' => '485.99',
