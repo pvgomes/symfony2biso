@@ -7,11 +7,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\Event;
 use AppBundle\Application\QueueAbstract;
 
-/**
- * Class QueueListener
- *
- * @author Mario Rezende
- */
 class QueueListener extends QueueAbstract
 {
     /**

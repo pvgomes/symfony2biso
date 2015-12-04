@@ -33,12 +33,10 @@ class SellerCreateConsumer implements ConsumerInterface
         try {
             /** @var \AppBundle\Application\CommandBus\CommandBus $commandBus */
             $commandBus = $this->container->get("command_bus");
-
-            $createOrderCommand = new CreateOrderCommand($messageObject->marketKey, $messageObject->sellerKey, [], Domain\Order\Events::MARKET_CREATE_ORDER);
+            $createOrderCommand = new CreateOrderCommand($messageObject->marketKey, $messageObject->sellerKey, ['orderId' => $messageObject->orderId], Domain\Order\Events::MARKET_CREATE_ORDER);
             $commandBus->execute($createOrderCommand);
-
         } catch (\Exception $exception) {
-
+            // retry?
         }
 
         return true;

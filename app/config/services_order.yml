@@ -17,6 +17,12 @@ services:
         tags:
             - { name: kernel.event_listener, event: seller.create.order, method: onSellerCreateOrder }
 
+    order.client.listener:
+        class: AppBundle\Application\Order\ClientListener
+        arguments: ["@service_container"]
+        tags:
+            - { name: kernel.event_listener, event: market.create.order, method: onMarketCreateOrder }
+
     # QUEUES
     seller_create_order:
         class: AppBundle\Application\Order\VentureCreateConsumer
