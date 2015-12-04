@@ -27,19 +27,7 @@ class SystemController extends ApiController implements TokenAuthentication
      * <strong>Request body</strong>:<br>
      * <pre>{
      *     "key": "keyName",
-     *     "value": {
-     *                  "id": "2314",
-     *                  "base_uri": "https://api-mp.example.com.br/",
-     *                  "version": "v0.1",
-     *                  "headers": {
-     *                      "Accept": "application/json",
-     *                      "Content-Type": "application/json"
-     *                  },
-     *                  "auth": [
-     *                      "authname",
-     *                      "authpassword"
-     *                  ]
-     *              }
+     *     "value": "value"
      * }</pre>
      *
      * @Rest\Post("/api/v1/configuration/")
@@ -47,18 +35,18 @@ class SystemController extends ApiController implements TokenAuthentication
      * @ApiDoc(
      *  section = "System",
      *  description = "Create and Market Configuration",
-     *  requirements={
+     *  parameters = {
      *      {
      *          "name"        = "key",
      *          "dataType"    = "string",
      *          "required"    = true,
-     *          "description" = "configuration key name"
+     *          "description" = "key name configuration"
      *      },
      *      {
      *          "name"        = "value",
      *          "dataType"    = "string",
      *          "required"    = true,
-     *          "description" = "configuration content"
+     *          "description" = "value configuration"
      *      }
      *  },
      *  statusCodes = {
@@ -72,10 +60,10 @@ class SystemController extends ApiController implements TokenAuthentication
      *  views = { "default", "market" }
      * )
      */
-    public function configurationCreate($key, $value)
+    public function configurationCreate()
     {
         $request = $this->get('request');
-        $marketKey = $request->headers->get('market-key');
+        $marketKey = $request->headers->get('key');
         $orderData = $request->getContent();
         $requestContent = json_decode($orderData);
         $jsonResponse = new JsonResponse();
@@ -87,7 +75,7 @@ class SystemController extends ApiController implements TokenAuthentication
                 throw new HttpException(400, $this->getJsonErrors());
             }
 
-            $createConfigurationCommand = new CreateConfigurationCommand($marketKey, $key, $value);
+            $createConfigurationCommand = new CreateConfigurationCommand($marketKey, $requestContent->key, $requestContent->value);
             $commandBus->execute($createConfigurationCommand);
             $jsonResponse->setStatusCode(204);
         } catch (\DomainException $exception) {
