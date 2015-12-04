@@ -17,13 +17,12 @@ abstract class QueueAbstract
     abstract protected function publish($producerKey, Event $event, array $message = []);
 
     /**
-     * @param string $ventureKey
      * @param string $producerReference
      * @return string
      */
-    protected function handleProducerName($ventureKey, $producerReference)
+    protected function handleProducerName($producerReference)
     {
-        $producerName = 'old_sound_rabbit_mq.'.$ventureKey.'_'.$producerReference.'_producer';
+        $producerName = 'old_sound_rabbit_mq.'.$producerReference.'_producer';
 
         return $producerName;
     }

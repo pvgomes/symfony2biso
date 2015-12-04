@@ -34,7 +34,7 @@ rabbit:
   image: tutum/rabbitmq
   ports:
     - 5673:5672
-    - 15673:15672
+    - 15672:15672
   environment:
     TERM: linux
     RABBITMQ_NODENAME: symfony2biso

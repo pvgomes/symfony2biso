@@ -12,6 +12,11 @@ class CreateOrderCommand implements Domain\Command
     private $eventName;
 
     /**
+     * @var Domain\Order\Order
+     */
+    private $order;
+
+    /**
      * @var array
      */
     public $data;
@@ -24,6 +29,7 @@ class CreateOrderCommand implements Domain\Command
         $this->data['orderData'] = json_encode($orderData);
 
         $this->eventName = $orderEvent;
+        $this->order = new Order();
     }
 
     public function __get($property)
@@ -54,7 +60,7 @@ class CreateOrderCommand implements Domain\Command
 
     public function orderEntity()
     {
-        return new Order();
+        return $this->order;
     }
 
     public function itemEntity()

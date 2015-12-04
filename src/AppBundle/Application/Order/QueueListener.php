@@ -46,7 +46,7 @@ class QueueListener extends QueueAbstract
         $finalMessage = array_merge($baseMessage, $message);
 
         try {
-            $producerName = $this->handleProducerName($order->getMarket()->getKeyName(), $producerKey);
+            $producerName = $this->handleProducerName($producerKey);
             $this->serviceContainer->get($producerName)->publish(json_encode($finalMessage));
 
         } catch (\Exception $exception) {
