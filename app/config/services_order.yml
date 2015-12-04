@@ -20,5 +20,5 @@ services:
     # QUEUES
     seller_create_order:
         class: AppBundle\Application\Order\VentureCreateConsumer
-        arguments: ["@order_service"]
+        arguments: ["@service_container"]
 

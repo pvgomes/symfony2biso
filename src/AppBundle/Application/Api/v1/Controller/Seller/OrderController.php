@@ -123,8 +123,6 @@ class OrderController extends ApiController
         $request = $this->get('request');
         $orderData = $request->getContent();
         $incomingOrder = json_decode($orderData);
-
-        $errorContent = ['requestId' => $this->requestId];
         $jsonResponse = new JsonResponse();
 
         try {

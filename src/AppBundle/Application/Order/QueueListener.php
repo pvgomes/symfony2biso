@@ -37,8 +37,8 @@ class QueueListener extends QueueAbstract
         if (is_null($baseMessage)) {
             $baseMessage = [
                 'orderId' => $order->getId(),
-                'ventureKey' => $order->getMarket()->getKeyName(),
-                'partnerKey' => $order->getSeller()->getKeyName(),
+                'marketKey' => $order->getMarket()->getKeyName(),
+                'sellerKey' => $order->getSeller()->getKeyName(),
                 'timestamp' => date('c'),
             ];
         }

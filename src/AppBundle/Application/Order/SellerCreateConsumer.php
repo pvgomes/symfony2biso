@@ -5,7 +5,9 @@ namespace AppBundle\Application\Order;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 use Doctrine\DBAL\Exception\DriverException;
-use Symfony\Component\DependencyInjection\Container;
+use AppBundle\Application\ApplicationEvent;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+USE \Domain;
 
 class SellerCreateConsumer implements ConsumerInterface
 {
@@ -14,9 +16,11 @@ class SellerCreateConsumer implements ConsumerInterface
      */
     private $exception;
 
-    public function __construct(Container $container)
-    {
+    private $container;
 
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
     }
 
     /**
@@ -25,6 +29,17 @@ class SellerCreateConsumer implements ConsumerInterface
     public function execute(AMQPMessage $message)
     {
         $messageObject = json_decode($message->body);
+
+        try {
+            /** @var \AppBundle\Application\CommandBus\CommandBus $commandBus */
+            $commandBus = $this->container->get("command_bus");
+
+            $createOrderCommand = new CreateOrderCommand($messageObject->marketKey, $messageObject->sellerKey, [], Domain\Order\Events::MARKET_CREATE_ORDER);
+            $commandBus->execute($createOrderCommand);
+
+        } catch (\Exception $exception) {
+
+        }
 
         return true;
     }

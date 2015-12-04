@@ -32,12 +32,11 @@ redis:
     - 6380:6379
 rabbit:
   image: tutum/rabbitmq
+  environment:
+      - RABBITMQ_PASS=symfony2biso
   ports:
     - 5673:5672
     - 15672:15672
-  environment:
-    TERM: linux
-    RABBITMQ_NODENAME: symfony2biso
 elk:
   image: sebp/elk
   ports:
