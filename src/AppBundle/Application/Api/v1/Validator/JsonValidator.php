@@ -47,38 +47,19 @@ Trait JsonValidator
         return $rootDir . '/../src/AppBundle/Application/Api/v1/Schemas/';
     }
 
-    private function loadOrderSchema($action)
+    private function loadSchema($type, $action)
     {
-        return "order_$action.json";
+        return "{$type}_{$action}.json";
     }
 
     public function loadOrderCreateSellerSchema()
     {
-        return $this->loadOrderSchema('create');
+        return $this->loadSchema('order', 'create');
     }
 
-    /**
-     * Get Product Schema filename
-     *
-     * @param string $action
-     *
-     * @return string filename
-     */
-    private function productSchema($action)
+    public function loadConfigurationCreateSchema()
     {
-        $schema = 'product_' . $action . '.json';
-
-        return $schema;
-    }
-
-    /**
-     * @param string $sellerKey
-     *
-     * @return string filename
-     */
-    public function loadConfigurationSchema($sellerKey)
-    {
-        return $this->loadOrderSchema($sellerKey, 'configuration');
+        return $this->loadSchema('configuration','create');
     }
 }
 

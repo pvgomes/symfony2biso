@@ -15,20 +15,35 @@ class CreateConfigurationCommand implements Domain\Command
      */
     private $configuration;
 
+    /**
+     * @var array
+     */
+    public $data;
+
     private $eventName;
 
     /**
-     * @param Market $market
+     * @param $marketKey
      * @param $key
      * @param $value
      */
-    public function __construct(Market $market, $key, $value)
+    public function __construct($marketKey, $key, $value)
     {
+        $this->data['marketKey'] = $marketKey;
+        $this->data['key'] = $key;
+        $this->data['value'] = $value;
         $this->eventName = Domain\Core\Events::MARKET_CREATE_CONFIGURATION;
-        $this->configuration = new Configuration();
-        $this->configuration->setKey($key);
-        $this->configuration->setValue($value);
-        $this->configuration->setMarket($market);
+    }
+
+    public function __get($property)
+    {
+        $value = null;
+        if( isset($this->data[$property]) )
+        {
+            $value = $this->data[$property];
+        }
+
+        return $value;
     }
 
     public function repositories()

@@ -23,7 +23,7 @@ class SystemController extends ApiController implements TokenAuthentication
     /**
      * <strong>Parameters Headers</strong>:<br>
      * access-token = hashCode<br>
-     * key = marketKeyName<br>
+     * key = keyName<br>
      * <strong>Request body</strong>:<br>
      * <pre>{
      *     "key": "keyName",
@@ -83,11 +83,11 @@ class SystemController extends ApiController implements TokenAuthentication
         $commandBus = $this->get("command_bus");
 
         try {
-            if (!$this->isValidJson($this->loadConfigurationSchema(), $requestContent)) {
+            if (!$this->isValidJson($this->loadConfigurationCreateSchema(), $requestContent)) {
                 throw new HttpException(400, $this->getJsonErrors());
             }
 
-            $createConfigurationCommand = new CreateConfigurationCommand($this->getMarket($marketKey), $key, $value);
+            $createConfigurationCommand = new CreateConfigurationCommand($marketKey, $key, $value);
             $commandBus->execute($createConfigurationCommand);
             $jsonResponse->setStatusCode(204);
         } catch (\DomainException $exception) {

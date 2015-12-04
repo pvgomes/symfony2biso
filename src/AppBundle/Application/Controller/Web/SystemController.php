@@ -38,7 +38,7 @@ class SystemController extends Controller
             $form->handleRequest($request);
             $data = $form->getData();
             try {
-                $createConfigurationCommand = new CreateConfigurationCommand($this->getUser()->getMarket(), $data['key'], $data['value']);
+                $createConfigurationCommand = new CreateConfigurationCommand($this->getUser()->getMarket()->getKeyName(), $data['key'], $data['value']);
                 $commandBus->execute($createConfigurationCommand);
                 $flashMsg = "Chave gravada.";
                 $flashMsgType = "success";
