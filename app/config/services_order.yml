@@ -1,7 +1,4 @@
 services:
-    # QUEUES
-    seller_create_order:
-        class: AppBundle\Application\Order\SellerCreateConsumer
 
     # REPOSITORIES
     order_repository:
@@ -23,8 +20,8 @@ services:
         tags:
             - { name: kernel.event_listener, event: market.create.order, method: onMarketCreateOrder }
 
-    # QUEUES
+    # CONSUMERS
     seller_create_order:
-        class: AppBundle\Application\Order\VentureCreateConsumer
+        class: AppBundle\Application\Order\MarketCreateConsumer
         arguments: ["@service_container"]
 

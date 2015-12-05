@@ -144,6 +144,9 @@ class OrderController extends ApiController
         } catch (InvalidOrderException $invalidOrderException) {
             $jsonResponse->setData($invalidOrderException->getMessage());
             $jsonResponse->setStatusCode(400);
+        } catch (\DomainException $domainException) {
+            $jsonResponse->setData($domainException->getMessage());
+            $jsonResponse->setStatusCode(400);
         } catch (\Exception $exception) {
             $jsonResponse->setData('Try again');
             $jsonResponse->setStatusCode(500);

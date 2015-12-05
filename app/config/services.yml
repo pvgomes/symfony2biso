@@ -27,11 +27,6 @@ services:
     http_client:
         class: GuzzleHttp\Client
 
-# client
-    market_client:
-        class: AppBundle\Infrastructure\Market\Client
-        arguments: ["http_client"]
-
 
 # Symfony2Biso ----------------------------------------------------------------
 

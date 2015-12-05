@@ -5,7 +5,6 @@ namespace AppBundle\Infrastructure\Order;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use AppBundle\Infrastructure\Core\EntityRepository;
 use \Domain;
-use Domain\Order\Order;
 
 class OrderRepository extends EntityRepository implements Domain\Order\OrderRepository
 {
@@ -19,7 +18,7 @@ class OrderRepository extends EntityRepository implements Domain\Order\OrderRepo
         return $this->entityPath;
     }
 
-    public function add(Order $order)
+    public function add(Domain\Order\Order $order)
     {
         $this->getEntityManager()->persist($order);
         $this->getEntityManager()->flush();

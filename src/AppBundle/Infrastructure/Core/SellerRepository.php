@@ -3,10 +3,9 @@
 namespace AppBundle\Infrastructure\Core;
 
 use AppBundle\Infrastructure;
-use Domain\Core\Domain;
-use \Domain\Core\Seller;
+use \Domain;
 
-class SellerRepository extends EntityRepository implements \Domain\Core\SellerRepository
+class SellerRepository extends EntityRepository implements Domain\Core\SellerRepository
 {
 
     private $entityPath = 'AppBundle\Infrastructure\Core\Seller';
@@ -56,9 +55,8 @@ class SellerRepository extends EntityRepository implements \Domain\Core\SellerRe
     /**
      * {@inheritdoc}
      */
-    public function add(Seller $seller)
+    public function add(Domain\Core\Seller $seller)
     {
-        $seller = SellerDataMapper::getInstance()->map($seller);
         $this->getEntityManager()->persist($seller);
         $this->getEntityManager()->flush($seller);
         return $seller;

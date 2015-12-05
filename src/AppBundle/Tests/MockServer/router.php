@@ -13,6 +13,7 @@ $r3->get('/ping', function() {
 
 $matchRules = [
     'default' => 'default',
+    'tricae' => 'tricae',
     'ws/seller' => 'walmart',
 ];
 
