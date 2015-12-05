@@ -64,8 +64,7 @@ class SystemController extends ApiController implements TokenAuthentication
     {
         $request = $this->get('request');
         $marketKey = $request->headers->get('key');
-        $orderData = $request->getContent();
-        $requestContent = json_decode($orderData);
+        $requestContent = json_decode($request->getContent());
         $jsonResponse = new JsonResponse();
         $contentError['requestId'] = $this->requestId;
         $commandBus = $this->get("command_bus");
@@ -83,7 +82,7 @@ class SystemController extends ApiController implements TokenAuthentication
             $jsonResponse->setStatusCode(400);
             $jsonResponse->setData($contentError);
         } catch (\Exception $exception) {
-            $contentError['description'] = $exception->getMessage();
+            $contentError['description'] = "Cagou :(";
             $jsonResponse->setStatusCode(500);
             $jsonResponse->setData($contentError);
         }
