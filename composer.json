@@ -17,7 +17,7 @@
         "doctrine/migrations":                  "1.0.*",
         "doctrine/orm":                         "2.5.*",
         "friendsofsymfony/rest-bundle":         "1.7.*",
-        "guzzlehttp/guzzle":                    "6.0.*",
+        "guzzlehttp/guzzle":                    "5.0.*",
         "incenteev/composer-parameter-handler": "2.1.*",
         "jms/serializer-bundle":                "1.0.*",
         "justinrainbow/json-schema":            "1.4.*",
@@ -53,11 +53,10 @@
       }
     ],
     "require-dev": {
-        "codeclimate/php-test-reporter":     "0.1.*",
         "doctrine/data-fixtures":            "1.1.*",
         "doctrine/doctrine-fixtures-bundle": "2.2.*",
-        "fzaninotto/faker":                  "1.5.*",
-        "liip/functional-test-bundle":       "1.2.*",
+        "behat/behat": "3.*",
+        "dafiti/web-api-extension": "0.1.0",
         "phpunit/phpunit":                   "4.8.*",
         "respect/rest":                      "^0.6.0"
     },

@@ -1,0 +1,21 @@
+default:
+  extensions:
+    Behat\WebApiExtension:
+      base_url: http://symfony2biso.dev:8080
+    emuse\BehatHTMLFormatter\BehatHTMLFormatterExtension:
+      name: html
+      renderer: Twig
+      file_name: report
+      print_args: true
+      print_outp: true
+      loop_break: true
+  formatters:
+    pretty: ~
+    html:
+      output_path: %paths.base%/tests/reports/behat/
+      # progress: ~
+  suites:
+    api:
+      paths:    [ %paths.base%/tests/api ]
+      contexts:
+        - ApiFeatureContext:
