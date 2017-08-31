@@ -6,21 +6,13 @@ imports:
 
 services:
 
-    redis.client:
-        class: Predis\Client
-        arguments: ["%symfony2biso_redis_dsn%"]
-
-    redis.log.client:
-        class: Predis\Client
-        arguments: ["%symfony2biso_redis_log_dsn%"]
-
     monolog.formatter.logstash:
         class: Monolog\Formatter\LogstashFormatter
         arguments: ["%symfony2biso_log_stash_key%"]
 
-    monolog.handler.redis:
-        class: Monolog\Handler\RedisHandler
-        arguments: ["@redis.log.client", "%symfony2biso_log_redis_key%"]
+    monolog.handler.stream:
+        class: Monolog\Handler\RotatingFileHandler
+        arguments: ["%kernel.root_dir%/logs/", "%symfony2biso_log_redis_key%"]
         calls:
             - [setFormatter, ["@monolog.formatter.logstash"]]
 

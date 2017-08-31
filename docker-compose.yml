@@ -18,27 +18,27 @@ nginx:
 mariadb:
   image: mariadb
   ports:
-    - 3366:3306
+    - 3306:3306
   environment:
     MYSQL_ROOT_PASSWORD: root
     TERM: linux
   volumes:
     - ./docker/volumes/mariadb:/var/lib/mysql
 redis:
-  image: redis:latest
+  image: redis:3.2.10-alpine
   volumes:
     - ./docker/volumes/redis:/data
   ports:
-    - 6380:6379
+    - 6379:6379
 rabbit:
-  image: tutum/rabbitmq
+  build: ./docker/rabbitmq
   environment:
       - RABBITMQ_PASS=symfony2biso
   ports:
-    - 5673:5672
+    - 5672:5672
     - 15672:15672
 elk:
-  image: sebp/elk
+  image: sebp/elk:E1L1K4
   ports:
     - 5601:5601
   links:

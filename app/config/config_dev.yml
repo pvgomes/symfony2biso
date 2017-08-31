@@ -15,7 +15,7 @@ monolog:
     handlers:
         elk:
             type:   service
-            id:     monolog.handler.redis
+            id:     monolog.handler.stream
             level:  debug
         main:
             type:   stream

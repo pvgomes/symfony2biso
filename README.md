@@ -1,7 +1,7 @@
 Symfony2Biso
 ============
 
-Symfony2 using Business Isolation Layer for B2B E-commerce integration following Hexagonal Architecture Approach
+Symfony2 using Business Isolation Layer for MarketPlace Hub integration following Hexagonal Architecture Approach
 
 
 ## Project configuration
